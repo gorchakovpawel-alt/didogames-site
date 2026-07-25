@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://didogames.net/sitemap.xml

@@ -9,8 +9,9 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 
 GAME_RU = "Поезд Последней Войны"
 GAME_EN = "The Last War: Train"
-DEV_RU = "Павел Горчаков"
-DEV_EN = "Pavel Gorchakov"
+BASE = "https://didogames.net"
+DEV_RU = "Dido Games"
+DEV_EN = "Dido Games"
 EMAIL = "gorchakovpawel@gmail.com"
 DATE_RU = "5 июля 2026 г."   # = LegalDocs.EFFECTIVE_DATE_RU; обновить к публикации
 DATE_EN = "July 5, 2026"
@@ -288,9 +289,71 @@ OUT = {
     "en/support.html": support("en"),
 }
 
+# ── SEO под домен: canonical + hreflang + OpenGraph (инъекция по пути страницы) ──
+DESCS = {
+    "index.html": "Аркадное ПВО-выживание: бронепоезд, зенитки, дерево узлов, 10 биомов. Скоро в Google Play.",
+    "terms.html": "Условия использования игры «%s»." % GAME_RU,
+    "privacy.html": "Политика конфиденциальности игры «%s»." % GAME_RU,
+    "support.html": "Поддержка игры «%s»: контакты, покупки, удаление данных." % GAME_RU,
+    "en/index.html": "Arcade AA-survival: an armored train, anti-air turrets, a node tree, 10 biomes. Coming soon to Google Play.",
+    "en/terms.html": "Terms of Use for \"%s\"." % GAME_EN,
+    "en/privacy.html": "Privacy Policy for \"%s\"." % GAME_EN,
+    "en/support.html": "Support for \"%s\": contact, purchases, data deletion." % GAME_EN,
+}
+
+
+def canon(rel):
+    if rel == "index.html":
+        return BASE + "/"
+    if rel == "en/index.html":
+        return BASE + "/en/"
+    return BASE + "/" + rel
+
+
+def head_extra(rel, title):
+    ru_rel = rel[3:] if rel.startswith("en/") else rel
+    en_rel = rel if rel.startswith("en/") else "en/" + rel
+    return (
+        '<meta name="description" content="%s">'
+        '<link rel="canonical" href="%s">'
+        '<link rel="alternate" hreflang="ru" href="%s">'
+        '<link rel="alternate" hreflang="en" href="%s">'
+        '<link rel="alternate" hreflang="x-default" href="%s">'
+        '<meta property="og:type" content="website">'
+        '<meta property="og:title" content="%s">'
+        '<meta property="og:description" content="%s">'
+        '<meta property="og:image" content="%s/assets/img/hero.jpg">'
+        '<meta property="og:url" content="%s">'
+        '<meta name="twitter:card" content="summary_large_image">'
+        '<meta name="theme-color" content="#0a0f14">'
+        % (DESCS[rel], canon(rel), canon(ru_rel), canon(en_rel), canon(ru_rel),
+           title, DESCS[rel], BASE, canon(rel))
+    )
+
+
 for rel, html in OUT.items():
+    t0 = html.index("<title>") + 7
+    t1 = html.index("</title>")
+    html = html[: t1 + 8] + head_extra(rel, html[t0:t1]) + html[t1 + 8:]
     path = os.path.join(ROOT, rel)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         f.write(html)
     print("written", rel, len(html), "bytes")
+
+# ── служебные файлы хостинга ──
+with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8", newline="\n") as f:
+    f.write("User-agent: *\nAllow: /\nSitemap: %s/sitemap.xml\n" % BASE)
+with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8", newline="\n") as f:
+    urls = "".join("<url><loc>%s</loc></url>" % canon(r) for r in OUT)
+    f.write('<?xml version="1.0" encoding="UTF-8"?>'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">%s</urlset>\n' % urls)
+with open(os.path.join(ROOT, "CNAME"), "w", encoding="utf-8", newline="\n") as f:
+    f.write("didogames.net\n")   # кастом-домен GitHub Pages
+nf = page("ru", "404 — %s" % GAME_RU,
+          '<main class="doc"><div class="doc-head"><div class="field">ФОРМУЛЯР // 404</div>'
+          '<h1>Страница не найдена</h1><div class="date">Сигнал потерян в пустоши</div></div>'
+          '<p class="backlink"><a href="/">&larr; НА ГЛАВНУЮ</a></p></main>')
+with open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8", newline="\n") as f:
+    f.write(nf)
+print("written robots.txt / sitemap.xml / CNAME / 404.html")
