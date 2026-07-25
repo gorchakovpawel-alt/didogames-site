@@ -7,6 +7,7 @@
 Тексты легалок = scripts/ui/legal/LegalDocs.gd (единый источник, суть 1:1; правки — синхронно!).
 Godot папку не видит (site/.gdignore). Деплой: см. память site-deploy (subtree → didogames-site)."""
 import os
+from urllib.parse import quote
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -25,6 +26,7 @@ LAW_EN = "the laws of the Developer's country of residence"
 ESP_ACTION = ""
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
+         '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&'
          'family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap&subset=cyrillic"'
          ' rel="stylesheet">')
@@ -42,19 +44,27 @@ def chrome_top(lang: str, depth: str, rel: str) -> str:
     game = GAME_RU if lang == "ru" else GAME_EN
     nav = {
         "ru": [("index.html#svodka", "Сводка"), ("index.html#marshrut", "Маршрут"),
-               ("index.html#kadry", "Кадры"), ("support.html", "Поддержка")],
-        "en": [("index.html#svodka", "Overview"), ("index.html#marshrut", "The route"),
-               ("index.html#kadry", "Screens"), ("support.html", "Support")],
+               ("index.html#kadry", "Кадры"), ("press.html", "Пресс-кит")],
+        "en": [("index.html#svodka", "Overview"), ("index.html#marshrut", "Route"),
+               ("index.html#kadry", "Screens"), ("press.html", "Press kit")],
     }[lang]
     base = rel[3:] if rel.startswith("en/") else rel
+    if base == "index.html":   # на самом лендинге якоря — чистые # (без перезагрузки)
+        links_prefix = ""
+        nav = [(h.replace("index.html#", "#"), t) for h, t in nav]
     ru_href = (base if lang == "ru" else "../" + base)
     en_href = ("en/" + base if lang == "ru" else base)
     links = " ".join('<a href="%s">%s</a>' % (h, t) for h, t in nav)
+    from urllib.parse import quote as _q
+    hdr_cta = ('<a class="hdr-cta" href="mailto:%s?subject=%s">%s</a>'
+               % (EMAIL, quote('Сообщите о выходе — Поезд Последней Войны' if lang == 'ru'
+                            else 'Launch notification — The Last War: Train'),
+                  'О ВЫХОДЕ' if lang == 'ru' else 'GET NOTIFIED'))
     return (
         '<div class="secureline"><span class="dot"></span>'
-        '<span>SECURE_LINE // %s</span><span class="grow"></span>%s '
-        '<nav class="langs"><a href="%s" class="%s">RU</a><a href="%s" class="%s">EN</a></nav></div>'
-        % (game.upper(), links,
+        '<span>SECURE_LINE // %s</span><span class="grow"></span><nav class="hdr-nav">%s</nav> '
+        '%s<nav class="langs"><a href="%s" class="%s">RU</a><a href="%s" class="%s">EN</a></nav></div>'
+        % (game.upper(), links, hdr_cta,
            ru_href, "active" if lang == "ru" else "",
            en_href, "active" if lang == "en" else "")
     )
@@ -68,21 +78,22 @@ def chrome_foot(lang: str, depth: str) -> str:
                "Соло-инди на Godot: код, дизайн и арт-продакшн — один человек."),
         "en": ("DEVELOPER", "CONTACT", "DOCUMENTS", "Privacy Policy", "Terms of Use", "Support",
                "© 2026 %s. \"%s\". Virtual items have no monetary value." % (DEV_EN, GAME_EN),
-               "A solo indie on Godot: code, design and art production by one person."),
+               "A solo indie developer, built in Godot: code, design and art by one person."),
     }[lang]
     dev = DEV_RU if lang == "ru" else DEV_EN
     return (
         '<footer><div class="foot-inner">'
         '<div class="foot-block foot-logo"><img src="%(d)sassets/img/logo.png" alt=""><span>%(game)s</span></div>'
-        '<div class="foot-block"><div class="field">%(f0)s</div>%(dev)s<br><span style="font-size:13px">%(solo)s</span></div>'
+        '<div class="foot-block"><div class="field">%(f0)s</div>%(dev)s<br><span class="foot-note-sm">%(solo)s</span></div>'
         '<div class="foot-block"><div class="field">%(f1)s</div><a href="mailto:%(mail)s">%(mail)s</a></div>'
         '<div class="foot-block"><div class="field">%(f2)s</div>'
-        '<a href="privacy.html">%(p)s</a><a href="terms.html">%(tm)s</a><a href="support.html">%(s)s</a></div>'
+        '<a href="privacy.html">%(p)s</a><a href="terms.html">%(tm)s</a><a href="support.html">%(s)s</a>'
+        '<a href="press.html">%(pk)s</a></div>'
         '<div class="stamp" aria-hidden="true"><img src="%(d)sassets/img/logo.png" alt=""></div>'
         '</div><div class="foot-note">%(note)s</div></footer>'
         % {"d": depth, "game": (GAME_RU if lang == "ru" else GAME_EN), "dev": dev, "mail": EMAIL,
            "f0": t[0], "f1": t[1], "f2": t[2], "p": t[3], "tm": t[4], "s": t[5],
-           "note": t[6], "solo": t[7]}
+           "note": t[6], "solo": t[7], "pk": ("Пресс-кит" if lang == "ru" else "Press kit")}
     )
 
 
@@ -94,12 +105,19 @@ def page(lang: str, title: str, body: str, rel: str = "index.html") -> str:
         '<title>%s</title>'
         '<link rel="icon" type="image/png" href="%sassets/img/favicon.png">'
         '<link rel="apple-touch-icon" href="%sassets/img/logo.png">'
-        '%s<link rel="stylesheet" href="%sassets/style.css"></head><body>'
+        '%s<link rel="stylesheet" href="%sassets/style.css">'
+        '<script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches)'
+        'document.documentElement.classList.add("js")</script></head><body>'
         % (lang, title, depth, depth, FONTS, depth)
     ) + chrome_top(lang, depth, rel) + body + chrome_foot(lang, depth) + "</body></html>"
 
 
 # ── ЛЕНДИНГ ──────────────────────────────────────────────────────────────────
+def nbl(text):
+    """·-список: каждый пункт в .nb — рвётся только по разделителю (арт-панч П22)."""
+    return " · ".join('<span class="nb">%s</span>' % p for p in text.split(" · "))
+
+
 REVEAL_JS = (
     '<script>(function(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;'
     'var io=new IntersectionObserver(function(es){es.forEach(function(e){'
@@ -118,21 +136,21 @@ def landing(lang: str) -> str:
                 "и между волнами решаешь, какой системе поезда жить.") if ru else
                ("No aiming — the turrets handle that. You catch the crystals falling from the sky, "
                 "and between waves you decide which of the train's systems survives."),
-        "facts": ("Дизельпанк ПВО-выживание · 10 биомов · дерево на 190+ узлов · без энергии и таймеров")
+        "facts": ("Бесплатно · дизельпанк ПВО-выживание · 10 биомов · дерево на 190+ узлов · без энергии и таймеров")
                  if ru else
-                 ("Dieselpunk AA-survival · 10 biomes · a 190+ node tree · no energy, no timers"),
-        "cta": "ЗАПИСАТЬСЯ В ЗАКРЫТЫЙ ТЕСТ" if ru else "JOIN THE CLOSED TEST",
-        "cta_mail_subj": ("Закрытый тест — Поезд Последней Войны" if ru else "Closed test — The Last War: Train"),
-        "cta_mail_body": ("Привет! Хочу участвовать в закрытом тесте. Мой Android-девайс: " if ru
-                          else "Hi! I want to join the closed test. My Android device: "),
-        "status": ("СТАТУС: ПОДГОТОВКА К ЗАКРЫТОМУ ТЕСТУ · ANDROID ПЕРВЫМ · iOS ПОЗЖЕ" if ru
-                   else "STATUS: PREPARING CLOSED TESTING · ANDROID FIRST · iOS LATER"),
+                 ("Free to play · dieselpunk AA-survival · 10 biomes · a 190+ node tree · no energy, no timers"),
+        "cta": "СООБЩИТЬ МНЕ О ВЫХОДЕ" if ru else "NOTIFY ME AT LAUNCH",
+        "cta_mail_subj": ("Сообщите о выходе — Поезд Последней Войны" if ru else "Launch notification — The Last War: Train"),
+        "cta_mail_body": ("Напишите мне, когда игра выйдет в Google Play." if ru
+                          else "Email me when the game launches on Google Play."),
+        "status": ("СТАТУС: ГОТОВИМСЯ К РЕЛИЗУ · GOOGLE PLAY (ANDROID) · iOS ПОЗЖЕ" if ru
+                   else "STATUS: PREPARING FOR RELEASE · GOOGLE PLAY (ANDROID) · iOS LATER"),
         "svodka_field": "ФОРМУЛЯР 141-У" if ru else "FILE 141-U",
         "svodka": "СВОДКА" if ru else "OVERVIEW",
         "kadry_field": "АРХИВ ШТАБА" if ru else "HQ ARCHIVE",
         "kadry": "КАДРЫ" if ru else "SCREENS",
         "route_field": "МАРШРУТ // 10 СЕКТОРОВ" if ru else "THE ROUTE // 10 SECTORS",
-        "route": "ОТ ПУСТОШЕЙ ДО ЦИТАДЕЛИ" if ru else "WASTES TO CITADEL",
+        "route": "ОТ ПУСТОШЕЙ ДО ЦИТАДЕЛИ" if ru else "FROM THE WASTES TO THE CITADEL",
         "what_field": "РЕЖИМ // AA-SURVIVAL" if ru else "MODE // AA-SURVIVAL",
         "what_h": "Что это за игра" if ru else "What this game is",
         "what_rows": [("РЕЖИМ" if ru else "MODE", "аркадное ПВО-выживание, портрет, одна рука" if ru
@@ -146,57 +164,65 @@ def landing(lang: str) -> str:
                  if ru else
                  ["No energy, no wait timers", "No forced internet — the campaign plays offline",
                   "No paying per run — runs are free", "No mid-combat ads — rewarded only, always your choice"]),
-        "finale_h": "СОСТАВ ГОТОВ К ВЫХОДУ" if ru else "THE CONSIST IS READY",
+        "finale_h": "СКОРО НА МАРШРУТЕ" if ru else "LAUNCHING SOON",
     }
     cards_lead = (("ПОЛЕ СБОРА // РУКИ ИГРОКА", "Ловить, а не целиться",
                    "Кристаллы падают с неба и должны быть пойманы до земли. Промахнулся — "
                    "реактор не зарядится, дерево не откроется.") if ru else
                   ("HARVEST FIELD // YOUR HANDS", "Catch, don't aim",
                    "Crystals fall from the sky and have to be caught before they hit the ground. "
-                   "Miss them and the reactor stays cold, the tree stays shut."))
+                   "Miss them and the reactor stays cold, the tree stays locked."))
     cards3 = ([("ПРОКАЧКА // SYSTEM RESTORE", "Дерево узлов",
-                "Вся сила рана — в контуре восстановления: 190+ узлов, платите кристаллами между волнами.", "tree"),
+                "Вся сила рана — в контуре восстановления: 190+ узлов, платишь кристаллами между волнами.", "tree"),
                ("МАРШРУТ // 10 БИОМОВ", "От Пустошей до Цитадели",
                 "Десять биомов со своими врагами, боссами и погодой — полоса ниже.", "map"),
                ("СОСТАВ // ДЕПО", "Поезд-крепость",
-                "Платформы, вагоны, орудия, модули и трофейные ядра — соберите собственный состав.", "depot")]
+                "Платформы, вагоны, орудия, модули и трофейные ядра — собери собственный состав.", "depot")]
               if ru else
               [("PROGRESSION // SYSTEM RESTORE", "Node tree",
                 "All in-run power lives in the restore circuit: 190+ nodes, paid in crystals between waves.", "tree"),
-               ("ROUTE // 10 BIOMES", "Wastes to Citadel",
+               ("ROUTE // 10 BIOMES", "From the Wastes to the Citadel",
                 "Ten biomes with their own enemies, bosses and weather — see the band below.", "map"),
-               ("CONSIST // DEPOT", "Fortress on rails",
-                "Platforms, wagons, guns, modules and trophy cores — build your own consist.", "depot")])
+               ("THE TRAIN // DEPOT", "Fortress on rails",
+                "Platforms, wagons, guns, modules and trophy cores — build your own armored train.", "depot")])
     shots = ([("shot_combat.jpg", "БОЙ // СЕКТОР 1"), ("shot_menu.jpg", "ГЛАВНОЕ МЕНЮ"),
               ("shot_tree.jpg", "ДЕРЕВО УЗЛОВ")] if ru else
              [("shot_combat.jpg", "COMBAT // SECTOR 1"), ("shot_menu.jpg", "MAIN MENU"),
               ("shot_tree.jpg", "NODE TREE")])
     biomes = BIOMES_RU if ru else BIOMES_EN
-    title = ("%s — официальный сайт" % GAME_RU) if ru else ("%s — official site" % GAME_EN)
+    title = ("%s — дизельпанк ПВО-выживание для Android" % GAME_RU) if ru else ("%s — dieselpunk AA-survival for Android" % GAME_EN)
 
     mailto = ('mailto:%s?subject=%s&body=%s' % (EMAIL,
-              L["cta_mail_subj"].replace(" ", "%20"), L["cta_mail_body"].replace(" ", "%20")))
+              quote(L["cta_mail_subj"]), quote(L["cta_mail_body"])))
+    one = ("Одно письмо в день релиза. Больше ничего." if ru
+           else "One email on release day. Nothing else.")
+    fb = (("Не открылась почта? Напиши на <a href=\"mailto:%s\">%s</a>" % (EMAIL, EMAIL)) if ru
+          else ("Mail app didn't open? Write to <a href=\"mailto:%s\">%s</a>" % (EMAIL, EMAIL)))
     cta_block = ('<a class="cta" href="%s">%s</a>'
-                 '<div class="cta-sub field-long">%s</div>' % (mailto, L["cta"], L["status"]))
+                 '<div class="cta-sub field-long">%s</div>'
+                 '<div class="cta-sub field-long">%s · %s</div>'
+                 % (mailto, L["cta"], nbl(L["status"]), one, fb))
 
     hero = (
         '<header class="hero">'
-        '<div class="hero-wash" aria-hidden="true"><img src="%(d)sassets/img/hero_mobile.jpg" alt=""></div>'
+        '<div class="hero-wash" aria-hidden="true"></div>'
         '<div class="hero-veil" aria-hidden="true"></div>'
         '<div class="grain" aria-hidden="true"></div>'
         '<div class="hero-grid">'
         '<div class="hero-copy"><div class="field">%(eye)s</div><h1 class="title">%(name)s</h1>'
-        '<p class="tagline">%(tag)s</p><div class="microfacts field-long">%(facts)s</div>%(cta)s</div>'
+        '<p class="tagline">%(tag)s</p><div class="microfacts field-long">%(facts)s<br>'
+        '<span class="microfacts--hi">%(solo)s</span></div>%(cta)s</div>'
         '<div class="hero-window braces">'
         '<picture><source media="(min-width:900px)" srcset="%(d)sassets/img/hero_portrait.jpg">'
         '<img src="%(d)sassets/img/hero_mobile.jpg" alt="%(name)s — key art"></picture></div>'
         '</div></header>'
         % {"d": d, "eye": L["eyebrow"], "name": L["name"], "tag": L["tag"],
-           "facts": L["facts"], "cta": cta_block}
+           "facts": nbl(L["facts"]), "cta": cta_block,
+           "solo": nbl("СОЛО-РАЗРАБОТКА · GODOT · КАЖДОЕ ПИСЬМО ЧИТАЕТ АВТОР" if ru else "SOLO-BUILT · GODOT · THE DEVELOPER READS EVERY EMAIL")}
     )
 
     cards_html = (
-        '<div class="card lead rv"><div class="recess"><img src="%(d)sassets/img/nav_battle.png" alt=""></div>'
+        '<div class="card lead rv"><div class="recess"><img src="%(d)sassets/img/ic_crystal.png" alt=""></div>'
         '<div><div class="field">%(f)s</div><h3>%(h)s</h3><p>%(p)s</p></div></div>'
         % {"d": d, "f": cards_lead[0], "h": cards_lead[1], "p": cards_lead[2]}
     ) + '<div class="cards3">' + "".join(
@@ -206,9 +232,9 @@ def landing(lang: str) -> str:
         % (i, d, icon, f, h, pt) for i, (f, h, pt, icon) in enumerate(cards3)) + '</div>'
 
     slats = "".join(
-        '<div class="slat rv" style="--i:%d"><img src="%sassets/img/biome_%02d.jpg" alt="%s" loading="lazy">'
+        '<div class="slat rv" style="--i:%d"><img src="%sassets/img/biome_%02d.jpg" alt="" loading="lazy">'
         '<div class="slat-cap"><div class="slat-num">%02d</div><div class="slat-name">%s</div></div></div>'
-        % (i, d, i + 1, name, i + 1, name) for i, name in enumerate(biomes))
+        % (i, d, i + 1, i + 1, name) for i, name in enumerate(biomes))
 
     what_rows = "".join('<li><b class="field" style="min-width:96px">%s</b> %s</li>' % r for r in L["what_rows"])
     anti_rows = "".join('<li>%s</li>' % a for a in L["anti"])
@@ -217,21 +243,23 @@ def landing(lang: str) -> str:
         '<div class="rv"><div class="field">%(wf)s</div><div class="h1x">%(wh)s</div>'
         '<ul class="speclist" style="margin-bottom:28px">%(rows)s</ul>'
         '<div class="field" style="margin-bottom:6px">%(af)s</div>'
-        '<div class="h1x" style="font-size:30px">%(ah)s</div><ul class="speclist">%(anti)s</ul></div>'
-        '<div class="rv" style="--i:2; display:flex; justify-content:center">'
-        '<div class="term braces" style="max-width:320px; transform:rotate(4deg)">'
-        '<img src="%(d)sassets/img/shot_combat.jpg" alt="%(alt)s" loading="lazy"></div></div>'
+        '<div class="h1x h1x--sm">%(ah)s</div><ul class="speclist">%(anti)s</ul>'
+        '<p class="field-long" style="margin-top:14px">%(fair)s</p></div>'
+        '<div class="rv duo-media" style="--i:2">'
+        '<div class="term term--tilt braces">'
+        '<img src="%(d)sassets/img/shot_depot.jpg" alt="%(alt)s" loading="lazy"></div></div>'
         '</div></section>'
         % {"wf": L["what_field"], "wh": L["what_h"], "rows": what_rows,
-           "af": "ФОРМУЛЯР // БЕЗ ЗВЁЗДОЧЕК" if ru else "FORM // NO ASTERISKS",
+           "af": "ФОРМУЛЯР // БЕЗ ЗВЁЗДОЧЕК" if ru else "FORM 141-U // NO ASTERISKS",
            "ah": L["anti_h"], "anti": anti_rows, "d": d,
-           "alt": "Бой" if ru else "Combat"}
+           "fair": ("Покупки и реклама за награду — необязательные." if ru else "Purchases and rewarded ads are optional."),
+           "alt": "Депо" if ru else "Depot"}
     )
 
     fan = '<div class="fan">' + "".join(
         '<figure class="fan-item rv" style="--i:%d"><div class="term">'
-        '<img src="%sassets/img/%s" alt="%s" loading="lazy"><figcaption class="term-cap">%s</figcaption>'
-        '</div></figure>' % (i, d, f, cap, cap) for i, (f, cap) in enumerate(shots)) + '</div>'
+        '<img src="%sassets/img/%s" alt="%s" loading="lazy"></div>'
+        '<figcaption class="term-cap">%s</figcaption></figure>' % (i, d, f, cap, cap) for i, (f, cap) in enumerate(shots)) + '</div>'
 
     body = (
         hero
@@ -239,17 +267,20 @@ def landing(lang: str) -> str:
         + ('<div class="plate-b"><section class="section" id="svodka"><div class="section-head">'
            '<span class="field">%s</span><h2>%s</h2></div>%s</section></div>'
            % (L["svodka_field"], L["svodka"], cards_html))
+        + '<div class="perf" aria-hidden="true"></div>'
         + ('<section class="biomes" id="marshrut"><div class="biomes-head"><div class="section-head" style="margin-bottom:0">'
            '<span class="field">%s</span><h2>%s</h2></div></div>'
            '<div class="biome-band">%s</div></section>'
            % (L["route_field"], L["route"], slats))
         + '<div class="perf" aria-hidden="true"></div>'
         + duo
+        + '<div class="perf" aria-hidden="true"></div>'
         + ('<div class="plate-b"><section class="section" id="kadry"><div class="section-head">'
            '<span class="field">%s</span><h2>%s</h2></div>%s</section></div>'
            % (L["kadry_field"], L["kadry"], fan))
-        + ('<div class="finale braces"><img src="%sassets/img/hero_mobile.jpg" alt="" loading="lazy">'
-           '<div class="finale-inner rv"><div class="h1x" style="font-size:34px">%s</div><div>%s</div></div></div>'
+        + '<div class="perf" aria-hidden="true"></div>'
+        + ('<div class="finale"><img src="%sassets/img/hero_mobile.jpg" alt="" loading="lazy">'
+           '<div class="finale-inner braces rv"><div class="h1x h1x--md">%s</div><div>%s</div></div></div>'
            % (d, L["finale_h"], cta_block))
         + REVEAL_JS
     )
@@ -405,11 +436,11 @@ OUT = {
 
 # ── SEO под домен: canonical + hreflang + OpenGraph + JSON-LD ────────────────
 DESCS = {
-    "index.html": "Аркадное ПВО-выживание: бронепоезд, зенитки, дерево узлов, 10 биомов. Без энергии и таймеров. Скоро в Google Play.",
+    "index.html": "Аркадное ПВО-выживание: бронепоезд, зенитки, дерево на 190+ узлов, 10 биомов. Без энергии и таймеров. Скоро в Google Play.",
     "terms.html": "Условия использования игры «%s»." % GAME_RU,
     "privacy.html": "Политика конфиденциальности игры «%s»." % GAME_RU,
     "support.html": "Поддержка игры «%s»: контакты, покупки, удаление данных." % GAME_RU,
-    "en/index.html": "Arcade AA-survival: an armored train, anti-air turrets, a node tree, 10 biomes. No energy, no timers. Coming soon to Google Play.",
+    "en/index.html": "Arcade AA-survival: an armored train, anti-air turrets, a 190+ node tree, 10 biomes. No energy, no timers. Coming soon to Google Play.",
     "en/terms.html": "Terms of Use for \"%s\"." % GAME_EN,
     "en/privacy.html": "Privacy Policy for \"%s\"." % GAME_EN,
     "en/support.html": "Support for \"%s\": contact, purchases, data deletion." % GAME_EN,
@@ -446,7 +477,7 @@ def head_extra(rel, title):
         '<meta name="twitter:card" content="summary_large_image">'
         '<meta name="twitter:image" content="%s/assets/img/og.jpg">'
         '<meta name="theme-color" content="#05070a">'
-        % (DESCS[rel], canon(rel), canon(ru_rel), canon(en_rel), canon(ru_rel),
+        % (DESCS[rel], canon(rel), canon(ru_rel), canon(en_rel), canon(en_rel),
            title, DESCS[rel], BASE, canon(rel),
            ("en_US" if rel.startswith("en/") else "ru_RU"),
            ("ru_RU" if rel.startswith("en/") else "en_US"), BASE)
@@ -455,7 +486,7 @@ def head_extra(rel, title):
         name = GAME_EN if rel.startswith("en/") else GAME_RU
         ex += ('<script type="application/ld+json">{"@context":"https://schema.org",'
                '"@type":"VideoGame","name":"%s","genre":["Arcade","Survival","Tower Defense"],'
-               '"gamePlatform":["Android","iOS"],"applicationCategory":"Game",'
+               '"gamePlatform":["Android"],"applicationCategory":"Game",'
                '"author":{"@type":"Organization","name":"Dido Games","url":"%s"},'
                '"image":"%s/assets/img/og.jpg","url":"%s",'
                '"inLanguage":["ru","en","de","es","fr","it","pl","pt-BR","tr","id"]}'
@@ -477,7 +508,7 @@ for rel, html in OUT.items():
 with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8", newline="\n") as f:
     f.write("User-agent: *\nAllow: /\nSitemap: %s/sitemap.xml\n" % BASE)
 with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8", newline="\n") as f:
-    urls = "".join("<url><loc>%s</loc></url>" % canon(r) for r in OUT)
+    urls = "".join("<url><loc>%s</loc></url>" % canon(r) for r in list(OUT) + ["press.html", "en/press.html"])
     f.write('<?xml version="1.0" encoding="UTF-8"?>'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">%s</urlset>\n' % urls)
 with open(os.path.join(ROOT, "CNAME"), "w", encoding="utf-8", newline="\n") as f:
