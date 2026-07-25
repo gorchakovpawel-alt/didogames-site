@@ -42,6 +42,11 @@ img { max-width: 100%; display: block; }
 .secureline .grow { flex: 1; }
 .secureline a { color: var(--frost); }
 .secureline a.active { color: var(--phosphor); }
+/* переключатель языка — заметные пилюли, актив = фосфор-заливка */
+.langs { display: inline-flex; border: 1px solid var(--steel-edge); border-radius: 6px; overflow: hidden; }
+.langs a { padding: 5px 12px; color: var(--text-dim); letter-spacing: .1em; }
+.langs a:hover { text-decoration: none; color: var(--text); }
+.langs a.active { background: var(--phosphor); color: #0a2010; font-weight: 500; }
 
 /* ── герой ── */
 .hero { position: relative; overflow: hidden; border-bottom: 2px solid var(--steel-edge); }

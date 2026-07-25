@@ -12,7 +12,7 @@ GAME_EN = "The Last War: Train"
 BASE = "https://didogames.net"
 DEV_RU = "Dido Games"
 DEV_EN = "Dido Games"
-EMAIL = "gorchakovpawel@gmail.com"
+EMAIL = "support@didogames.net"   # вся внешняя коммуникация (владелец 2026-07-25)
 DATE_RU = "5 июля 2026 г."   # = LegalDocs.EFFECTIVE_DATE_RU; обновить к публикации
 DATE_EN = "July 5, 2026"
 # TODO(юрист): заменить на конкретную юрисдикцию перед сабмитом в стор.
@@ -24,20 +24,21 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          'family=IBM+Plex+Mono:wght@400;500&display=swap&subset=cyrillic" rel="stylesheet">')
 
 
-def chrome_top(lang: str, depth: str, active: str) -> str:
+def chrome_top(lang: str, depth: str, rel: str) -> str:
     game = GAME_RU if lang == "ru" else GAME_EN
     nav = {
         "ru": [("index.html#svodka", "Сводка"), ("index.html#kadry", "Кадры"), ("support.html", "Поддержка")],
         "en": [("index.html#svodka", "Overview"), ("index.html#kadry", "Screens"), ("support.html", "Support")],
     }[lang]
-    # nav-ссылки — на СОСЕДЕЙ той же языковой папки (без depth: depth нужен только ассетам).
-    ru_href = ("index.html" if lang == "ru" else "../index.html")
-    en_href = ("en/index.html" if lang == "ru" else "index.html")
+    # Переключатель ведёт на ТУ ЖЕ страницу другого языка (владелец 2026-07-25), не на главную.
+    base = rel[3:] if rel.startswith("en/") else rel      # имя файла без языковой папки
+    ru_href = (base if lang == "ru" else "../" + base)
+    en_href = ("en/" + base if lang == "ru" else base)
     links = " ".join('<a href="%s">%s</a>' % (h, t) for h, t in nav)
     return (
         '<div class="secureline"><span class="dot"></span>'
         '<span>SECURE_LINE // %s</span><span class="grow"></span>%s '
-        '<a href="%s" class="%s">RU</a> <a href="%s" class="%s">EN</a></div>'
+        '<nav class="langs"><a href="%s" class="%s">RU</a><a href="%s" class="%s">EN</a></nav></div>'
         % (game.upper(), links,
            ru_href, "active" if lang == "ru" else "",
            en_href, "active" if lang == "en" else "")
@@ -66,7 +67,8 @@ def chrome_foot(lang: str, depth: str) -> str:
     )
 
 
-def page(lang: str, title: str, body: str, depth: str = "") -> str:
+def page(lang: str, title: str, body: str, rel: str = "index.html") -> str:
+    depth = "../" if rel.startswith("en/") else ""
     return (
         '<!doctype html><html lang="%s"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
@@ -74,7 +76,7 @@ def page(lang: str, title: str, body: str, depth: str = "") -> str:
         '<link rel="icon" type="image/png" href="%sassets/img/favicon.png">'
         '%s<link rel="stylesheet" href="%sassets/style.css"></head><body>'
         % (lang, title, depth, FONTS, depth)
-    ) + chrome_top(lang, depth, "") + body + chrome_foot(lang, depth) + "</body></html>"
+    ) + chrome_top(lang, depth, rel) + body + chrome_foot(lang, depth) + "</body></html>"
 
 
 # ── ЛЕНДИНГ ──────────────────────────────────────────────────────────────────
@@ -139,11 +141,11 @@ def landing(lang: str) -> str:
         % {"d": d, "eye": hero[0], "name": hero[1], "tag": hero[2], "b1": hero[3], "b2": hero[4],
            "svodka": svodka, "kadry": kadry, "cards": cards_html, "shots": shots_html}
     )
-    return page(lang, title, body, depth=d)
+    return page(lang, title, body, rel=("en/index.html" if lang == "en" else "index.html"))
 
 
 # ── ДОКУМЕНТЫ (тексты = LegalDocs.gd, 1:1 по сути) ───────────────────────────
-def doc_page(lang, doc_field, doc_title, date, sections, intro, page_title):
+def doc_page(lang, doc_field, doc_title, date, sections, intro, page_title, rel):
     secs = ""
     for h, body in sections:
         secs += "<h2>%s</h2>%s" % (h, body)
@@ -156,7 +158,7 @@ def doc_page(lang, doc_field, doc_title, date, sections, intro, page_title):
            ("Дата вступления в силу: %s" if lang == "ru" else "Effective date: %s") % date,
            intro, secs, back)
     )
-    return page(lang, page_title, body, depth=("../" if lang == "en" else ""))
+    return page(lang, page_title, body, rel=rel)
 
 
 def p(*ps):
@@ -255,7 +257,7 @@ def support(lang):
         ]
         return doc_page("ru", "СЛУЖБА ПОДДЕРЖКИ", "Поддержка", DATE_RU, secs,
                         "Мы — маленькая команда, и каждое письмо читает разработчик.",
-                        "Поддержка — %s" % GAME_RU)
+                        "Поддержка — %s" % GAME_RU, "support.html")
     secs = [
         ("Contact", p("For any questions about the game: <a href=\"mailto:%s\">%s</a>. We usually reply within a few business days." % (EMAIL, EMAIL))),
         ("Purchases and Refunds", p("Purchases are processed by the app store. Refunds go through Google Play or the App Store under their rules; if a purchased item was not delivered, email us with the order id from the store receipt.")),
@@ -267,25 +269,25 @@ def support(lang):
     ]
     return doc_page("en", "SUPPORT DESK", "Support", DATE_EN, secs,
                     "We are a small team - the developer reads every email.",
-                    "Support — %s" % GAME_EN)
+                    "Support — %s" % GAME_EN, "en/support.html")
 
 
 OUT = {
     "index.html": landing("ru"),
     "terms.html": doc_page("ru", "ФОРМУЛЯР // ДОКУМЕНТ 01", "Условия использования", DATE_RU, TERMS_RU,
                            "Настоящие Условия использования (далее — «Условия») регулируют доступ к игре «%s» (далее — «Игра») и её использование. Устанавливая, запуская или используя Игру, вы подтверждаете, что прочитали, поняли и принимаете настоящие Условия. Если вы не согласны с Условиями, не используйте Игру." % GAME_RU,
-                           "Условия использования — %s" % GAME_RU),
+                           "Условия использования — %s" % GAME_RU, "terms.html"),
     "privacy.html": doc_page("ru", "ФОРМУЛЯР // ДОКУМЕНТ 02", "Политика конфиденциальности", DATE_RU, PRIVACY_RU,
                              "Настоящая Политика конфиденциальности описывает, какие данные обрабатываются при использовании игры «%s» (далее — «Игра») и как они используются. Используя Игру, вы соглашаетесь с настоящей Политикой." % GAME_RU,
-                             "Политика конфиденциальности — %s" % GAME_RU),
+                             "Политика конфиденциальности — %s" % GAME_RU, "privacy.html"),
     "support.html": support("ru"),
     "en/index.html": landing("en"),
     "en/terms.html": doc_page("en", "FORM // DOCUMENT 01", "Terms of Use", DATE_EN, TERMS_EN,
                               "These Terms of Use (the \"Terms\") govern your access to and use of the game \"%s\" (the \"Game\"). By installing, launching, or using the Game, you confirm that you have read, understood, and accept these Terms. If you do not agree, do not use the Game." % GAME_EN,
-                              "Terms of Use — %s" % GAME_EN),
+                              "Terms of Use — %s" % GAME_EN, "en/terms.html"),
     "en/privacy.html": doc_page("en", "FORM // DOCUMENT 02", "Privacy Policy", DATE_EN, PRIVACY_EN,
                                 "This Privacy Policy describes what data is processed when you use the game \"%s\" (the \"Game\") and how it is used. By using the Game, you agree to this Policy." % GAME_EN,
-                                "Privacy Policy — %s" % GAME_EN),
+                                "Privacy Policy — %s" % GAME_EN, "en/privacy.html"),
     "en/support.html": support("en"),
 }
 
@@ -353,7 +355,7 @@ with open(os.path.join(ROOT, "CNAME"), "w", encoding="utf-8", newline="\n") as f
 nf = page("ru", "404 — %s" % GAME_RU,
           '<main class="doc"><div class="doc-head"><div class="field">ФОРМУЛЯР // 404</div>'
           '<h1>Страница не найдена</h1><div class="date">Сигнал потерян в пустоши</div></div>'
-          '<p class="backlink"><a href="/">&larr; НА ГЛАВНУЮ</a></p></main>')
+          '<p class="backlink"><a href="/">&larr; НА ГЛАВНУЮ</a></p></main>', "404.html")
 with open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8", newline="\n") as f:
     f.write(nf)
 print("written robots.txt / sitemap.xml / CNAME / 404.html")
