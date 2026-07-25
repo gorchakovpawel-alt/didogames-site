@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 """Генератор статического сайта «Поезд Последней Войны» (site/*.html + site/en/*.html).
 Правь тексты/константы здесь и перегенерируй:  python site/_build.py
+Редизайн 2026-07-25 по брифам game-marketer + art-director (см. WORKLOG):
+дуо-герой без апскейла, тестер-CTA (единственная оранж-доминанта), полоса 10 биомов
+из готовых слоёв, anti-features, ретина-кадры в рамках «полевой терминал», scroll-reveal.
 Тексты легалок = scripts/ui/legal/LegalDocs.gd (единый источник, суть 1:1; правки — синхронно!).
-Godot папку не видит (site/.gdignore). Хостинг: любой статик (GitHub Pages / Netlify)."""
+Godot папку не видит (site/.gdignore). Деплой: см. память site-deploy (subtree → didogames-site)."""
 import os
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
 GAME_RU = "Поезд Последней Войны"
-GAME_EN = "The Last War: Train"
+GAME_EN = "The Last War: Train"   # флаг ASO: калька, кандидат на пересмотр вместе с листингом
 BASE = "https://didogames.net"
 DEV_RU = "Dido Games"
 DEV_EN = "Dido Games"
@@ -18,20 +21,32 @@ DATE_EN = "July 5, 2026"
 # TODO(юрист): заменить на конкретную юрисдикцию перед сабмитом в стор.
 LAW_RU = "правом страны постоянного проживания Разработчика"
 LAW_EN = "the laws of the Developer's country of residence"
+# ESP-эндпоинт почтовой формы (EmailOctopus/MailerLite). Пусто → форма скрыта, CTA = заявка в тест.
+ESP_ACTION = ""
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          '<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&'
-         'family=IBM+Plex+Mono:wght@400;500&display=swap&subset=cyrillic" rel="stylesheet">')
+         'family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap&subset=cyrillic"'
+         ' rel="stylesheet">')
+
+# Имена биомов = набор UI_BIOME_* (то, что игрок видит в меню/сторах; рекомендация АД).
+BIOMES_RU = ["ЛЕДЯНЫЕ ПУСТОШИ", "МЁРТВЫЙ ЛЕС", "ГОРНЫЙ ПЕРЕВАЛ", "ТОКСИЧНАЯ ЗОНА",
+             "ПЕПЕЛЬНАЯ ПУСТОШЬ", "МЁРТВЫЙ МЕГАПОЛИС", "РАДИОАКТИВНАЯ ПУСТЫНЯ",
+             "ЗАТОПЛЕННАЯ ЗОНА", "КЛАДБИЩЕ МАШИН", "ЛЕДЯНАЯ ЦИТАДЕЛЬ"]
+BIOMES_EN = ["ICE WASTES", "DEAD FOREST", "MOUNTAIN PASS", "TOXIC ZONE",
+             "ASH WASTES", "DEAD MEGALOPOLIS", "RADIOACTIVE DESERT",
+             "FLOODED ZONE", "MACHINE GRAVEYARD", "ICE CITADEL"]
 
 
 def chrome_top(lang: str, depth: str, rel: str) -> str:
     game = GAME_RU if lang == "ru" else GAME_EN
     nav = {
-        "ru": [("index.html#svodka", "Сводка"), ("index.html#kadry", "Кадры"), ("support.html", "Поддержка")],
-        "en": [("index.html#svodka", "Overview"), ("index.html#kadry", "Screens"), ("support.html", "Support")],
+        "ru": [("index.html#svodka", "Сводка"), ("index.html#marshrut", "Маршрут"),
+               ("index.html#kadry", "Кадры"), ("support.html", "Поддержка")],
+        "en": [("index.html#svodka", "Overview"), ("index.html#marshrut", "The route"),
+               ("index.html#kadry", "Screens"), ("support.html", "Support")],
     }[lang]
-    # Переключатель ведёт на ТУ ЖЕ страницу другого языка (владелец 2026-07-25), не на главную.
-    base = rel[3:] if rel.startswith("en/") else rel      # имя файла без языковой папки
+    base = rel[3:] if rel.startswith("en/") else rel
     ru_href = (base if lang == "ru" else "../" + base)
     en_href = ("en/" + base if lang == "ru" else base)
     links = " ".join('<a href="%s">%s</a>' % (h, t) for h, t in nav)
@@ -49,21 +64,25 @@ def chrome_foot(lang: str, depth: str) -> str:
     t = {
         "ru": ("РАЗРАБОТЧИК", "СВЯЗЬ", "ДОКУМЕНТЫ", "Политика конфиденциальности",
                "Условия использования", "Поддержка",
-               "© 2026 %s. «%s». Виртуальные предметы не имеют денежной стоимости." % (DEV_RU, GAME_RU)),
+               "© 2026 %s. «%s». Виртуальные предметы не имеют денежной стоимости." % (DEV_RU, GAME_RU),
+               "Соло-инди на Godot: код, дизайн и арт-продакшн — один человек."),
         "en": ("DEVELOPER", "CONTACT", "DOCUMENTS", "Privacy Policy", "Terms of Use", "Support",
-               "© 2026 %s. \"%s\". Virtual items have no monetary value." % (DEV_EN, GAME_EN)),
+               "© 2026 %s. \"%s\". Virtual items have no monetary value." % (DEV_EN, GAME_EN),
+               "A solo indie on Godot: code, design and art production by one person."),
     }[lang]
     dev = DEV_RU if lang == "ru" else DEV_EN
     return (
         '<footer><div class="foot-inner">'
         '<div class="foot-block foot-logo"><img src="%(d)sassets/img/logo.png" alt=""><span>%(game)s</span></div>'
-        '<div class="foot-block"><div class="field">%(f0)s</div>%(dev)s</div>'
+        '<div class="foot-block"><div class="field">%(f0)s</div>%(dev)s<br><span style="font-size:13px">%(solo)s</span></div>'
         '<div class="foot-block"><div class="field">%(f1)s</div><a href="mailto:%(mail)s">%(mail)s</a></div>'
         '<div class="foot-block"><div class="field">%(f2)s</div>'
         '<a href="privacy.html">%(p)s</a><a href="terms.html">%(tm)s</a><a href="support.html">%(s)s</a></div>'
+        '<div class="stamp" aria-hidden="true"><img src="%(d)sassets/img/logo.png" alt=""></div>'
         '</div><div class="foot-note">%(note)s</div></footer>'
         % {"d": depth, "game": (GAME_RU if lang == "ru" else GAME_EN), "dev": dev, "mail": EMAIL,
-           "f0": t[0], "f1": t[1], "f2": t[2], "p": t[3], "tm": t[4], "s": t[5], "note": t[6]}
+           "f0": t[0], "f1": t[1], "f2": t[2], "p": t[3], "tm": t[4], "s": t[5],
+           "note": t[6], "solo": t[7]}
     )
 
 
@@ -74,72 +93,165 @@ def page(lang: str, title: str, body: str, rel: str = "index.html") -> str:
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
         '<title>%s</title>'
         '<link rel="icon" type="image/png" href="%sassets/img/favicon.png">'
+        '<link rel="apple-touch-icon" href="%sassets/img/logo.png">'
         '%s<link rel="stylesheet" href="%sassets/style.css"></head><body>'
-        % (lang, title, depth, FONTS, depth)
+        % (lang, title, depth, depth, FONTS, depth)
     ) + chrome_top(lang, depth, rel) + body + chrome_foot(lang, depth) + "</body></html>"
 
 
 # ── ЛЕНДИНГ ──────────────────────────────────────────────────────────────────
+REVEAL_JS = (
+    '<script>(function(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;'
+    'var io=new IntersectionObserver(function(es){es.forEach(function(e){'
+    'if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.15});'
+    'document.querySelectorAll(".rv").forEach(function(el){io.observe(el);});})();</script>'
+)
+
+
 def landing(lang: str) -> str:
     d = "../" if lang == "en" else ""
-    if lang == "ru":
-        hero = ("МАРШРУТ 01 // СЕКТОР 01", GAME_RU,
-                "Бронепоезд держит рубеж в замёрзшей пустоши. Зенитки бьют по пикирующим, "
-                "поле сбора тянет кристаллы, а между волнами вы решаете, какой системе жить.",
-                "GOOGLE PLAY — СКОРО", "APP STORE — СКОРО")
-        svodka = "СВОДКА"; kadry = "КАДРЫ"
-        cards = [
-            ("РЕЖИМ // AA-SURVIVAL", "Зенитный рубеж",
-             "Враги пикируют сверху. Турели держат небо, пока состав идёт через пустошь."),
-            ("ПРОКАЧКА // SYSTEM RESTORE", "Дерево узлов",
-             "Вся сила рана — в контуре восстановления: 190+ узлов, платите кристаллами между волнами."),
-            ("МАРШРУТ // 10 БИОМОВ", "От Пустошей до Цитадели",
-             "Десять биомов со своими врагами, боссами и погодой — от ледяных равнин до Ледяной цитадели."),
-            ("СОСТАВ // ДЕПО", "Поезд-крепость",
-             "Платформы, вагоны, орудия, модули и трофейные ядра — соберите собственный состав."),
-        ]
-        shots = [("shot_combat.jpg", "БОЙ // СЕКТОР 1"), ("shot_menu.jpg", "ГЛАВНОЕ МЕНЮ"),
-                 ("shot_tree.jpg", "ДЕРЕВО УЗЛОВ")]
-        title = "%s — официальный сайт" % GAME_RU
-    else:
-        hero = ("ROUTE 01 // SECTOR 01", GAME_EN,
-                "An armored train holds the line across a frozen wasteland. AA turrets fight off "
-                "divers, the harvest field pulls in crystals, and between waves you decide which "
-                "system lives.",
-                "GOOGLE PLAY — SOON", "APP STORE — SOON")
-        svodka = "OVERVIEW"; kadry = "SCREENS"
-        cards = [
-            ("MODE // AA-SURVIVAL", "Anti-air line",
-             "Enemies dive from above. Your turrets hold the sky while the train crosses the waste."),
-            ("PROGRESSION // SYSTEM RESTORE", "Node tree",
-             "All in-run power lives in the restore circuit: 190+ nodes, paid in crystals between waves."),
-            ("ROUTE // 10 BIOMES", "Wastes to Citadel",
-             "Ten biomes with their own enemies, bosses and weather — from frozen plains to the Ice Citadel."),
-            ("CONSIST // DEPOT", "Fortress on rails",
-             "Platforms, wagons, guns, modules and trophy cores — build your own consist."),
-        ]
-        shots = [("shot_combat.jpg", "COMBAT // SECTOR 1"), ("shot_menu.jpg", "MAIN MENU"),
-                 ("shot_tree.jpg", "NODE TREE")]
-        title = "%s — official site" % GAME_EN
-    cards_html = "".join(
-        '<div class="card"><div class="field">%s</div><h3>%s</h3><p>%s</p></div>' % c for c in cards)
-    shots_html = "".join(
-        '<figure class="shot"><img src="%sassets/img/%s" alt="%s" loading="lazy">'
-        '<figcaption>%s</figcaption></figure>' % (d, f, cap, cap) for f, cap in shots)
-    body = (
-        '<header class="hero"><div class="hero-art"><img src="%(d)sassets/img/hero.jpg" alt=""></div>'
-        '<div class="hero-inner"><div class="eyebrow">%(eye)s</div><h1 class="title">%(name)s</h1>'
-        '<p class="tagline">%(tag)s</p>'
-        '<div class="badges"><span class="badge play">%(b1)s</span><span class="badge soon">%(b2)s</span></div>'
+    ru = lang == "ru"
+    L = {
+        "eyebrow": "МАРШРУТ 01 // СЕКТОР 01" if ru else "ROUTE 01 // SECTOR 01",
+        "name": GAME_RU if ru else GAME_EN,
+        "tag": ("Целиться не нужно — зенитки бьют сами. Ты ловишь кристаллы, что падают с неба, "
+                "и между волнами решаешь, какой системе поезда жить.") if ru else
+               ("No aiming — the turrets handle that. You catch the crystals falling from the sky, "
+                "and between waves you decide which of the train's systems survives."),
+        "facts": ("Дизельпанк ПВО-выживание · 10 биомов · дерево на 190+ узлов · без энергии и таймеров")
+                 if ru else
+                 ("Dieselpunk AA-survival · 10 biomes · a 190+ node tree · no energy, no timers"),
+        "cta": "ЗАПИСАТЬСЯ В ЗАКРЫТЫЙ ТЕСТ" if ru else "JOIN THE CLOSED TEST",
+        "cta_mail_subj": ("Закрытый тест — Поезд Последней Войны" if ru else "Closed test — The Last War: Train"),
+        "cta_mail_body": ("Привет! Хочу участвовать в закрытом тесте. Мой Android-девайс: " if ru
+                          else "Hi! I want to join the closed test. My Android device: "),
+        "status": ("СТАТУС: ПОДГОТОВКА К ЗАКРЫТОМУ ТЕСТУ · ANDROID ПЕРВЫМ · iOS ПОЗЖЕ" if ru
+                   else "STATUS: PREPARING CLOSED TESTING · ANDROID FIRST · iOS LATER"),
+        "svodka_field": "ФОРМУЛЯР 141-У" if ru else "FILE 141-U",
+        "svodka": "СВОДКА" if ru else "OVERVIEW",
+        "kadry_field": "АРХИВ ШТАБА" if ru else "HQ ARCHIVE",
+        "kadry": "КАДРЫ" if ru else "SCREENS",
+        "route_field": "МАРШРУТ // 10 СЕКТОРОВ" if ru else "THE ROUTE // 10 SECTORS",
+        "route": "ОТ ПУСТОШЕЙ ДО ЦИТАДЕЛИ" if ru else "WASTES TO CITADEL",
+        "what_field": "РЕЖИМ // AA-SURVIVAL" if ru else "MODE // AA-SURVIVAL",
+        "what_h": "Что это за игра" if ru else "What this game is",
+        "what_rows": [("РЕЖИМ" if ru else "MODE", "аркадное ПВО-выживание, портрет, одна рука" if ru
+                       else "arcade AA-survival, portrait, one hand"),
+                      ("ЦИКЛ" if ru else "LOOP", "волна → кристаллы → дерево узлов → волна" if ru
+                       else "wave → crystals → node tree → wave"),
+                      ("СЕССИЯ" if ru else "SESSION", "≈ 4 минуты на миссию" if ru else "≈ 4 minutes per mission")],
+        "anti_h": "Чего здесь нет" if ru else "What's not here",
+        "anti": (["Энергии и таймеров ожидания", "Обязательного интернета — кампания играется офлайн",
+                  "Платы за забеги — они бесплатные", "Рекламы посреди боя — только добровольная за бонус"]
+                 if ru else
+                 ["No energy, no wait timers", "No forced internet — the campaign plays offline",
+                  "No paying per run — runs are free", "No mid-combat ads — rewarded only, always your choice"]),
+        "finale_h": "СОСТАВ ГОТОВ К ВЫХОДУ" if ru else "THE CONSIST IS READY",
+    }
+    cards_lead = (("ПОЛЕ СБОРА // РУКИ ИГРОКА", "Ловить, а не целиться",
+                   "Кристаллы падают с неба и должны быть пойманы до земли. Промахнулся — "
+                   "реактор не зарядится, дерево не откроется.") if ru else
+                  ("HARVEST FIELD // YOUR HANDS", "Catch, don't aim",
+                   "Crystals fall from the sky and have to be caught before they hit the ground. "
+                   "Miss them and the reactor stays cold, the tree stays shut."))
+    cards3 = ([("ПРОКАЧКА // SYSTEM RESTORE", "Дерево узлов",
+                "Вся сила рана — в контуре восстановления: 190+ узлов, платите кристаллами между волнами.", "tree"),
+               ("МАРШРУТ // 10 БИОМОВ", "От Пустошей до Цитадели",
+                "Десять биомов со своими врагами, боссами и погодой — полоса ниже.", "map"),
+               ("СОСТАВ // ДЕПО", "Поезд-крепость",
+                "Платформы, вагоны, орудия, модули и трофейные ядра — соберите собственный состав.", "depot")]
+              if ru else
+              [("PROGRESSION // SYSTEM RESTORE", "Node tree",
+                "All in-run power lives in the restore circuit: 190+ nodes, paid in crystals between waves.", "tree"),
+               ("ROUTE // 10 BIOMES", "Wastes to Citadel",
+                "Ten biomes with their own enemies, bosses and weather — see the band below.", "map"),
+               ("CONSIST // DEPOT", "Fortress on rails",
+                "Platforms, wagons, guns, modules and trophy cores — build your own consist.", "depot")])
+    shots = ([("shot_combat.jpg", "БОЙ // СЕКТОР 1"), ("shot_menu.jpg", "ГЛАВНОЕ МЕНЮ"),
+              ("shot_tree.jpg", "ДЕРЕВО УЗЛОВ")] if ru else
+             [("shot_combat.jpg", "COMBAT // SECTOR 1"), ("shot_menu.jpg", "MAIN MENU"),
+              ("shot_tree.jpg", "NODE TREE")])
+    biomes = BIOMES_RU if ru else BIOMES_EN
+    title = ("%s — официальный сайт" % GAME_RU) if ru else ("%s — official site" % GAME_EN)
+
+    mailto = ('mailto:%s?subject=%s&body=%s' % (EMAIL,
+              L["cta_mail_subj"].replace(" ", "%20"), L["cta_mail_body"].replace(" ", "%20")))
+    cta_block = ('<a class="cta" href="%s">%s</a>'
+                 '<div class="cta-sub field-long">%s</div>' % (mailto, L["cta"], L["status"]))
+
+    hero = (
+        '<header class="hero">'
+        '<div class="hero-wash" aria-hidden="true"><img src="%(d)sassets/img/hero_mobile.jpg" alt=""></div>'
+        '<div class="hero-veil" aria-hidden="true"></div>'
+        '<div class="grain" aria-hidden="true"></div>'
+        '<div class="hero-grid">'
+        '<div class="hero-copy"><div class="field">%(eye)s</div><h1 class="title">%(name)s</h1>'
+        '<p class="tagline">%(tag)s</p><div class="microfacts field-long">%(facts)s</div>%(cta)s</div>'
+        '<div class="hero-window braces">'
+        '<picture><source media="(min-width:900px)" srcset="%(d)sassets/img/hero_portrait.jpg">'
+        '<img src="%(d)sassets/img/hero_mobile.jpg" alt="%(name)s — key art"></picture></div>'
         '</div></header>'
-        '<section class="section" id="svodka"><div class="section-head">'
-        '<span class="field">ФОРМУЛЯР 141-У</span><h2>%(svodka)s</h2></div>'
-        '<div class="cards">%(cards)s</div></section>'
-        '<section class="section" id="kadry"><div class="section-head">'
-        '<span class="field">АРХИВ ШТАБА</span><h2>%(kadry)s</h2></div>'
-        '<div class="shots">%(shots)s</div></section>'
-        % {"d": d, "eye": hero[0], "name": hero[1], "tag": hero[2], "b1": hero[3], "b2": hero[4],
-           "svodka": svodka, "kadry": kadry, "cards": cards_html, "shots": shots_html}
+        % {"d": d, "eye": L["eyebrow"], "name": L["name"], "tag": L["tag"],
+           "facts": L["facts"], "cta": cta_block}
+    )
+
+    cards_html = (
+        '<div class="card lead rv"><div class="recess"><img src="%(d)sassets/img/nav_battle.png" alt=""></div>'
+        '<div><div class="field">%(f)s</div><h3>%(h)s</h3><p>%(p)s</p></div></div>'
+        % {"d": d, "f": cards_lead[0], "h": cards_lead[1], "p": cards_lead[2]}
+    ) + '<div class="cards3">' + "".join(
+        '<div class="card rv" style="--i:%d"><div class="recess" style="margin-bottom:14px">'
+        '<img src="%sassets/img/nav_%s.png" alt=""></div>'
+        '<div class="field">%s</div><h3>%s</h3><p>%s</p></div>'
+        % (i, d, icon, f, h, pt) for i, (f, h, pt, icon) in enumerate(cards3)) + '</div>'
+
+    slats = "".join(
+        '<div class="slat rv" style="--i:%d"><img src="%sassets/img/biome_%02d.jpg" alt="%s" loading="lazy">'
+        '<div class="slat-cap"><div class="slat-num">%02d</div><div class="slat-name">%s</div></div></div>'
+        % (i, d, i + 1, name, i + 1, name) for i, name in enumerate(biomes))
+
+    what_rows = "".join('<li><b class="field" style="min-width:96px">%s</b> %s</li>' % r for r in L["what_rows"])
+    anti_rows = "".join('<li>%s</li>' % a for a in L["anti"])
+    duo = (
+        '<section class="section" id="whatis"><div class="duo">'
+        '<div class="rv"><div class="field">%(wf)s</div><div class="h1x">%(wh)s</div>'
+        '<ul class="speclist" style="margin-bottom:28px">%(rows)s</ul>'
+        '<div class="field" style="margin-bottom:6px">%(af)s</div>'
+        '<div class="h1x" style="font-size:30px">%(ah)s</div><ul class="speclist">%(anti)s</ul></div>'
+        '<div class="rv" style="--i:2; display:flex; justify-content:center">'
+        '<div class="term braces" style="max-width:320px; transform:rotate(4deg)">'
+        '<img src="%(d)sassets/img/shot_combat.jpg" alt="%(alt)s" loading="lazy"></div></div>'
+        '</div></section>'
+        % {"wf": L["what_field"], "wh": L["what_h"], "rows": what_rows,
+           "af": "ФОРМУЛЯР // БЕЗ ЗВЁЗДОЧЕК" if ru else "FORM // NO ASTERISKS",
+           "ah": L["anti_h"], "anti": anti_rows, "d": d,
+           "alt": "Бой" if ru else "Combat"}
+    )
+
+    fan = '<div class="fan">' + "".join(
+        '<figure class="fan-item rv" style="--i:%d"><div class="term">'
+        '<img src="%sassets/img/%s" alt="%s" loading="lazy"><figcaption class="term-cap">%s</figcaption>'
+        '</div></figure>' % (i, d, f, cap, cap) for i, (f, cap) in enumerate(shots)) + '</div>'
+
+    body = (
+        hero
+        + '<div class="perf" aria-hidden="true"></div>'
+        + ('<div class="plate-b"><section class="section" id="svodka"><div class="section-head">'
+           '<span class="field">%s</span><h2>%s</h2></div>%s</section></div>'
+           % (L["svodka_field"], L["svodka"], cards_html))
+        + ('<section class="biomes" id="marshrut"><div class="biomes-head"><div class="section-head" style="margin-bottom:0">'
+           '<span class="field">%s</span><h2>%s</h2></div></div>'
+           '<div class="biome-band">%s</div></section>'
+           % (L["route_field"], L["route"], slats))
+        + '<div class="perf" aria-hidden="true"></div>'
+        + duo
+        + ('<div class="plate-b"><section class="section" id="kadry"><div class="section-head">'
+           '<span class="field">%s</span><h2>%s</h2></div>%s</section></div>'
+           % (L["kadry_field"], L["kadry"], fan))
+        + ('<div class="finale braces"><img src="%sassets/img/hero_mobile.jpg" alt="" loading="lazy">'
+           '<div class="finale-inner rv"><div class="h1x" style="font-size:34px">%s</div><div>%s</div></div></div>'
+           % (d, L["finale_h"], cta_block))
+        + REVEAL_JS
     )
     return page(lang, title, body, rel=("en/index.html" if lang == "en" else "index.html"))
 
@@ -291,13 +403,13 @@ OUT = {
     "en/support.html": support("en"),
 }
 
-# ── SEO под домен: canonical + hreflang + OpenGraph (инъекция по пути страницы) ──
+# ── SEO под домен: canonical + hreflang + OpenGraph + JSON-LD ────────────────
 DESCS = {
-    "index.html": "Аркадное ПВО-выживание: бронепоезд, зенитки, дерево узлов, 10 биомов. Скоро в Google Play.",
+    "index.html": "Аркадное ПВО-выживание: бронепоезд, зенитки, дерево узлов, 10 биомов. Без энергии и таймеров. Скоро в Google Play.",
     "terms.html": "Условия использования игры «%s»." % GAME_RU,
     "privacy.html": "Политика конфиденциальности игры «%s»." % GAME_RU,
     "support.html": "Поддержка игры «%s»: контакты, покупки, удаление данных." % GAME_RU,
-    "en/index.html": "Arcade AA-survival: an armored train, anti-air turrets, a node tree, 10 biomes. Coming soon to Google Play.",
+    "en/index.html": "Arcade AA-survival: an armored train, anti-air turrets, a node tree, 10 biomes. No energy, no timers. Coming soon to Google Play.",
     "en/terms.html": "Terms of Use for \"%s\"." % GAME_EN,
     "en/privacy.html": "Privacy Policy for \"%s\"." % GAME_EN,
     "en/support.html": "Support for \"%s\": contact, purchases, data deletion." % GAME_EN,
@@ -315,22 +427,40 @@ def canon(rel):
 def head_extra(rel, title):
     ru_rel = rel[3:] if rel.startswith("en/") else rel
     en_rel = rel if rel.startswith("en/") else "en/" + rel
-    return (
+    ex = (
         '<meta name="description" content="%s">'
         '<link rel="canonical" href="%s">'
         '<link rel="alternate" hreflang="ru" href="%s">'
         '<link rel="alternate" hreflang="en" href="%s">'
         '<link rel="alternate" hreflang="x-default" href="%s">'
         '<meta property="og:type" content="website">'
+        '<meta property="og:site_name" content="Dido Games">'
         '<meta property="og:title" content="%s">'
         '<meta property="og:description" content="%s">'
-        '<meta property="og:image" content="%s/assets/img/hero.jpg">'
+        '<meta property="og:image" content="%s/assets/img/og.jpg">'
+        '<meta property="og:image:width" content="1200">'
+        '<meta property="og:image:height" content="630">'
         '<meta property="og:url" content="%s">'
+        '<meta property="og:locale" content="%s">'
+        '<meta property="og:locale:alternate" content="%s">'
         '<meta name="twitter:card" content="summary_large_image">'
-        '<meta name="theme-color" content="#0a0f14">'
+        '<meta name="twitter:image" content="%s/assets/img/og.jpg">'
+        '<meta name="theme-color" content="#05070a">'
         % (DESCS[rel], canon(rel), canon(ru_rel), canon(en_rel), canon(ru_rel),
-           title, DESCS[rel], BASE, canon(rel))
+           title, DESCS[rel], BASE, canon(rel),
+           ("en_US" if rel.startswith("en/") else "ru_RU"),
+           ("ru_RU" if rel.startswith("en/") else "en_US"), BASE)
     )
+    if rel in ("index.html", "en/index.html"):
+        name = GAME_EN if rel.startswith("en/") else GAME_RU
+        ex += ('<script type="application/ld+json">{"@context":"https://schema.org",'
+               '"@type":"VideoGame","name":"%s","genre":["Arcade","Survival","Tower Defense"],'
+               '"gamePlatform":["Android","iOS"],"applicationCategory":"Game",'
+               '"author":{"@type":"Organization","name":"Dido Games","url":"%s"},'
+               '"image":"%s/assets/img/og.jpg","url":"%s",'
+               '"inLanguage":["ru","en","de","es","fr","it","pl","pt-BR","tr","id"]}'
+               '</script>' % (name, BASE, BASE, canon(rel)))
+    return ex
 
 
 for rel, html in OUT.items():
