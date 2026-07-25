@@ -22,8 +22,11 @@ DATE_EN = "July 5, 2026"
 # TODO(юрист): заменить на конкретную юрисдикцию перед сабмитом в стор.
 LAW_RU = "правом страны постоянного проживания Разработчика"
 LAW_EN = "the laws of the Developer's country of residence"
-# ESP-эндпоинт почтовой формы (EmailOctopus/MailerLite). Пусто → форма скрыта, CTA = заявка в тест.
-ESP_ACTION = ""
+# Форма заявок на инвайт: FormSubmit.co доставляет сабмиты письмами на EMAIL без бэкенда
+# (GitHub Pages статический). Первый сабмит шлёт на EMAIL активационное письмо —
+# владелец подтверждает ОДИН раз, дальше заявки приходят таблицей в письме.
+FORM_POST = "https://formsubmit.co/" + EMAIL          # нативный POST-фолбэк (без JS)
+FORM_AJAX = "https://formsubmit.co/ajax/" + EMAIL     # fetch-сабмит без ухода со страницы
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
@@ -44,9 +47,9 @@ def chrome_top(lang: str, depth: str, rel: str) -> str:
     game = GAME_RU if lang == "ru" else GAME_EN
     nav = {
         "ru": [("index.html#svodka", "Сводка"), ("index.html#marshrut", "Маршрут"),
-               ("index.html#kadry", "Кадры"), ("press.html", "Пресс-кит")],
+               ("index.html#kadry", "Кадры"), ("lore.html", "Лор"), ("press.html", "Пресс-кит")],
         "en": [("index.html#svodka", "Overview"), ("index.html#marshrut", "Route"),
-               ("index.html#kadry", "Screens"), ("press.html", "Press kit")],
+               ("index.html#kadry", "Screens"), ("lore.html", "Lore"), ("press.html", "Press kit")],
     }[lang]
     base = rel[3:] if rel.startswith("en/") else rel
     if base == "index.html":   # на самом лендинге якоря — чистые # (без перезагрузки)
@@ -55,11 +58,9 @@ def chrome_top(lang: str, depth: str, rel: str) -> str:
     ru_href = (base if lang == "ru" else "../" + base)
     en_href = ("en/" + base if lang == "ru" else base)
     links = " ".join('<a href="%s">%s</a>' % (h, t) for h, t in nav)
-    from urllib.parse import quote as _q
-    hdr_cta = ('<a class="hdr-cta" href="mailto:%s?subject=%s">%s</a>'
-               % (EMAIL, quote('Сообщите о выходе — Поезд Последней Войны' if lang == 'ru'
-                            else 'Launch notification — The Last War: Train'),
-                  'О ВЫХОДЕ' if lang == 'ru' else 'GET NOTIFIED'))
+    notify = "#notify" if base == "index.html" else "index.html#notify"
+    hdr_cta = ('<a class="hdr-cta" href="%s">%s</a>'
+               % (notify, 'О ВЫХОДЕ' if lang == 'ru' else 'GET NOTIFIED'))
     return (
         '<div class="secureline"><span class="dot"></span>'
         '<span>SECURE_LINE // %s</span><span class="grow"></span><nav class="hdr-nav">%s</nav> '
@@ -104,7 +105,7 @@ def page(lang: str, title: str, body: str, rel: str = "index.html") -> str:
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
         '<title>%s</title>'
         '<link rel="icon" type="image/png" href="%sassets/img/favicon.png">'
-        '<link rel="apple-touch-icon" href="%sassets/img/logo.png">'
+        '<link rel="apple-touch-icon" href="%sassets/img/touch_icon.png">'
         '%s<link rel="stylesheet" href="%sassets/style.css">'
         '<script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches)'
         'document.documentElement.classList.add("js")</script></head><body>'
@@ -123,6 +124,42 @@ REVEAL_JS = (
     'var io=new IntersectionObserver(function(es){es.forEach(function(e){'
     'if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.15});'
     'document.querySelectorAll(".rv").forEach(function(el){io.observe(el);});})();</script>'
+)
+
+# Лайтбокс: крестик + Esc + клик по фону (владелец 2026-07-25). Вешается на кадры
+# лендинга (.fan/.term--tilt) и ссылки пресс-кита (.shots a); без JS пресс-ссылки
+# открывают файл как раньше.
+LB_JS = (
+    '<script>(function(){var o=document.createElement("div");o.className="lb";'
+    'o.innerHTML=\'<img alt=""><button class="lb-x" aria-label="Close">&times;</button>\';'
+    'document.body.appendChild(o);var im=o.querySelector("img");'
+    'function op(s){im.src=s;o.classList.add("on");document.body.style.overflow="hidden"}'
+    'function cl(){o.classList.remove("on");document.body.style.overflow="";im.removeAttribute("src")}'
+    'o.addEventListener("click",function(e){if(e.target!==im)cl()});'
+    'document.addEventListener("keydown",function(e){if(e.key==="Escape")cl()});'
+    'function wire(el,get){el.style.cursor="zoom-in";'
+    'el.addEventListener("click",function(e){e.preventDefault();op(get())})}'
+    'document.querySelectorAll(".fan .term img,.term--tilt img").forEach('
+    'function(i){wire(i,function(){return i.currentSrc||i.src})});'
+    'document.querySelectorAll(".shots a").forEach('
+    'function(a){wire(a,function(){return a.getAttribute("href")})});})();</script>'
+)
+
+# Форма: fetch на FormSubmit ajax; фейл → нативный POST (redirect _next);
+# возврат с ?sub=1 после нативного POST тоже показывает «принято».
+FORM_JS = (
+    '<script>(function(){var f=document.querySelector(".nf");if(!f)return;'
+    'function ok(){var g=f.querySelector(".nf-grid"),b=f.querySelector(".nf-btn");'
+    'if(g)g.hidden=true;if(b)b.hidden=true;f.querySelector(".nf-ok").hidden=false}'
+    'if(location.search.indexOf("sub=1")>-1){ok();location.hash="#notify";}'
+    'if(!window.fetch)return;'
+    'f.addEventListener("submit",function(e){e.preventDefault();'
+    'var b=f.querySelector(".nf-btn");b.disabled=true;'
+    'var d={};new FormData(f).forEach(function(v,k){d[k]=v});'
+    'fetch(f.getAttribute("data-ajax"),{method:"POST",'
+    'headers:{"Content-Type":"application/json",Accept:"application/json"},'
+    'body:JSON.stringify(d)}).then(function(r){if(!r.ok)throw 0;ok();})'
+    '.catch(function(){b.disabled=false;f.submit();});});})();</script>'
 )
 
 
@@ -192,16 +229,48 @@ def landing(lang: str) -> str:
     biomes = BIOMES_RU if ru else BIOMES_EN
     title = ("%s — дизельпанк ПВО-выживание для Android" % GAME_RU) if ru else ("%s — dieselpunk AA-survival for Android" % GAME_EN)
 
-    mailto = ('mailto:%s?subject=%s&body=%s' % (EMAIL,
-              quote(L["cta_mail_subj"]), quote(L["cta_mail_body"])))
-    one = ("Одно письмо в день релиза. Больше ничего." if ru
-           else "One email on release day. Nothing else.")
-    fb = (("Не открылась почта? Напиши на <a href=\"mailto:%s\">%s</a>" % (EMAIL, EMAIL)) if ru
-          else ("Mail app didn't open? Write to <a href=\"mailto:%s\">%s</a>" % (EMAIL, EMAIL)))
-    cta_block = ('<a class="cta" href="%s">%s</a>'
+    one = ("Одно письмо в день релиза + ранний инвайт. Больше ничего." if ru
+           else "One email on release day + an early invite. Nothing else.")
+    # Герой: CTA — якорь на форму заявки в финале (владелец 2026-07-25: форма вместо mailto).
+    cta_block = ('<a class="cta" href="#notify">%s</a>'
                  '<div class="cta-sub field-long">%s</div>'
-                 '<div class="cta-sub field-long">%s · %s</div>'
-                 % (mailto, L["cta"], nbl(L["status"]), one, fb))
+                 '<div class="cta-sub field-long">%s</div>'
+                 % (L["cta"], nbl(L["status"]), one))
+    nff = {
+        "post": FORM_POST, "ajax": FORM_AJAX, "lang": lang,
+        "next": BASE + ("/?sub=1" if ru else "/en/?sub=1"),
+        "subj": ("Заявка на инвайт — didogames.net" if ru else "Invite request — didogames.net"),
+        "l_name": "ПОЗЫВНОЙ" if ru else "CALLSIGN",
+        "ph_name": ("Как к вам обращаться (необязательно)" if ru else "What to call you (optional)"),
+        "l_mail": "ПОЧТА" if ru else "EMAIL",
+        "l_plat": "ПЛАТФОРМА" if ru else "PLATFORM",
+        "both": "Android + iOS",
+        "btn": ("ЗАПИСАТЬ В ПЕРВЫЙ ЭШЕЛОН" if ru else "JOIN THE FIRST WAVE"),
+        "micro": (("%s · Почта — только для инвайта и письма о выходе." % one) if ru
+                  else ("%s · Your email is used only for the invite and the launch notice." % one)),
+        "ok": ("ПРИНЯТО. ВЫ В СПИСКЕ ПЕРВОГО ЭШЕЛОНА — ждите письмо." if ru
+               else "LOGGED. YOU'RE ON THE FIRST-WAVE LIST — watch your inbox."),
+    }
+    form_block = (
+        '<form class="nf" method="POST" action="%(post)s" data-ajax="%(ajax)s">'
+        '<input type="hidden" name="_subject" value="%(subj)s">'
+        '<input type="hidden" name="_template" value="table">'
+        '<input type="hidden" name="_captcha" value="false">'
+        '<input type="hidden" name="_next" value="%(next)s">'
+        '<input type="hidden" name="lang" value="%(lang)s">'
+        '<input type="text" name="_honey" class="nf-hp" tabindex="-1" autocomplete="off" aria-hidden="true">'
+        '<div class="nf-grid">'
+        '<label class="nf-f"><span class="field">%(l_name)s</span>'
+        '<input type="text" name="name" maxlength="80" placeholder="%(ph_name)s" autocomplete="name"></label>'
+        '<label class="nf-f"><span class="field">%(l_mail)s *</span>'
+        '<input type="email" name="email" required maxlength="120" placeholder="you@example.com" autocomplete="email"></label>'
+        '<label class="nf-f"><span class="field">%(l_plat)s</span>'
+        '<select name="platform"><option>Android</option><option>iOS</option><option>%(both)s</option></select></label>'
+        '</div>'
+        '<button class="cta nf-btn" type="submit">%(btn)s</button>'
+        '<div class="cta-sub field-long">%(micro)s</div>'
+        '<p class="nf-ok" hidden>%(ok)s</p></form>' % nff
+    )
 
     hero = (
         '<header class="hero">'
@@ -279,10 +348,11 @@ def landing(lang: str) -> str:
            '<span class="field">%s</span><h2>%s</h2></div>%s</section></div>'
            % (L["kadry_field"], L["kadry"], fan))
         + '<div class="perf" aria-hidden="true"></div>'
-        + ('<div class="finale"><img src="%sassets/img/hero_mobile.jpg" alt="" loading="lazy">'
-           '<div class="finale-inner braces rv"><div class="h1x h1x--md">%s</div><div>%s</div></div></div>'
-           % (d, L["finale_h"], cta_block))
-        + REVEAL_JS
+        + ('<div class="finale" id="notify"><img src="%sassets/img/hero_mobile.jpg" alt="" loading="lazy">'
+           '<div class="finale-inner braces rv"><div class="h1x h1x--md">%s</div>'
+           '<div class="cta-sub field-long">%s</div>%s</div></div>'
+           % (d, L["finale_h"], nbl(L["status"]), form_block))
+        + REVEAL_JS + LB_JS + FORM_JS
     )
     return page(lang, title, body, rel=("en/index.html" if lang == "en" else "index.html"))
 
@@ -417,8 +487,81 @@ def support(lang):
                     "Support — %s" % GAME_EN, "en/support.html")
 
 
+# ── ЛОР (бортжурнал; факты = docs/ARCADE_BIOMES.md + интро-строки BIOME_W*_INTRO) ──
+LORE_PRO_RU = [
+    "Войну не выиграл никто. Приказ об остановке не пришёл: штабы, которые могли его отдать, исчезли первыми. Машины остались — а у машин было расписание.",
+    "Автоматические заводы продолжают выпускать перехватчики. Климатическое оружие никто не выключил. Небо принадлежит машинам — поэтому всё, что хочет жить, держится земли.",
+    "Остался один бронесостав. Реактор, зенитные платформы, поле сбора — и рельсы, которые ещё помнят, куда идти. Пока состав держит рубеж, маршрут существует.",
+    "Сбитые машины роняют кристаллы — конденсат их топлива. Поле сбора ловит их до земли, реактор ест, контур SYSTEM RESTORE будит спящие системы: броню, стволы, поле. Так война кормит того, кто с ней воюет.",
+]
+LORE_PRO_EN = [
+    "Nobody won the war. The stop order never came: the headquarters that could have issued it were the first to vanish. The machines remained — and machines keep a schedule.",
+    "Automated factories still roll interceptors off the line. The climate weapon was never switched off. The sky belongs to the machines — which is why everything that wants to live hugs the ground.",
+    "One armored train remains. A reactor, anti-air platforms, a harvest field — and rails that still remember where to go. As long as the train holds the line, the route exists.",
+    "Downed machines drop crystals — condensate of their fuel. The harvest field catches them before they touch the ground, the reactor feeds, and the SYSTEM RESTORE circuit wakes the sleeping systems: armor, guns, the field. That is how the war feeds the one who fights it.",
+]
+LORE_RU = [
+    "Подступы. Снег глушит всё, кроме моторов. Первые перехватчики легли на насыпь ещё горячими. Система пометила сектор зелёным. Система — оптимист.",
+    "Лес умер стоя, но не разоружился. Споровые формы держат землю, пиявки липнут к полю сбора. Приказ по составу: ничего не подбирать голыми руками. Голых рук на борту давно нет.",
+    "Ниже нуля. Климатическое оружие отработало штатно — и работает до сих пор. Иней ест турели быстрее врага: прогрев, прогрев, прогрев. Перевал прошли на трёх стволах из шести.",
+    "Кислотные выбросы по расписанию, которого нет. Пиявки глушат сбор со второй волны. В старых картах сектор назван садовым кольцом. Сад цветёт — жёлтым.",
+    "Пепелище дышит. Термики поднимают бомбардировщики выше зенитного огня, артиллерия бьёт из-за горизонта. Здесь заканчиваются учения и начинается экзамен. Запись в журнале: держать строй.",
+    "Город на миллион окон. Население: щиты. Обычный огонь гаснет об экраны — нужен калибр, который спрашивает дважды. Некрополь охраняет Страж. Пробили. Не с первого раза.",
+    "Фон критический. Всё, что сбиваешь, делится пополам — и обе половины злее. Лом светится и встаёт обратно. После Мегаполиса это почти отпуск. Почти.",
+    "Вода пришла и не ушла. Барокорпуса держат очередь, призраки прибоя рвут дистанцию рывком. Рельсов не видно — состав помнит их наизусть.",
+    "Здесь война складывала своих мёртвых. Теперь лом реактивируется: стаи мелочи идут кластерами, контакт — пиковый за весь маршрут. Если у машин есть ад, он переполнен и принимает заявки.",
+    "Последний рубеж. Полный морозный гарнизон, элита старой войны, Последний Шпиль на горизонте. За цитаделью нет ничего — поэтому маршрут начинается заново.",
+]
+LORE_EN = [
+    "The approaches. Snow muffles everything but the engines. The first interceptors hit the embankment still hot. The system marked the sector green. The system is an optimist.",
+    "The forest died standing — but never disarmed. Spore forms hold the ground, leeches cling to the harvest field. Standing order: touch nothing with bare hands. There have been no bare hands aboard for years.",
+    "Below zero. The climate weapon performed as designed — and never stopped. Frost eats the turrets faster than the enemy does: reheat, reheat, reheat. We cleared the pass on three barrels out of six.",
+    "Acid discharges on a schedule that doesn't exist. Leeches choke the harvest from the second wave. Old maps call this sector the garden ring. The garden blooms — in yellow.",
+    "The ashfield breathes. Thermals lift the bombers above our flak ceiling; artillery talks from beyond the horizon. This is where the drills end and the exam begins. Log entry: hold formation.",
+    "A city of a million windows. Population: shields. Ordinary fire dies on the screens — you need a caliber that asks twice. The necropolis has its Warden. We broke through. Not on the first try.",
+    "Radiation critical. Everything you shoot down splits in two — and both halves are angrier. The scrap glows and stands back up. After the Megalopolis this is almost a vacation. Almost.",
+    "The water came and never left. Pressure hulls soak up the bursts; surf wraiths break the line of fire in dashes. You can't see the rails. The train knows them by heart.",
+    "This is where the war stacked its dead. Now the scrap reactivates: swarms come in clusters, contact damage peaks for the whole route. If machines have a hell, it is overcrowded and still taking applications.",
+    "The last line. A full cold-weather garrison, the old war's elite, the Final Spire on the horizon. There is nothing beyond the citadel — which is why the route begins again.",
+]
+
+
+def lore(lang):
+    ru = lang == "ru"
+    d = "../" if lang == "en" else ""
+    biomes = BIOMES_RU if ru else BIOMES_EN
+    pro = LORE_PRO_RU if ru else LORE_PRO_EN
+    entries = LORE_RU if ru else LORE_EN
+    back = '<p class="backlink"><a href="index.html">&larr; %s</a></p>' % (
+        "НА ГЛАВНУЮ" if ru else "BACK TO MAIN")
+    rows = "".join(
+        '<div class="lore-row rv"><img src="%sassets/img/biome_%02d.jpg" alt="" loading="lazy">'
+        '<div><div class="lore-num">%s %02d // %s</div><p>%s</p></div></div>'
+        % (d, i + 1, ("СЕКТОР" if ru else "SECTOR"), i + 1, biomes[i], entries[i])
+        for i in range(10))
+    epi = ("Маршрут закольцован. Война не заканчивается — она обслуживается по регламенту. "
+           "Состав идёт, пока есть кому держать рубеж. Рубеж — это ты." if ru else
+           "The route is a loop. The war doesn't end — it is maintained on schedule. "
+           "The train runs as long as someone holds the line. The line is you.")
+    body = (
+        '<main class="doc lore">%s<div class="doc-head"><div class="field">%s</div>'
+        '<h1>%s</h1><div class="date">%s</div></div>%s'
+        '<h2>%s</h2>%s<div class="lore-epi">%s</div>%s</main>'
+        % (back, "АРХИВ // БОРТЖУРНАЛ" if ru else "ARCHIVE // LOGBOOK",
+           "Последняя война" if ru else "The Last War",
+           "Записи машиниста бронесостава" if ru else "Entries from the train driver's log",
+           "".join("<p>%s</p>" % x for x in pro),
+           "Маршрут: 10 секторов" if ru else "The route: 10 sectors",
+           rows, epi, back)
+    ) + REVEAL_JS
+    return page(lang, ("Лор — %s" % GAME_RU) if ru else ("Lore — %s" % GAME_EN),
+                body, rel=("lore.html" if ru else "en/lore.html"))
+
+
 OUT = {
     "index.html": landing("ru"),
+    "lore.html": lore("ru"),
+    "en/lore.html": lore("en"),
     "terms.html": doc_page("ru", "ФОРМУЛЯР // ДОКУМЕНТ 01", "Условия использования", DATE_RU, TERMS_RU,
                            "Настоящие Условия использования (далее — «Условия») регулируют доступ к игре «%s» (далее — «Игра») и её использование. Устанавливая, запуская или используя Игру, вы подтверждаете, что прочитали, поняли и принимаете настоящие Условия. Если вы не согласны с Условиями, не используйте Игру." % GAME_RU,
                            "Условия использования — %s" % GAME_RU, "terms.html"),
@@ -439,6 +582,8 @@ OUT = {
 # ── SEO под домен: canonical + hreflang + OpenGraph + JSON-LD ────────────────
 DESCS = {
     "index.html": "Аркадное ПВО-выживание: бронепоезд, зенитки, дерево на 190+ узлов, 10 биомов. Без энергии и таймеров. Скоро в Google Play.",
+    "lore.html": "Мир «Поезда Последней Войны»: бортжурнал машиниста — война машин, бронесостав и 10 секторов маршрута.",
+    "en/lore.html": "The world of The Last War: Train — the driver's logbook: the machine war, the armored train and the route's 10 sectors.",
     "terms.html": "Условия использования игры «%s»." % GAME_RU,
     "privacy.html": "Политика конфиденциальности игры «%s»." % GAME_RU,
     "support.html": "Поддержка игры «%s»: контакты, покупки, удаление данных." % GAME_RU,

@@ -147,9 +147,10 @@ h1.title { font-family: var(--disp); font-weight: 600; text-transform: uppercase
 .biomes { padding: 0; max-width: none; position: relative; }
 .biomes-head { max-width: 1120px; margin: 0 auto; padding: 96px var(--gutter) 32px; }
 .biomes-head .section-head { margin-bottom: 0; }
-.biome-band { display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px;
-  background: var(--steel-deep); }
-.slat { position: relative; height: 340px; overflow: hidden; display: block; }
+/* владелец 2026-07-25: 10-в-ряд давал «щели» 1:2.9 — сетка 5×2, плитки 3:4 */
+.biome-band { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px;
+  background: var(--steel-deep); max-width: 1400px; margin: 0 auto; }
+.slat { position: relative; aspect-ratio: 3 / 4; overflow: hidden; display: block; }
 .slat img { width: 100%; height: 100%; object-fit: cover; }
 .slat::after { content: ""; position: absolute; inset: 65% 0 0 0;
   background: linear-gradient(180deg, transparent, var(--steel-deep) 92%); }
@@ -304,7 +305,7 @@ footer { border-top: 1px solid var(--steel-edge); background: #04060a; position:
   .section-head .field { display: block; margin-bottom: 8px; }
   .biome-band { display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch; }
-  .slat { flex: 0 0 132px; height: 240px; scroll-snap-align: start; }
+  .slat { flex: 0 0 156px; height: auto; scroll-snap-align: start; }
   .slat:last-child { margin-right: 20px; }
   .slat-name { font-size: 11px; }
   /* аффорданс скроллера (П25) */
@@ -317,3 +318,50 @@ footer { border-top: 1px solid var(--steel-edge); background: #04060a; position:
   .foot-inner { grid-template-columns: 1fr 1fr; padding: 40px var(--gutter); }
   h1.title { letter-spacing: .045em; }
 }
+
+/* ── лайтбокс (владелец 2026-07-25: «при открытии картинки нет крестика») ── */
+.lb { position: fixed; inset: 0; z-index: 90; display: none; align-items: center;
+  justify-content: center; padding: 28px; background: rgba(5,7,10,.93); }
+.lb.on { display: flex; }
+.lb img { max-width: min(92vw, 760px); max-height: 90vh; width: auto; height: auto;
+  border: 1px solid rgba(107,224,107,.3); box-shadow: 0 24px 80px rgba(0,0,0,.65); }
+.lb-x { position: fixed; top: 14px; right: 14px; width: 48px; height: 48px;
+  border: 1px solid rgba(107,224,107,.45); background: rgba(11,18,25,.85);
+  color: var(--phosphor); font-family: var(--mono); font-size: 26px; line-height: 1;
+  cursor: pointer; z-index: 91; }
+.lb-x:hover { background: rgba(107,224,107,.16); }
+
+/* ── форма заявки на инвайт (владелец 2026-07-25) ── */
+.nf { margin-top: 24px; text-align: left; position: relative; }
+.nf-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+.nf-f { display: flex; flex-direction: column; gap: 7px; }
+.nf input[type=text], .nf input[type=email], .nf select {
+  background: rgba(5,9,13,.85); border: 1px solid rgba(107,224,107,.3); color: var(--text);
+  font-family: var(--mono); font-size: 15px; padding: 12px; min-height: 48px;
+  border-radius: 2px; width: 100%; appearance: none; }
+.nf select { background-image: linear-gradient(45deg, transparent 50%, var(--phosphor) 50%),
+    linear-gradient(135deg, var(--phosphor) 50%, transparent 50%);
+  background-position: calc(100% - 19px) 22px, calc(100% - 14px) 22px;
+  background-size: 5px 5px; background-repeat: no-repeat; }
+.nf input:focus, .nf select:focus { outline: none; border-color: var(--phosphor);
+  box-shadow: 0 0 0 2px rgba(107,224,107,.16); }
+.nf ::placeholder { color: #55697c; }
+.nf-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.nf-btn { width: 100%; }
+.nf-ok { font-family: var(--mono); color: var(--phosphor); font-size: 15px;
+  border: 1px dashed rgba(107,224,107,.45); padding: 16px; margin-top: 6px; }
+.nf .cta-sub { margin-top: 12px; }
+@media (max-width: 720px) { .nf-grid { grid-template-columns: 1fr; } }
+
+/* ── лор-страница (бортжурнал) ── */
+.lore-row { display: grid; grid-template-columns: 96px 1fr; gap: 18px;
+  margin: 24px 0; align-items: start; }
+.lore-row img { width: 96px; aspect-ratio: 3 / 4; object-fit: cover;
+  border: 1px solid rgba(107,224,107,.25); }
+.lore-num { font-family: var(--mono); font-size: 12px; letter-spacing: .18em;
+  color: var(--phosphor); margin-bottom: 6px; text-transform: uppercase; }
+.lore-row p { margin: 0; }
+.lore-epi { margin-top: 34px; padding: 18px; border: 1px dashed rgba(107,224,107,.35);
+  font-family: var(--mono); font-size: 15px; color: var(--text); }
+@media (max-width: 480px) { .lore-row { grid-template-columns: 72px 1fr; gap: 12px; }
+  .lore-row img { width: 72px; } }
