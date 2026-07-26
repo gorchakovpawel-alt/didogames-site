@@ -319,6 +319,28 @@ footer { border-top: 1px solid var(--steel-edge); background: #04060a; position:
   h1.title { letter-spacing: .045em; }
 }
 
+/* ── USP «игра про ИИ, сделанная ИИ» (владелец 2026-07-26) ── */
+.field--ai { color: var(--phosphor); }
+.ai-strip { display: inline-block; margin-top: 4px; padding: 7px 12px;
+  border: 1px solid rgba(107,224,107,.4); background: rgba(107,224,107,.07);
+  font-family: var(--mono); font-size: 12px; letter-spacing: .14em;
+  color: var(--phosphor); text-transform: uppercase; }
+.made-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+.made-lead { font-size: 19px; line-height: 1.55; }
+.made-lead b { color: var(--phosphor); font-weight: 500; }
+.made-note { margin-top: 16px; }
+@media (max-width: 900px) { .made-grid { grid-template-columns: 1fr; gap: 24px; } }
+
+/* ── презентационный ролик (9:16) ── */
+.reel { max-width: 1120px; margin: 0 auto; padding: 0 var(--gutter) 96px; }
+.reel-box { position: relative; margin: 0 auto; width: min(420px, 100%);
+  border: 1px solid var(--steel-edge); background: #04060a;
+  box-shadow: 0 24px 70px rgba(0,0,0,.55); }
+.reel video { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16;
+  background: #04060a; }
+.reel-cap { margin-top: 14px; text-align: center; }
+@media (max-height: 820px) and (min-width: 900px) { .reel-box { width: min(340px, 100%); } }
+
 /* ── лайтбокс (владелец 2026-07-25: «при открытии картинки нет крестика») ── */
 .lb { position: fixed; inset: 0; z-index: 90; display: none; align-items: center;
   justify-content: center; padding: 28px; background: rgba(5,7,10,.93); }
