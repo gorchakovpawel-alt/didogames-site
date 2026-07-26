@@ -22,11 +22,18 @@ DATE_EN = "July 5, 2026"
 # TODO(юрист): заменить на конкретную юрисдикцию перед сабмитом в стор.
 LAW_RU = "правом страны постоянного проживания Разработчика"
 LAW_EN = "the laws of the Developer's country of residence"
-# Форма заявок на инвайт: FormSubmit.co доставляет сабмиты письмами на EMAIL без бэкенда
-# (GitHub Pages статический). Первый сабмит шлёт на EMAIL активационное письмо —
-# владелец подтверждает ОДИН раз, дальше заявки приходят таблицей в письме.
-FORM_POST = "https://formsubmit.co/" + EMAIL          # нативный POST-фолбэк (без JS)
-FORM_AJAX = "https://formsubmit.co/ajax/" + EMAIL     # fetch-сабмит без ухода со страницы
+# Форма заявок на инвайт: Google Форма в рабочем Workspace владельца (pavel@didogames.net).
+# FormSubmit.co отвалился — его активационные токены не проходили («Confirmation token not
+# found»), а Pages статический и своего бэкенда нет. Ответы копятся в самой форме
+# (Ответы → можно связать с таблицей); дизайн формы на сайте остаётся наш, Google получает
+# только POST. Google не отдаёт CORS-заголовки → шлём no-cors (ответ не читаем) + нативный
+# фолбэк без JS. entry.* — id полей формы, менять ТОЛЬКО вместе с самой формой.
+FORM_POST = ("https://docs.google.com/forms/d/e/"
+             "1FAIpQLSc4Seq_tMWckJWInFR1ENVdKpDfPxTW95gESPxZvaLgVVJHmQ/formResponse")
+FORM_F_EMAIL = "entry.1602638693"     # Почта (обязательное)
+FORM_F_NAME = "entry.1736986761"      # Позывной
+FORM_F_PLATFORM = "entry.1734298389"  # Платформа
+FORM_F_LANG = "entry.219790479"       # Язык сайта
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
@@ -145,21 +152,22 @@ LB_JS = (
     'function(a){wire(a,function(){return a.getAttribute("href")})});})();</script>'
 )
 
-# Форма: fetch на FormSubmit ajax; фейл → нативный POST (redirect _next);
-# возврат с ?sub=1 после нативного POST тоже показывает «принято».
+# Форма: POST в Google Форму. CORS-заголовков Google не отдаёт → шлём no-cors (ответ
+# непрозрачный, но запись создаётся) и показываем «принято» сами. Honeypot заполнен ботом →
+# молча не отправляем. Без JS работает нативный сабмит (target=_blank, чтобы страница
+# Google «Ответ записан» открылась отдельно и лендинг остался на месте).
 FORM_JS = (
     '<script>(function(){var f=document.querySelector(".nf");if(!f)return;'
     'function ok(){var g=f.querySelector(".nf-grid"),b=f.querySelector(".nf-btn");'
     'if(g)g.hidden=true;if(b)b.hidden=true;f.querySelector(".nf-ok").hidden=false}'
-    'if(location.search.indexOf("sub=1")>-1){ok();location.hash="#notify";}'
-    'if(!window.fetch)return;'
+    'if(!window.fetch)return;f.removeAttribute("target");'
     'f.addEventListener("submit",function(e){e.preventDefault();'
+    'var h=f.querySelector(".nf-hp");if(h&&h.value){ok();return}'
     'var b=f.querySelector(".nf-btn");b.disabled=true;'
-    'var d={};new FormData(f).forEach(function(v,k){d[k]=v});'
-    'fetch(f.getAttribute("data-ajax"),{method:"POST",'
-    'headers:{"Content-Type":"application/json",Accept:"application/json"},'
-    'body:JSON.stringify(d)}).then(function(r){if(!r.ok)throw 0;ok();})'
-    '.catch(function(){b.disabled=false;f.submit();});});})();</script>'
+    'var fd=new FormData(f);fd.delete("_honey");'
+    'fetch(f.action,{method:"POST",mode:"no-cors",body:fd})'
+    '.then(ok).catch(function(){b.disabled=false;f.setAttribute("target","_blank");f.submit();});'
+    '});})();</script>'
 )
 
 
@@ -174,9 +182,9 @@ def landing(lang: str) -> str:
                 "и между волнами решаешь, какой системе поезда жить.") if ru else
                ("No aiming — the turrets handle that. You catch the crystals falling from the sky, "
                 "and between waves you decide which of the train's systems survives."),
-        "facts": ("Бесплатно · дизельпанк ПВО-выживание · 10 биомов · дерево на 190+ узлов · без энергии и таймеров")
+        "facts": ("Бесплатно · дизельпанк ПВО-выживание · 10 биомов · дерево на 160+ узлов · без энергии и таймеров")
                  if ru else
-                 ("Free to play · dieselpunk AA-survival · 10 biomes · a 190+ node tree · no energy, no timers"),
+                 ("Free to play · dieselpunk AA-survival · 10 biomes · a 160+ node tree · no energy, no timers"),
         "cta": "СООБЩИТЬ МНЕ О ВЫХОДЕ" if ru else "NOTIFY ME AT LAUNCH",
         "cta_mail_subj": ("Сообщите о выходе — Поезд Последней Войны" if ru else "Launch notification — The Last War: Train"),
         "cta_mail_body": ("Напишите мне, когда игра выйдет в Google Play." if ru
@@ -220,12 +228,12 @@ def landing(lang: str) -> str:
         "made_rows": ([("КОД", "боевой цикл, экономика, сохранения, магазин — Godot"),
                        ("АРТ", "фоны биомов, враги, ключевой арт, интерфейс и иконки"),
                        ("ЗВУК", "эффекты и музыка"),
-                       ("БАЛАНС", "кривые волн, экономика, дерево на 190+ узлов"),
+                       ("БАЛАНС", "кривые волн, экономика, дерево на 160+ узлов"),
                        ("ТЕКСТЫ", "сюжет, интерфейс и локализация на 10 языков")] if ru else
                       [("CODE", "combat loop, economy, saves, shop — in Godot"),
                        ("ART", "biome backdrops, enemies, key art, UI and icons"),
                        ("AUDIO", "sound effects and music"),
-                       ("BALANCE", "wave curves, economy, a 190+ node tree"),
+                       ("BALANCE", "wave curves, economy, a 160+ node tree"),
                        ("TEXT", "story, interface and localization into 10 languages")]),
         "made_note": ("Человек ставит задачу и принимает работу. Всё остальное делает ИИ — "
                       "и об этом мы говорим прямо, а не мелким шрифтом." if ru else
@@ -239,14 +247,14 @@ def landing(lang: str) -> str:
                    "Crystals fall from the sky and have to be caught before they hit the ground. "
                    "Miss them and the reactor stays cold, the tree stays locked."))
     cards3 = ([("ПРОКАЧКА // SYSTEM RESTORE", "Дерево узлов",
-                "Вся сила рана — в контуре восстановления: 190+ узлов, платишь кристаллами между волнами.", "tree"),
+                "Вся сила рана — в контуре восстановления: 160+ узлов, платишь кристаллами между волнами.", "tree"),
                ("МАРШРУТ // 10 БИОМОВ", "От Пустошей до Цитадели",
                 "Десять биомов со своими врагами, боссами и погодой — полоса ниже.", "map"),
                ("СОСТАВ // ДЕПО", "Поезд-крепость",
                 "Платформы, вагоны, орудия, модули и трофейные ядра — собери собственный состав.", "depot")]
               if ru else
               [("PROGRESSION // SYSTEM RESTORE", "Node tree",
-                "All in-run power lives in the restore circuit: 190+ nodes, paid in crystals between waves.", "tree"),
+                "All in-run power lives in the restore circuit: 160+ nodes, paid in crystals between waves.", "tree"),
                ("ROUTE // 10 BIOMES", "From the Wastes to the Citadel",
                 "Ten biomes with their own enemies, bosses and weather — see the band below.", "map"),
                ("THE TRAIN // DEPOT", "Fortress on rails",
@@ -267,9 +275,9 @@ def landing(lang: str) -> str:
                  '<div class="cta-sub field-long">%s</div>'
                  % (L["cta"], nbl(L["status"]), one))
     nff = {
-        "post": FORM_POST, "ajax": FORM_AJAX, "lang": lang,
-        "next": BASE + ("/?sub=1" if ru else "/en/?sub=1"),
-        "subj": ("Заявка на инвайт — didogames.net" if ru else "Invite request — didogames.net"),
+        "post": FORM_POST, "lang": lang,
+        "f_email": FORM_F_EMAIL, "f_name": FORM_F_NAME,
+        "f_plat": FORM_F_PLATFORM, "f_lang": FORM_F_LANG,
         "l_name": "ПОЗЫВНОЙ" if ru else "CALLSIGN",
         "ph_name": ("Как к вам обращаться (необязательно)" if ru else "What to call you (optional)"),
         "l_mail": "ПОЧТА" if ru else "EMAIL",
@@ -282,20 +290,16 @@ def landing(lang: str) -> str:
                else "LOGGED. YOU'RE ON THE FIRST-WAVE LIST — watch your inbox."),
     }
     form_block = (
-        '<form class="nf" method="POST" action="%(post)s" data-ajax="%(ajax)s">'
-        '<input type="hidden" name="_subject" value="%(subj)s">'
-        '<input type="hidden" name="_template" value="table">'
-        '<input type="hidden" name="_captcha" value="false">'
-        '<input type="hidden" name="_next" value="%(next)s">'
-        '<input type="hidden" name="lang" value="%(lang)s">'
+        '<form class="nf" method="POST" action="%(post)s" target="_blank">'
+        '<input type="hidden" name="%(f_lang)s" value="%(lang)s">'
         '<input type="text" name="_honey" class="nf-hp" tabindex="-1" autocomplete="off" aria-hidden="true">'
         '<div class="nf-grid">'
         '<label class="nf-f"><span class="field">%(l_name)s</span>'
-        '<input type="text" name="name" maxlength="80" placeholder="%(ph_name)s" autocomplete="name"></label>'
+        '<input type="text" name="%(f_name)s" maxlength="80" placeholder="%(ph_name)s" autocomplete="name"></label>'
         '<label class="nf-f"><span class="field">%(l_mail)s *</span>'
-        '<input type="email" name="email" required maxlength="120" placeholder="you@example.com" autocomplete="email"></label>'
+        '<input type="email" name="%(f_email)s" required maxlength="120" placeholder="you@example.com" autocomplete="email"></label>'
         '<label class="nf-f"><span class="field">%(l_plat)s</span>'
-        '<select name="platform"><option>Android</option><option>iOS</option><option>%(both)s</option></select></label>'
+        '<select name="%(f_plat)s"><option>Android</option><option>iOS</option><option>%(both)s</option></select></label>'
         '</div>'
         '<button class="cta nf-btn" type="submit">%(btn)s</button>'
         '<div class="cta-sub field-long">%(micro)s</div>'
@@ -546,6 +550,210 @@ def support(lang):
                     "Support — %s" % GAME_EN, "en/support.html")
 
 
+# ── ПРЕСС-КИТ ────────────────────────────────────────────────────────────────
+# ВАЖНО: до 2026-07-26 press.html/en/press.html правились РУКАМИ мимо генератора и уже
+# разъехались с остальным сайтом (старая шапка без «Ролик/Сделано ИИ», футер без USP-строки,
+# og:image на hero вместо og.jpg). Теперь страница генерируется здесь — правь только тут.
+# Структура — стандартный presskit(): факты · описание · особенности · медиа · как сделано · контакты.
+PRESS_FACTS_RU = [
+    ("Название", "«%s» (EN: %s)" % (GAME_RU, GAME_EN)),
+    ("Разработчик", DEV_RU),
+    ("Производство", "игра целиком сделана искусственным интеллектом — код, арт, "
+                     "звук, баланс, тексты и локализация"),
+    ("Роль человека", "постановка задач, дизайн-решения, приёмка, тестирование на устройстве "
+                      "и публикация"),
+    ("Платформы", "Android (Google Play — скоро); iOS — позже"),
+    ("Статус", "в разработке, скоро в Google Play"),
+    ("Жанр", "аркадное ПВО-выживание (AA-survival), дизельпанк"),
+    ("Модель", "free-to-play — необязательные покупки и реклама за награду"),
+    ("Движок", "Godot 4.6"),
+    ("Ориентация", "портрет, играется одной рукой; кампания играется офлайн"),
+    ("Языки", "10 языков, включая русский и английский"),
+    ("Сайт", '<a href="%s">didogames.net</a>' % BASE),
+    ("Пресс-контакт", '<a href="mailto:%s">%s</a>' % (EMAIL, EMAIL)),
+]
+PRESS_FACTS_EN = [
+    ("Title", "%s (RU: «%s»)" % (GAME_EN, GAME_RU)),
+    ("Developer", DEV_EN),
+    ("Production", "the entire game is made by artificial intelligence — code, art, "
+                   "audio, balance, text and localization"),
+    ("Human role", "setting the tasks, design calls, sign-off, on-device testing and publishing"),
+    ("Platforms", "Android (Google Play — coming soon); iOS — later"),
+    ("Status", "in development, coming soon to Google Play"),
+    ("Genre", "arcade AA-survival, dieselpunk"),
+    ("Business model", "free-to-play — optional purchases and rewarded ads"),
+    ("Engine", "Godot 4.6"),
+    ("Orientation", "portrait, one-handed play; the campaign is playable offline"),
+    ("Languages", "10 languages, including English and Russian"),
+    ("Website", '<a href="%s">didogames.net</a>' % BASE),
+    ("Press contact", '<a href="mailto:%s">%s</a>' % (EMAIL, EMAIL)),
+]
+
+# Раздел «Как сделана игра»: конкретные инструменты + ЧЕСТНЫЙ список того, что ИИ НЕ делал.
+# Оговорка обязательна — расплывчатое «всё сделал ИИ» первым делом ловят на неточности.
+PRESS_MADE_RU = [
+    "<b>Код.</b> GDScript под Godot 4.6: боевой цикл, экономика, система сохранений, "
+    "магазин, интерфейс. Все коммиты репозитория сделаны ИИ-агентами.",
+    "<b>Арт.</b> Диффузионные модели (Leonardo.ai и локальный ComfyUI на одной RTX 4090): "
+    "фоны биомов, враги, боссы, ключевой арт, иконки интерфейса. Отделение фона — "
+    "ML-сегментация, не хромакей.",
+    "<b>Звук.</b> Stable Audio Open — эффекты и два музыкальных трека, сгенерированы локально. "
+    "Часть коротких UI-тиков осталась процедурной: модель плохо держит транзиенты короче 0.3 с.",
+    "<b>Баланс.</b> Кривые волн, экономика и дерево из 160+ узлов настроены прогонами "
+    "симулятора, а не на глаз.",
+    "<b>Тексты.</b> Сюжет, бортжурнал, строки интерфейса и локализация на 10 языков.",
+]
+PRESS_MADE_EN = [
+    "<b>Code.</b> GDScript on Godot 4.6: the combat loop, economy, save system, shop and UI. "
+    "Every commit in the repository was authored by AI agents.",
+    "<b>Art.</b> Diffusion models (Leonardo.ai and a local ComfyUI on a single RTX 4090): "
+    "biome backdrops, enemies, bosses, key art, UI icons. Background removal is ML "
+    "segmentation, not chroma key.",
+    "<b>Audio.</b> Stable Audio Open — sound effects and two music tracks, generated locally. "
+    "A few short UI ticks stayed procedural: the model handles sub-0.3s transients poorly.",
+    "<b>Balance.</b> Wave curves, the economy and the 160+ node tree were tuned by simulator "
+    "runs rather than by feel.",
+    "<b>Text.</b> Story, logbook, interface strings and localization into 10 languages.",
+]
+PRESS_NOT_AI_RU = ("<b>Что ИИ не делал.</b> Движок Godot, шрифты и сторонние SDK "
+                   "(реклама, аналитика, платежи) — обычные внешние компоненты. "
+                   "Промо-ролик — не сгенерированное видео, а настоящая запись из движка: "
+                   "AI-видео пробовали и отвергли, оно не совпадало со стилем игры. "
+                   "Человек ставит задачу, принимает работу и проверяет билд на устройстве.")
+PRESS_NOT_AI_EN = ("<b>What AI did not do.</b> The Godot engine, the fonts and third-party SDKs "
+                   "(ads, analytics, billing) are ordinary external components. "
+                   "The promo video is not generated footage — it is a real engine capture: "
+                   "AI video was tried and rejected, it did not match the game's style. "
+                   "A human sets the task, signs off on the work and checks the build on a device.")
+
+
+def press(lang: str) -> str:
+    ru = lang == "ru"
+    d = "../" if lang == "en" else ""
+    facts = PRESS_FACTS_RU if ru else PRESS_FACTS_EN
+    made = PRESS_MADE_RU if ru else PRESS_MADE_EN
+    feats = ([
+        "Зенитный рубеж: турели стреляют сами — игрок отвечает за сбор, способности и прокачку",
+        "Поле сбора: кристаллы нужно поймать до земли, они заряжают реактор",
+        "Дерево узлов SYSTEM RESTORE: 160+ узлов, вся сила рана покупается кристаллами между волнами",
+        "10 биомов со своими врагами, боссами и погодными механиками",
+        "Боссы миссий и боссы биомов",
+        "Депо: платформы, вагоны, орудия, модули и трофейные ядра — свой состав",
+        "Забеги бесплатные: без энергии, без таймеров ожидания",
+        "Портретный режим, управление одним пальцем; кампания играется офлайн",
+        "Производство: 100% ИИ — код, графика, звук, баланс и локализация на 10 языков",
+    ] if ru else [
+        "Anti-air line: turrets fire on their own — the player owns harvesting, abilities and upgrades",
+        "Harvest field: crystals must be caught before they land; they charge the reactor",
+        "SYSTEM RESTORE node tree: 160+ nodes, all in-run power paid in crystals between waves",
+        "10 biomes with their own enemies, bosses and weather mechanics",
+        "Mission bosses and biome bosses",
+        "Depot: platforms, wagons, guns, modules and trophy cores — build your own consist",
+        "Runs are free: no energy gate, no wait timers",
+        "Portrait mode, one-finger controls; the campaign is playable offline",
+        "Production: 100% AI — code, art, audio, balance and localization into 10 languages",
+    ])
+    desc = ([
+        "<b>Коротко:</b> игра про ИИ, сделанная ИИ. Бронепоезд держит рубеж, машины пикируют с неба. "
+        "Турели стреляют сами — ваши руки заняты сбором кристаллов, способностями реактора и "
+        "деревом узлов между волнами.",
+        "«%s» — аркадное ПВО-выживание в дизельпанк-сеттинге. Состав стоит на рубеже, мир "
+        "прокручивается мимо, враги пикируют сверху. Прицеливаться не нужно: зенитки ведут огонь "
+        "автоматически. Игрок управляет полем сбора — падающие кристаллы надо поймать до земли, "
+        "они заряжают реактор и оплачивают прокачку." % GAME_RU,
+        "Между волнами открывается SYSTEM RESTORE — дерево из 160+ узлов, где кристаллы решают, "
+        "какой системе состава жить: броне, скорострельности, полю сбора или способностям. "
+        "Каждая миссия заканчивается боссом волны, каждый биом — большим боссом.",
+        "Маршрут — десять биомов со своими врагами, погодой и осью давления. Между рейсами — депо: "
+        "платформы, вагоны, орудия, модули и трофейные ядра собираются в собственный поезд-крепость. "
+        "Забеги бесплатные — без энергии и таймеров.",
+    ] if ru else [
+        "<b>Short:</b> a game about AI, made by AI. An armored train holds the line while machines "
+        "dive from the sky. The turrets aim themselves — your hands are busy catching crystals, "
+        "firing reactor abilities and feeding the node tree between waves.",
+        "%s is an arcade AA-survival game in a dieselpunk setting. The train holds station while "
+        "the world scrolls past and enemies dive from above. There is no aiming: the anti-air "
+        "turrets fire automatically. The player runs the harvest field — falling crystals must be "
+        "caught before they hit the ground; they charge the reactor and pay for upgrades." % GAME_EN,
+        "Between waves comes SYSTEM RESTORE — a tree of 160+ nodes where crystals decide which of "
+        "the train's systems gets to live: armor, fire rate, the harvest field or abilities. "
+        "Every mission ends with a wave boss; every biome ends with a big one.",
+        "The route runs through ten biomes, each with its own enemies, weather and pressure axis. "
+        "Between runs there is the depot: platforms, wagons, guns, modules and trophy cores "
+        "assemble into your own fortress on rails. Runs are free — no energy, no timers.",
+    ])
+    shots = ([("hero_portrait.jpg", "ХИРО-АРТ"), ("shot_combat.jpg", "БОЙ // СЕКТОР 1"),
+              ("shot_menu.jpg", "ГЛАВНОЕ МЕНЮ"), ("shot_tree.jpg", "ДЕРЕВО УЗЛОВ"),
+              ("logo.png", "ЛОГОТИП")] if ru else
+             [("hero_portrait.jpg", "HERO ART"), ("shot_combat.jpg", "COMBAT // SECTOR 1"),
+              ("shot_menu.jpg", "MAIN MENU"), ("shot_tree.jpg", "NODE TREE"),
+              ("logo.png", "LOGO")])
+    back = '<p class="backlink"><a href="index.html">&larr; %s</a></p>' % (
+        "НА ГЛАВНУЮ" if ru else "BACK TO MAIN")
+    shots_html = '<div class="shots">' + "".join(
+        '<figure class="shot"><a href="%sassets/img/%s">'
+        '<img src="%sassets/img/%s" alt="%s" loading="lazy"></a>'
+        '<figcaption>%s</figcaption></figure>' % (d, f, d, f, cap, cap) for f, cap in shots) + '</div>'
+    body = (
+        '<main class="doc">%(back)s<div class="doc-head"><div class="field">%(field)s</div>'
+        '<h1>%(h1)s</h1><div class="date">%(sub)s</div></div>'
+        '<h2>%(h_facts)s</h2><ul>%(facts)s</ul>'
+        '<h2>%(h_desc)s</h2>%(desc)s'
+        '<h2>%(h_feat)s</h2><ul>%(feats)s</ul>'
+        '<h2>%(h_media)s</h2><p><b>%(vid_l)s</b> <a href="%(d)sassets/video/P1_presentation.mp4">'
+        'P1_presentation.mp4</a> — %(vid_n)s</p><p>%(media_n)s</p>%(shots)s'
+        '<h2>%(h_made)s</h2><p>%(made_lead)s</p><ul>%(made)s</ul><p>%(not_ai)s</p>'
+        '<h2>%(h_dev)s</h2><p>%(dev_p)s</p>'
+        '<h2>%(h_con)s</h2><p>%(con)s</p>%(back)s</main>'
+        % {
+            "back": back, "d": d,
+            "field": "ФОРМУЛЯР // ПРЕСС-КИТ" if ru else "FORM // PRESS KIT",
+            "h1": "Пресс-кит" if ru else "Press Kit",
+            "sub": ("Материалы для прессы и авторов контента" if ru
+                    else "Materials for press and content creators"),
+            "h_facts": "Факты" if ru else "Factsheet",
+            "facts": "".join("<li><b>%s:</b> %s</li>" % f for f in facts),
+            "h_desc": "Описание" if ru else "Description",
+            "desc": "".join("<p>%s</p>" % x for x in desc),
+            "h_feat": "Ключевые особенности" if ru else "Key Features",
+            "feats": "".join("<li>%s</li>" % x for x in feats),
+            "h_media": "Медиа" if ru else "Media",
+            "vid_l": ("Презентационный ролик (70 с, со звуком):" if ru
+                      else "Presentation video (70 s, with sound):"),
+            "vid_n": ("реальная запись из игры, смотреть можно и "
+                      '<a href="index.html#video">на главной</a>.' if ru else
+                      "real in-game footage, also playable "
+                      '<a href="index.html#video">on the main page</a>.'),
+            "media_n": ("Скриншоты и логотип можно свободно использовать в статьях, обзорах и видео "
+                        "об игре. Клик по картинке — полный размер. Нужны другие материалы — "
+                        'напишите: <a href="mailto:%s">%s</a>.' % (EMAIL, EMAIL) if ru else
+                        "Screenshots and the logo are free to use in articles, reviews and videos "
+                        "about the game. Click an image for full size. Need anything else — email "
+                        '<a href="mailto:%s">%s</a>.' % (EMAIL, EMAIL)),
+            "shots": shots_html,
+            "h_made": "Как сделана игра" if ru else "How the game was made",
+            "made_lead": ("«%s» — игра про искусственный интеллект, сделанная искусственным "
+                          "интеллектом. Конкретно:" % GAME_RU if ru else
+                          "%s is a game about artificial intelligence, made by artificial "
+                          "intelligence. Specifically:" % GAME_EN),
+            "made": "".join("<li>%s</li>" % x for x in made),
+            "not_ai": PRESS_NOT_AI_RU if ru else PRESS_NOT_AI_EN,
+            "h_dev": "О разработчике" if ru else "About the Developer",
+            "dev_p": ("%s — независимый разработчик. Движок — Godot 4.6, платформа — Android "
+                      "(iOS позже)." % DEV_RU if ru else
+                      "%s is an independent developer. Engine: Godot 4.6, platform: Android "
+                      "(iOS later)." % DEV_EN),
+            "h_con": "Контакты" if ru else "Contact",
+            "con": ('Почта: <a href="mailto:%s">%s</a><br>Сайт: <a href="%s">didogames.net</a>'
+                    % (EMAIL, EMAIL, BASE) if ru else
+                    'Email: <a href="mailto:%s">%s</a><br>Website: <a href="%s">didogames.net</a>'
+                    % (EMAIL, EMAIL, BASE)),
+        }
+    ) + LB_JS
+    return page(lang, ("Пресс-кит — %s" % GAME_RU) if ru else ("Press Kit — %s" % GAME_EN),
+                body, rel=("press.html" if ru else "en/press.html"))
+
+
 # ── ЛОР (бортжурнал; факты = docs/ARCADE_BIOMES.md + интро-строки BIOME_W*_INTRO) ──
 LORE_PRO_RU = [
     "Войну не выиграл никто. Приказ об остановке не пришёл: штабы, которые могли его отдать, исчезли первыми. Машины остались — а у машин было расписание.",
@@ -635,6 +843,8 @@ OUT = {
                              "Настоящая Политика конфиденциальности описывает, какие данные обрабатываются при использовании игры «%s» (далее — «Игра») и как они используются. Используя Игру, вы соглашаетесь с настоящей Политикой." % GAME_RU,
                              "Политика конфиденциальности — %s" % GAME_RU, "privacy.html"),
     "support.html": support("ru"),
+    "press.html": press("ru"),
+    "en/press.html": press("en"),
     "en/index.html": landing("en"),
     "en/terms.html": doc_page("en", "FORM // DOCUMENT 01", "Terms of Use", DATE_EN, TERMS_EN,
                               "These Terms of Use (the \"Terms\") govern your access to and use of the game \"%s\" (the \"Game\"). By installing, launching, or using the Game, you confirm that you have read, understood, and accept these Terms. If you do not agree, do not use the Game." % GAME_EN,
@@ -647,13 +857,19 @@ OUT = {
 
 # ── SEO под домен: canonical + hreflang + OpenGraph + JSON-LD ────────────────
 DESCS = {
-    "index.html": "Игра про ИИ, сделанная ИИ: код, арт, звук и баланс созданы искусственным интеллектом. Аркадное ПВО-выживание — бронепоезд, зенитки, дерево на 190+ узлов, 10 биомов. Скоро в Google Play.",
+    "index.html": "Игра про ИИ, сделанная ИИ: код, арт, звук и баланс созданы искусственным интеллектом. Аркадное ПВО-выживание — бронепоезд, зенитки, дерево на 160+ узлов, 10 биомов. Скоро в Google Play.",
     "lore.html": "Мир «Поезда Последней Войны»: бортжурнал машиниста — война машин, бронесостав и 10 секторов маршрута.",
     "en/lore.html": "The world of The Last War: Train — the driver's logbook: the machine war, the armored train and the route's 10 sectors.",
     "terms.html": "Условия использования игры «%s»." % GAME_RU,
     "privacy.html": "Политика конфиденциальности игры «%s»." % GAME_RU,
     "support.html": "Поддержка игры «%s»: контакты, покупки, удаление данных." % GAME_RU,
-    "en/index.html": "A game about AI, made by AI: code, art, audio and balance are AI-generated. Arcade AA-survival — an armored train, anti-air turrets, a 190+ node tree, 10 biomes. Coming soon to Google Play.",
+    "press.html": "Пресс-кит «%s»: факты, описание, скриншоты, логотип, ролик, контакты. "
+                  "Игра про ИИ, сделанная ИИ — код, арт, звук и баланс созданы "
+                  "искусственным интеллектом." % GAME_RU,
+    "en/press.html": "Press kit for \"%s\": factsheet, description, screenshots, logo, video, "
+                     "contact. A game about AI, made by AI — code, art, audio and balance are "
+                     "AI-generated." % GAME_EN,
+    "en/index.html": "A game about AI, made by AI: code, art, audio and balance are AI-generated. Arcade AA-survival — an armored train, anti-air turrets, a 160+ node tree, 10 biomes. Coming soon to Google Play.",
     "en/terms.html": "Terms of Use for \"%s\"." % GAME_EN,
     "en/privacy.html": "Privacy Policy for \"%s\"." % GAME_EN,
     "en/support.html": "Support for \"%s\": contact, purchases, data deletion." % GAME_EN,
@@ -727,7 +943,7 @@ for rel, html in OUT.items():
 with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8", newline="\n") as f:
     f.write("User-agent: *\nAllow: /\nSitemap: %s/sitemap.xml\n" % BASE)
 with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8", newline="\n") as f:
-    urls = "".join("<url><loc>%s</loc></url>" % canon(r) for r in list(OUT) + ["press.html", "en/press.html"])
+    urls = "".join("<url><loc>%s</loc></url>" % canon(r) for r in OUT)   # press теперь в OUT
     f.write('<?xml version="1.0" encoding="UTF-8"?>'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">%s</urlset>\n' % urls)
 with open(os.path.join(ROOT, "CNAME"), "w", encoding="utf-8", newline="\n") as f:
