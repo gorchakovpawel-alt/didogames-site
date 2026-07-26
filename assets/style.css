@@ -65,9 +65,11 @@ img { max-width: 100%; display: block; }
   display: grid; grid-template-columns: minmax(0,1fr) minmax(380px,46%);
   min-height: clamp(560px, 86vh, 860px); align-items: center; gap: 24px; }
 .hero-copy { max-width: 560px; padding: 40px 0; }
+/* line-height ≥1 обязателен: у Oswald кратка над «Й» выходит за caps-height и при .98
+   налезала на строку выше (репорт владельца 2026-07-26 — заголовок в 2-3 строки). */
 h1.title { font-family: var(--disp); font-weight: 600; text-transform: uppercase;
-  font-size: clamp(42px, 6.4vw, 76px); line-height: .98; letter-spacing: .02em;
-  margin: 14px 0 14px; text-shadow: 0 4px 24px rgba(0,0,0,.8); }
+  font-size: clamp(42px, 6.4vw, 76px); line-height: 1.06; letter-spacing: .02em;
+  margin: 14px 0 14px; text-shadow: 0 3px 20px rgba(0,0,0,.8); }
 .tagline { color: var(--frost); font-size: 21px; line-height: 1.5; max-width: 34em; margin-bottom: 12px; }
 .microfacts { margin-bottom: 16px; }
 .microfacts--hi { color: var(--phosphor); }
