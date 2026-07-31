@@ -17,8 +17,8 @@ BASE = "https://didogames.net"
 DEV_RU = "Dido Games"
 DEV_EN = "Dido Games"
 EMAIL = "support@didogames.net"   # вся внешняя коммуникация (владелец 2026-07-25)
-DATE_RU = "5 июля 2026 г."   # = LegalDocs.EFFECTIVE_DATE_RU; обновить к публикации
-DATE_EN = "July 5, 2026"
+DATE_RU = "31 июля 2026 г."   # = LegalDocs.EFFECTIVE_DATE_RU (держать в паре)
+DATE_EN = "July 31, 2026"
 # TODO(юрист): заменить на конкретную юрисдикцию перед сабмитом в стор.
 LAW_RU = "правом страны постоянного проживания Разработчика"
 LAW_EN = "the laws of the Developer's country of residence"
@@ -465,16 +465,15 @@ PRIVACY_RU = [
         "данные об использовании и игровые события (например, прогресс, экономические события, показы рекламы, покупки) — для аналитики и улучшения Игры;",
         "диагностические данные и отчёты о сбоях — для стабильности;",
         "записи о покупках (идентификатор товара, факт покупки) — для выдачи товара; данные платёжной карты обрабатывает магазин приложений, а не Разработчик;",
-        "игровой прогресс — хранится локально на устройстве и, при использовании облачного сохранения платформы, в вашем аккаунте платформы.")),
+        "игровой прогресс — хранится только локально на вашем устройстве и Разработчику не передаётся.")),
     ("2. Как используются данные", p("Данные используются, чтобы: обеспечивать работу Игры и сохранение прогресса; показывать рекламу; анализировать использование и исправлять ошибки; обрабатывать покупки; выполнять требования закона.")),
     ("3. Сторонние поставщики услуг", p("Игра использует сторонние сервисы, которые могут обрабатывать данные как самостоятельные операторы согласно своим политикам:") + ul(
         "Google AdMob — реклама (рекламный идентификатор);",
         "Google Firebase (Analytics, Crashlytics) — аналитика и отчёты о сбоях;",
-        "Google Play Billing / Apple StoreKit — покупки;",
-        "Google Play Games / Apple GameKit — достижения, таблицы лидеров, облачное сохранение.") + p("Ознакомьтесь с политиками конфиденциальности соответствующих поставщиков.")),
+        "Google Play Billing / Apple StoreKit — покупки.") + p("Ознакомьтесь с политиками конфиденциальности соответствующих поставщиков.")),
     ("4. Реклама", p("Рекламу в Игре показывает партнёр — Google AdMob (Google LLC). Для подбора и показа рекламы AdMob может собирать рекламный идентификатор устройства (Advertising ID), IP-адрес (приблизительное местоположение), данные о взаимодействии с рекламой и диагностические данные. Обработка данных Google описана в <a href=\"https://policies.google.com/privacy\">политике конфиденциальности Google</a>.",
                        "Реклама может быть персонализированной. Перед сбором данных для рекламы в применимых регионах (ЕЭЗ/Великобритания) запрашивается согласие через форму управления согласием (Google UMP/GDPR). Вы вправе в любой момент сбросить или удалить рекламный идентификатор и ограничить персонализацию рекламы в настройках устройства, а также изменить выбор в меню согласия.")),
-    ("5. Хранение и удаление", p("Игровой прогресс хранится локально в памяти приложения и удаляется при удалении Игры; при облачном сохранении — управляется в вашем аккаунте платформы. Данные, обрабатываемые сторонними сервисами, хранятся согласно их политикам.")),
+    ("5. Хранение и удаление", p("Игровой прогресс хранится только локально в памяти приложения и полностью удаляется при удалении Игры; на серверы Разработчика он не передаётся (Разработчик не ведёт учётных записей и не хранит ваш прогресс). Данные, обрабатываемые сторонними сервисами, хранятся согласно их политикам.")),
     ("6. Ваши права", p("В зависимости от вашего региона (например, GDPR в ЕЭЗ, CCPA в Калифорнии) вы можете иметь право на доступ, исправление, удаление данных, ограничение обработки и отзыв согласия. Для реализации прав свяжитесь с нами по адресу <a href=\"mailto:%s\">%s</a>; часть запросов также реализуется через настройки устройства и магазина приложений." % (EMAIL, EMAIL))),
     ("7. Дети", p("Игра не предназначена для детей младше 13 лет (либо иного возраста, установленного вашим законодательством). Мы сознательно не собираем данные таких детей. Если вы считаете, что ребёнок предоставил данные, свяжитесь с нами для их удаления.")),
     ("8. Безопасность", p("Применяются разумные технические и организационные меры защиты данных. Абсолютная безопасность передачи и хранения данных не может быть гарантирована.")),
@@ -503,16 +502,15 @@ PRIVACY_EN = [
         "usage data and game events (e.g., progress, economy events, ad impressions, purchases) for analytics and improving the Game;",
         "diagnostic data and crash reports for stability;",
         "purchase records (product id, purchase fact) to deliver goods; payment card data is handled by the app store, not the Developer;",
-        "game progress, stored locally on your device and, if platform cloud save is used, in your platform account.")),
+        "game progress, stored only locally on your device and never transmitted to the Developer.")),
     ("2. How Data Is Used", p("Data is used to: operate the Game and save progress; serve advertising; analyze usage and fix bugs; process purchases; and comply with legal obligations.")),
     ("3. Third-Party Providers", p("The Game uses third-party services that may process data as independent controllers under their own policies:") + ul(
         "Google AdMob — advertising (advertising identifier);",
         "Google Firebase (Analytics, Crashlytics) — analytics and crash reports;",
-        "Google Play Billing / Apple StoreKit — purchases;",
-        "Google Play Games / Apple GameKit — achievements, leaderboards, cloud save.") + p("Please review those providers' privacy policies.")),
+        "Google Play Billing / Apple StoreKit — purchases.") + p("Please review those providers' privacy policies.")),
     ("4. Advertising", p("Ads in the Game are served by our partner Google AdMob (Google LLC). To select and serve ads, AdMob may collect the device advertising identifier (Advertising ID), the IP address (approximate location), ad interaction data, and diagnostic data. Google's data practices are described in <a href=\"https://policies.google.com/privacy\">Google's Privacy Policy</a>.",
-                         "Advertising may be personalized. In applicable regions (EEA/UK), consent is requested before collecting data for ads via a consent-management form (Google UMP/GDPR), and on You may reset or delete your advertising identifier and limit ad personalization in your device settings at any time, or change your choice in the consent menu.")),
-    ("5. Storage and Deletion", p("Game progress is stored locally in app storage and removed when you delete the Game; if cloud save is used, it is managed in your platform account. Data processed by third-party services is retained per their policies.")),
+                         "Advertising may be personalized. In applicable regions (EEA/UK), consent is requested before collecting data for ads via a consent-management form (Google UMP/GDPR). You may reset or delete your advertising identifier and limit ad personalization in your device settings at any time, or change your choice in the consent menu.")),
+    ("5. Storage and Deletion", p("Game progress is stored only locally in app storage and is fully removed when you delete the Game; it is never uploaded to the Developer's servers (the Developer keeps no accounts and stores no progress). Data processed by third-party services is retained per their policies.")),
     ("6. Your Rights", p("Depending on your region (e.g., GDPR in the EEA, CCPA in California), you may have rights to access, correct, delete, or restrict processing of your data and to withdraw consent. To exercise these rights, contact us at <a href=\"mailto:%s\">%s</a>; some requests are also served through device and app-store settings." % (EMAIL, EMAIL))),
     ("7. Children", p("The Game is not directed to children under 13 (or the age set by your local law). We do not knowingly collect data from such children. If you believe a child provided data, contact us to have it deleted.")),
     ("8. Security", p("Reasonable technical and organizational safeguards are applied. No method of data transmission or storage can be guaranteed absolutely secure.")),
@@ -527,11 +525,11 @@ def support(lang):
         secs = [
             ("Связь", p("По любым вопросам об игре: <a href=\"mailto:%s\">%s</a>. Обычно отвечаем в течение нескольких рабочих дней." % (EMAIL, EMAIL))),
             ("Покупки и возвраты", p("Покупки обрабатывает магазин приложений. Возвраты — через Google Play или App Store по их правилам; при проблеме с неполученным товаром напишите нам, приложив идентификатор заказа из письма магазина.")),
-            ("Прогресс и его удаление", p("Прогресс хранится локально на устройстве (и в облачном сохранении платформы, если оно включено). Чтобы удалить игровые данные — удалите приложение; облачное сохранение управляется в аккаунте Google Play Games / Game Center. Для запроса на удаление данных, обрабатываемых аналитикой/рекламой, напишите на почту выше (см. <a href=\"privacy.html\">Политику конфиденциальности</a>, раздел 6).")),
+            ("Прогресс и его удаление", p("Прогресс хранится только локально на вашем устройстве — мы не ведём учётных записей и не храним его у себя. Чтобы удалить игровые данные, удалите приложение: вместе с ним стирается весь прогресс. Для запроса на удаление данных, обрабатываемых аналитикой/рекламой, напишите на почту выше (см. <a href=\"privacy.html\">Политику конфиденциальности</a>, раздел 6).")),
             ("Частые вопросы", ul(
                 "<b>Игра не запускается / вылетает.</b> Перезапустите устройство, проверьте свободное место и обновление игры. Если не помогло — напишите нам с моделью устройства.",
                 "<b>Пропала покупка.</b> В магазине откройте «Восстановить покупки» на вкладке «Ресурсы», затем перезапустите игру.",
-                "<b>Можно ли играть без интернета?</b> Да, кампания играется офлайн; реклама и облачное сохранение требуют сети.")),
+                "<b>Можно ли играть без интернета?</b> Да, игра полностью проходится офлайн; сеть нужна только для рекламы и покупок.")),
         ]
         return doc_page("ru", "СЛУЖБА ПОДДЕРЖКИ", "Поддержка", DATE_RU, secs,
                         "Игру делает искусственный интеллект — но на письма отвечает человек.",
@@ -539,11 +537,11 @@ def support(lang):
     secs = [
         ("Contact", p("For any questions about the game: <a href=\"mailto:%s\">%s</a>. We usually reply within a few business days." % (EMAIL, EMAIL))),
         ("Purchases and Refunds", p("Purchases are processed by the app store. Refunds go through Google Play or the App Store under their rules; if a purchased item was not delivered, email us with the order id from the store receipt.")),
-        ("Progress and Data Deletion", p("Progress is stored locally on your device (and in platform cloud save, if enabled). To delete game data, uninstall the app; cloud saves are managed in your Google Play Games / Game Center account. To request deletion of data processed by analytics/ads, email us (see the <a href=\"privacy.html\">Privacy Policy</a>, section 6).")),
+        ("Progress and Data Deletion", p("Progress is stored only locally on your device — we keep no accounts and store no progress on our side. To delete game data, uninstall the app: all progress is erased with it. To request deletion of data processed by analytics/ads, email us (see the <a href=\"privacy.html\">Privacy Policy</a>, section 6).")),
         ("FAQ", ul(
             "<b>The game does not start / crashes.</b> Restart the device, check free space and updates. If it persists, email us your device model.",
             "<b>A purchase is missing.</b> Open \"Restore purchases\" on the Resources tab of the shop, then restart the game.",
-            "<b>Can I play offline?</b> Yes, the campaign is playable offline; ads and cloud save need a connection.")),
+            "<b>Can I play offline?</b> Yes, the game is fully playable offline; a connection is only needed for ads and purchases.")),
     ]
     return doc_page("en", "SUPPORT DESK", "Support", DATE_EN, secs,
                     "The game is built by AI - but a human answers every email.",
