@@ -112,18 +112,23 @@ def chrome_foot(lang: str, depth: str) -> str:
     )
 
 
-def page(lang: str, title: str, body: str, rel: str = "index.html") -> str:
+def page(lang: str, title: str, body: str, rel: str = "index.html", base_href: str = "") -> str:
+    """base_href нужен ТОЛЬКО странице 404: хост отдаёт один и тот же файл на любой глубине,
+    поэтому её относительные пути ломаются (на /en/чего-то стили и логотип уходили в 404,
+    страница рендерилась голым HTML). <base> прибивает их к своему корню."""
     depth = "../" if rel.startswith("en/") else ""
+    base_tag = ('<base href="%s">' % base_href) if base_href else ""
     return (
         '<!doctype html><html lang="%s"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
+        '%s'   # <base>, только для 404
         '<title>%s</title>'
         '<link rel="icon" type="image/png" href="%sassets/img/favicon.png">'
         '<link rel="apple-touch-icon" href="%sassets/img/touch_icon.png">'
         '%s<link rel="stylesheet" href="%sassets/style.css">'
         '<script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches)'
         'document.documentElement.classList.add("js")</script></head><body>'
-        % (lang, title, depth, depth, FONTS, depth)
+        % (lang, base_tag, title, depth, depth, FONTS, depth)
     ) + chrome_top(lang, depth, rel) + body + chrome_foot(lang, depth) + "</body></html>"
 
 
@@ -595,7 +600,7 @@ def support(lang):
                 "<b>Игра не запускается / вылетает.</b> Перезапустите устройство, проверьте свободное место и обновление игры. Если не помогло — напишите нам с моделью устройства.",
                 "<b>Пропала покупка.</b> В магазине откройте «Восстановить покупки» на вкладке «Ресурсы», затем перезапустите игру.",
                 "<b>Можно ли играть без интернета?</b> Да, игра полностью проходится офлайн; сеть нужна только для рекламы и покупок.",
-                "<b>Не вижу игру в Google Play, хотя вступил в тест.</b> Почти всегда дело в аккаунте: вступление в группу и согласие на тест должны быть сделаны тем же Google-аккаунтом, под которым вы залогинены в Play Маркете на телефоне. Вторая по частоте причина: вы состоите во внутреннем тесте, из него надо выйти. Все условия и ссылки: <a href=\"test.html\">страница закрытого теста</a>.")),
+                "<b>Не вижу игру в Google Play, хотя вступил в тест.</b> Почти всегда дело в аккаунте: вступление в группу и согласие на тест должны быть сделаны тем же Google-аккаунтом, под которым вы залогинены в Play Маркете на телефоне. Если аккаунт тот же, просто подождите: доступ выдаётся не мгновенно, обновите страницу магазина позже. Отдельный случай: если вы состоите во внутреннем тесте этой же игры, закрытый трек вам не покажут, пока вы из внутреннего не выйдете. Все условия и ссылки: <a href=\"test.html\">страница закрытого теста</a>.")),
         ]
         return doc_page("ru", "СЛУЖБА ПОДДЕРЖКИ", "Поддержка", DATE_RU, secs,
                         "Игру делает искусственный интеллект — но на письма отвечает человек.",
@@ -608,7 +613,7 @@ def support(lang):
             "<b>The game does not start / crashes.</b> Restart the device, check free space and updates. If it persists, email us your device model.",
             "<b>A purchase is missing.</b> Open \"Restore purchases\" on the Resources tab of the shop, then restart the game.",
             "<b>Can I play offline?</b> Yes, the game is fully playable offline; a connection is only needed for ads and purchases.",
-            "<b>I joined the test but the game is not in Google Play.</b> Almost always it is the account: joining the group and opting in must be done with the same Google account you are signed in with in the Play Store on your phone. The second most common cause is still being in the internal test, which you have to leave. All the rules and links: <a href=\"test.html\">the closed test page</a>.")),
+            "<b>I joined the test but the game is not in Google Play.</b> Almost always it is the account: joining the group and opting in must be done with the same Google account you are signed in with in the Play Store on your phone. If the account is right, just wait: access does not open instantly, reload the store page later. Separate case: if you are in the internal test of this same game, the closed track stays hidden until you leave it. All the rules and links: <a href=\"test.html\">the closed test page</a>.")),
     ]
     return doc_page("en", "SUPPORT DESK", "Support", DATE_EN, secs,
                     "The game is built by AI - but a human answers every email.",
@@ -652,7 +657,7 @@ PRESS_FACTS_EN = [
     ("Engine", "Godot 4.6"),
     ("Orientation", "portrait, one-handed play; the campaign is playable offline"),
     ("Languages", "10 languages, including English and Russian"),
-    ("Website", '<a href="%s">didogames.net</a>' % BASE),
+    ("Website", '<a href="%s/en/">didogames.net</a>' % BASE),
     ("Press contact", '<a href="mailto:%s">%s</a>' % (EMAIL, EMAIL)),
 ]
 
@@ -813,7 +818,7 @@ def press(lang: str) -> str:
             "h_con": "Контакты" if ru else "Contact",
             "con": ('Почта: <a href="mailto:%s">%s</a><br>Сайт: <a href="%s">didogames.net</a>'
                     % (EMAIL, EMAIL, BASE) if ru else
-                    'Email: <a href="mailto:%s">%s</a><br>Website: <a href="%s">didogames.net</a>'
+                    'Email: <a href="mailto:%s">%s</a><br>Website: <a href="%s/en/">didogames.net</a>'
                     % (EMAIL, EMAIL, BASE)),
         }
     ) + LB_JS
@@ -1189,10 +1194,20 @@ with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8", newline="\n"
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">%s</urlset>\n' % urls)
 with open(os.path.join(ROOT, "CNAME"), "w", encoding="utf-8", newline="\n") as f:
     f.write("didogames.net\n")   # кастом-домен GitHub Pages
-nf = page("ru", "404 — %s" % GAME_RU,
-          '<main class="doc"><div class="doc-head"><div class="field">ФОРМУЛЯР // 404</div>'
-          '<h1>Страница не найдена</h1><div class="date">Сигнал потерян в пустоши</div></div>'
-          '<p class="backlink"><a href="/">&larr; НА ГЛАВНУЮ</a></p></main>', "404.html")
-with open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8", newline="\n") as f:
-    f.write(nf)
-print("written robots.txt / sitemap.xml / CNAME / 404.html")
+# 404 в двух локалях: переключатель языка в шапке ведёт на en/404.html, и без этого файла
+# единственная ссылка сайта, отдающая 404, была именно на странице 404.
+NF = [("ru", "404.html", "/", "404 — %s" % GAME_RU, "ФОРМУЛЯР // 404", "Страница не найдена",
+       "Сигнал потерян в пустоши", "&larr; НА ГЛАВНУЮ", "/"),
+      ("en", "en/404.html", "/en/", "404 — %s" % GAME_EN, "FORM // 404", "Page not found",
+       "Signal lost in the wastes", "&larr; BACK TO MAIN", "/en/")]
+for _lang, _rel, _base, _title, _field, _h1, _sub, _back, _home in NF:
+    _html = page(_lang, _title,
+                 '<main class="doc"><div class="doc-head"><div class="field">%s</div>'
+                 '<h1>%s</h1><div class="date">%s</div></div>'
+                 '<p class="backlink"><a href="%s">%s</a></p></main>'
+                 % (_field, _h1, _sub, _home, _back), _rel, base_href=_base)
+    _path = os.path.join(ROOT, _rel)
+    os.makedirs(os.path.dirname(_path), exist_ok=True)
+    with open(_path, "w", encoding="utf-8", newline="\n") as f:
+        f.write(_html)
+print("written robots.txt / sitemap.xml / CNAME / 404.html / en/404.html")
