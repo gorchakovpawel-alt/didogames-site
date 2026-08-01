@@ -421,7 +421,7 @@ def landing(lang: str) -> str:
 
 
 # ── ДОКУМЕНТЫ (тексты = LegalDocs.gd, 1:1 по сути) ───────────────────────────
-def doc_page(lang, doc_field, doc_title, date, sections, intro, page_title, rel):
+def doc_page(lang, doc_field, doc_title, date, sections, intro, page_title, rel, date_label=None):
     secs = ""
     for h, body in sections:
         secs += "<h2>%s</h2>%s" % (h, body)
@@ -431,7 +431,8 @@ def doc_page(lang, doc_field, doc_title, date, sections, intro, page_title, rel)
         '<main class="doc">%s<div class="doc-head"><div class="field">%s</div><h1>%s</h1>'
         '<div class="date">%s</div></div><p>%s</p>%s%s</main>'
         % (back, doc_field, doc_title,
-           ("Дата вступления в силу: %s" if lang == "ru" else "Effective date: %s") % date,
+           (date_label if date_label is not None else
+            ("Дата вступления в силу: %s" if lang == "ru" else "Effective date: %s") % date),
            intro, secs, back)
     )
     return page(lang, page_title, body, rel=rel)
@@ -830,6 +831,130 @@ def lore(lang):
                 body, rel=("lore.html" if ru else "en/lore.html"))
 
 
+
+# --- СТРАНИЦА НАБОРА ТЕСТЕРОВ -----------------------------------------------
+# CTA всех рекрутинговых креативов ведёт сюда (didogames.net/test).
+# Форма переиспользует ТУ ЖЕ Google Форму, что и лендинг (FORM_POST + те же entry.*):
+# вторую форму заводить нельзя, у неё были бы свои id и владелец получал бы два потока заявок.
+# Поле почты подписано как адрес Google-аккаунта: Play пускает в закрытый трек только по
+# Google/Workspace адресу, обычная почта не работает.
+# ВАЖНО: ловушка внутреннего теста стоит ВЫШЕ формы, а не в конце. Кто уже во внутреннем
+# тесте, физически не подпишется на закрытый, пока из него не выйдет.
+def testers(lang):
+    ru = lang == "ru"
+    form = (
+        '<form class="nf" method="POST" action="%(post)s" target="_blank">'
+        '<input type="hidden" name="%(f_lang)s" value="%(lang)s">'
+        '<input type="text" name="_honey" class="nf-hp" tabindex="-1" autocomplete="off" aria-hidden="true">'
+        '<div class="nf-grid">'
+        '<label class="nf-f"><span class="field">%(l_name)s</span>'
+        '<input type="text" name="%(f_name)s" maxlength="80" placeholder="%(ph_name)s"></label>'
+        '<label class="nf-f"><span class="field">%(l_mail)s *</span>'
+        '<input type="email" name="%(f_email)s" required maxlength="120" placeholder="you@gmail.com" autocomplete="email"></label>'
+        '<label class="nf-f"><span class="field">%(l_plat)s</span>'
+        '<select name="%(f_plat)s"><option>Android</option><option>iOS</option><option>Android + iOS</option></select></label>'
+        '</div>'
+        '<button class="cta nf-btn" type="submit">%(btn)s</button>'
+        '<div class="cta-sub field-long">%(micro)s</div>'
+        '<p class="nf-ok" hidden>%(ok)s</p></form>'
+        % {"post": FORM_POST, "f_lang": FORM_F_LANG, "lang": ("ru" if ru else "en"),
+           "f_name": FORM_F_NAME, "f_email": FORM_F_EMAIL, "f_plat": FORM_F_PLATFORM,
+           "l_name": ("Позывной" if ru else "Handle"),
+           "ph_name": ("как к вам обращаться" if ru else "what to call you"),
+           "l_mail": ("Адрес Google-аккаунта" if ru else "Google account address"),
+           "l_plat": ("Устройство" if ru else "Device"),
+           "btn": ("ПОДАТЬ ЗАЯВКУ В ТЕСТ" if ru else "APPLY TO THE TEST"),
+           "micro": ("Адрес нужен, чтобы Google выдал вам доступ к тесту. Больше ни для чего он не используется."
+                     if ru else
+                     "The address is what lets Google grant you access. It is used for nothing else."),
+           "ok": ("ЗАЯВКА ПРИНЯТА. Ждите письмо с приглашением."
+                  if ru else "APPLICATION RECEIVED. Watch your inbox for the invite.")})
+
+    if ru:
+        secs = [
+            ("Что это", p(
+                "Игра выходит на Android, и перед публикацией её нужно обкатать на живых людях. "
+                "Нужны те, кто поиграет пару недель и расскажет, что ломается, что непонятно и где скучно.")),
+            ("Если вы уже во внутреннем тесте", p(
+                "Сначала выйдите из него, иначе Google не пустит вас в закрытый тест: "
+                "Play Маркет, профиль, «Приложения и устройства», вкладка «Бета», игра, «Выйти». "
+                "Это самая частая причина, по которой заявка не срабатывает.")),
+            ("Что нужно от вас", ul(
+                "Телефон на Android и адрес <b>Google-аккаунта</b> с этого телефона. Обычная почта не подойдёт: "
+                "Play выдаёт доступ к тесту только по Google или Workspace адресу.",
+                "Остаться в тесте <b>две недели подряд</b>. Это единственное формальное требование Google: "
+                "если выйти раньше, дни не засчитываются, а при повторном входе отсчёт начинается заново.",
+                "И просьба уже от меня, а не от Google: <b>заходить в игру раз в пару дней</b> и писать, что не так. "
+                "Такого правила нет, но заявку на публикацию заворачивают, если тестеры игрой не пользовались.")),
+            ("Что вы получите", ul(
+                "Ранний доступ до публикации.",
+                "Прямое влияние: правки по вашему фидбэку идут в сборку, и я пишу, что именно поменял.",
+                "Упоминание в титрах, если захотите.",
+                "Честно: денег, ключей и подарков нет, даты релиза тоже пока нет.")),
+            ("Что за игра", p(
+                "Дизельпанк-аркада про оборону бронепоезда. Целиться нельзя: зенитки бьют сами. "
+                "Поле сбора вы водите пальцем и вытаскиваете кристаллы прямо из-под огня, реактор жмёте вручную, "
+                "а между волнами решаете, какой системе жить. В дереве 160+ узлов, секторов десять, "
+                "в конце каждого босс. Играется офлайн, без таймеров энергии. "
+                '<a href="press.html">Пресс-кит со скриншотами и роликом</a>.')),
+            ("Заявка", form),
+            ("Что будет с вашими данными", p(
+                "Из формы приходят позывной, адрес Google-аккаунта и тип устройства. Адрес нужен ровно затем, "
+                "чтобы Play выдал вам доступ к тесту, и для писем по самому тесту. Список тестеров лежит у меня "
+                "и в Play Console, третьим лицам не передаётся и в рекламу не идёт. "
+                "После окончания теста адреса удаляются из списка, если вы не попросите оставить вас "
+                "для будущих тестов. Написать «удалите меня» можно в любой момент на "
+                '<a href="mailto:%s">%s</a>. Подробнее: <a href="privacy.html">Политика конфиденциальности</a>.'
+                % (EMAIL, EMAIL))),
+        ]
+        return doc_page("ru", "НАБОР // ЗАКРЫТЫЙ ТЕСТ", "Стать тестировщиком", DATE_RU, secs,
+                        "Ищу людей, которые обкатают игру перед публикацией и скажут, что в ней не так.",
+                        "Стать тестировщиком. %s" % GAME_RU, "test.html",
+                        date_label="Набор открыт")
+
+    secs = [
+        ("What this is", p(
+            "The game is coming to Android, and before it goes public it needs real people playing it. "
+            "I am looking for testers who will play for a couple of weeks and tell me what breaks, "
+            "what is confusing and where it gets boring.")),
+        ("If you are already in the internal test", p(
+            "Leave it first, otherwise Google will not let you into the closed test: "
+            "Play Store, profile, Manage apps and devices, Beta tab, the game, Leave. "
+            "This is the single most common reason an application does not go through.")),
+        ("What I need from you", ul(
+            "An Android phone and the <b>Google account address</b> used on it. A regular email will not work: "
+            "Play only grants test access to a Google or Workspace address.",
+            "Stay in the test for <b>14 days in a row</b>. That is Google's only formal requirement: "
+            "leaving early means those days do not count, and rejoining starts the count from zero.",
+            "And a request from me, not from Google: <b>open the game every couple of days</b> and tell me "
+            "what is wrong. There is no such rule, but an application gets rejected if testers did not "
+            "actually use the app.")),
+        ("What you get", ul(
+            "Early access before the public release.",
+            "Real influence: fixes from your feedback go into the build, and I tell you what changed.",
+            "A credit in the game if you want one.",
+            "Honestly: there is no money, no keys, no gifts, and no release date yet.")),
+        ("What the game is", p(
+            "A dieselpunk arcade about defending an armored train. You never aim: the AA turrets pick their "
+            "own targets. Your finger drags the harvest field and pulls crystals out from under the fire, "
+            "you fire the reactor by hand, and between waves you decide which system gets to live. "
+            "160+ nodes in the tree, ten sectors, each ending with a boss. Plays offline, no energy timers. "
+            '<a href="press.html">Press kit with screenshots and video</a>.')),
+        ("Apply", form),
+        ("What happens to your data", p(
+            "The form sends a handle, a Google account address and a device type. The address is used to grant "
+            "you test access and to email you about the test itself. The tester list lives with me and in Play "
+            "Console, it is not shared with anyone and never goes into advertising. "
+            "After the test ends the addresses are removed from the list unless you ask to stay on for future "
+            'tests. You can ask to be removed at any time at <a href="mailto:%s">%s</a>. '
+            'More detail: <a href="privacy.html">Privacy Policy</a>.' % (EMAIL, EMAIL))),
+    ]
+    return doc_page("en", "RECRUITING // CLOSED TEST", "Become a tester", DATE_EN, secs,
+                    "Looking for people to put the game through its paces before it goes public.",
+                    "Become a tester. %s" % GAME_EN, "en/test.html",
+                    date_label="Recruiting now")
+
+
 OUT = {
     "index.html": landing("ru"),
     "lore.html": lore("ru"),
@@ -851,6 +976,8 @@ OUT = {
                                 "This Privacy Policy describes what data is processed when you use the game \"%s\" (the \"Game\") and how it is used. By using the Game, you agree to this Policy." % GAME_EN,
                                 "Privacy Policy — %s" % GAME_EN, "en/privacy.html"),
     "en/support.html": support("en"),
+    "test.html": testers("ru"),
+    "en/test.html": testers("en"),
 }
 
 # ── SEO под домен: canonical + hreflang + OpenGraph + JSON-LD ────────────────
@@ -867,6 +994,8 @@ DESCS = {
     "en/press.html": "Press kit for \"%s\": factsheet, description, screenshots, logo, video, "
                      "contact. A game about AI, made by AI — code, art, audio and balance are "
                      "AI-generated." % GAME_EN,
+    "test.html": 'Стать тестировщиком «%s»: закрытый тест в Google Play, что нужно от тестера, что он получает и как подать заявку.' % GAME_RU,
+    "en/test.html": 'Become a tester for "%s": closed test on Google Play, what a tester needs, what they get and how to apply.' % GAME_EN,
     "en/index.html": "A game about AI, made by AI: code, art, audio and balance are AI-generated. Arcade AA-survival — an armored train, anti-air turrets, a 160+ node tree, 10 biomes. Coming soon to Google Play.",
     "en/terms.html": "Terms of Use for \"%s\"." % GAME_EN,
     "en/privacy.html": "Privacy Policy for \"%s\"." % GAME_EN,
