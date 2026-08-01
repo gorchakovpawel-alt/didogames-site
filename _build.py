@@ -434,7 +434,10 @@ def landing(lang: str) -> str:
                     "you are already in the internal test, leave it first, or the closed track stays "
                     "hidden."),
            "cta": "ПОДРОБНО ПРО ТЕСТ" if ru else "MORE ABOUT THE TEST",
-           "rows": "".join('<li><b class="field" style="min-width:96px">%s</b> %s</li>' % r
+           # Текст строки обязан быть ОДНИМ элементом: .speclist li это flex-контейнер, и каждый
+           # инлайновый кусок (текст, ссылка, снова текст) стал бы отдельной колонкой. У соседних
+           # списков ссылок внутри нет, поэтому они и не ломались.
+           "rows": "".join('<li><b class="field" style="min-width:96px">%s</b><span>%s</span></li>' % r
                            for r in join_rows)}
     )
 

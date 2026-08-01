@@ -172,9 +172,10 @@ h1.title { font-family: var(--disp); font-weight: 600; text-transform: uppercase
   border-bottom: 1px solid rgba(42,56,68,.6); font-size: 17px; }
 .speclist li::before { content: "■"; color: var(--phosphor); font-size: 10px; flex: none; }
 .speclist b.field { min-width: 96px; }
-/* Голый URL (ссылки закрытого теста) — неразрывная строка: у grid-элемента min-width:auto,
-   и такая строка раздувает дорожку сетки, ломая страницу по горизонтали на телефоне. */
-.speclist a, .doc a, .doc li { overflow-wrap: anywhere; }
+/* Голый URL (ссылки закрытого теста на /test) — неразрывная строка: она задаёт min-content
+   контейнера и ломает страницу по горизонтали на телефоне. Только ссылки документа: в обычном
+   тексте anywhere рвёт слова посередине, а на лендинге голых URL больше нет. */
+.doc a { overflow-wrap: anywhere; }
 .h1x { font-family: var(--disp); font-weight: 500; text-transform: uppercase;
   letter-spacing: .03em; font-size: 44px; line-height: 1.04; margin: 8px 0 16px; }
 .h1x--sm { font-size: 30px; }
