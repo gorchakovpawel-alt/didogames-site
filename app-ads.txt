@@ -1,4 +1,4 @@
-# app-ads.txt — didogames.net (The Last War, com.didogames.thelastwar)
+# app-ads.txt — didogames.net (The Last War, net.didogames.thelastwar)
 # Требование AdMob: файл должен быть доступен по https://didogames.net/app-ads.txt,
 # домен разработчика указывается в store listing Google Play.
 # Publisher ID выведен из App ID аккаунта «The Last War» (ca-app-pub-7847439597688199~…).
