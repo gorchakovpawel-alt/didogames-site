@@ -5,7 +5,15 @@
 дуо-герой без апскейла, тестер-CTA (единственная оранж-доминанта), полоса 10 биомов
 из готовых слоёв, anti-features, ретина-кадры в рамках «полевой терминал», scroll-reveal.
 Тексты легалок = scripts/ui/legal/LegalDocs.gd (единый источник, суть 1:1; правки — синхронно!).
-Godot папку не видит (site/.gdignore). Деплой: см. память site-deploy (subtree → didogames-site)."""
+Godot папку не видит (site/.gdignore). Деплой: см. память site-deploy (subtree → didogames-site).
+
+АКТУАЛИЗАЦИЯ 2026-08-30 (директива владельца №50, наряд W33-S). Сайт продавал механику,
+которой в игре НЕТ: «вся сила рана — дерево на 160+ узлов, платишь кристаллами между волнами».
+После директив №11 и №30 прогрессия в бою — КАРТОЧНЫЙ ДРАФТ, дерево покупается только вне боя,
+забег = одна миссия. Переписаны: герой, сводка, новая секция #cards (лестницы орудий), «что это
+за игра», пресс-кит, лор, страница теста, description/JSON-LD. EN-имена биомов сведены с
+localization/en.po. Числа проверены по коду — адреса стоят рядом с каждым блоком; при следующей
+правке сверять ТАМ ЖЕ, а не по этому файлу."""
 import os
 from urllib.parse import quote
 
@@ -51,17 +59,23 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
 BIOMES_RU = ["ЛЕДЯНЫЕ ПУСТОШИ", "МЁРТВЫЙ ЛЕС", "ГОРНЫЙ ПЕРЕВАЛ", "ТОКСИЧНАЯ ЗОНА",
              "ПЕПЕЛЬНАЯ ПУСТОШЬ", "МЁРТВЫЙ МЕГАПОЛИС", "РАДИОАКТИВНАЯ ПУСТЫНЯ",
              "ЗАТОПЛЕННАЯ ЗОНА", "КЛАДБИЩЕ МАШИН", "ЛЕДЯНАЯ ЦИТАДЕЛЬ"]
-BIOMES_EN = ["ICE WASTES", "DEAD FOREST", "MOUNTAIN PASS", "TOXIC ZONE",
-             "ASH WASTES", "DEAD MEGALOPOLIS", "RADIOACTIVE DESERT",
-             "FLOODED ZONE", "MACHINE GRAVEYARD", "ICE CITADEL"]
+# EN-имена сверены с localization/en.po 2026-08-30 (UI_MAP_ICE_WASTES + UI_BIOME_2..10_NAME):
+# сайт расходился с игрой в четырёх (DEAD FOREST / ASH WASTES / DEAD MEGALOPOLIS / ICE CITADEL).
+BIOMES_EN = ["ICE WASTES", "FROZEN FOREST", "MOUNTAIN PASS", "TOXIC ZONE",
+             "ASH WASTELAND", "DEAD MEGACITY", "RADIOACTIVE DESERT",
+             "FLOODED ZONE", "MACHINE GRAVEYARD", "FROZEN CITADEL"]
 
 
 def chrome_top(lang: str, depth: str, rel: str) -> str:
     game = GAME_RU if lang == "ru" else GAME_EN
     nav = {
-        "ru": [("index.html#video", "Ролик"), ("index.html#ai", "Сделано ИИ"),
+        # #cards — секция карточной прокачки (директива №50: ядро игры сменилось, и вход в него
+        # обязан быть в шапке, а не третьим экраном скролла). На мобильном .hdr-nav скрыт (CSS 930px).
+        "ru": [("index.html#video", "Ролик"), ("index.html#cards", "Прокачка"),
+               ("index.html#ai", "Сделано ИИ"),
                ("index.html#marshrut", "Маршрут"), ("lore.html", "Лор"), ("press.html", "Пресс-кит")],
-        "en": [("index.html#video", "Trailer"), ("index.html#ai", "Made by AI"),
+        "en": [("index.html#video", "Trailer"), ("index.html#cards", "Upgrades"),
+               ("index.html#ai", "Made by AI"),
                ("index.html#marshrut", "Route"), ("lore.html", "Lore"), ("press.html", "Press kit")],
     }[lang]
     base = rel[3:] if rel.startswith("en/") else rel
@@ -190,13 +204,20 @@ def landing(lang: str) -> str:
         # USP владельца 2026-07-26: производство — полностью ИИ; ставим первой строкой экрана.
         "eyebrow": "ИГРА ПРО ИИ · СДЕЛАНА ИИ" if ru else "A GAME ABOUT AI · MADE BY AI",
         "name": GAME_RU if ru else GAME_EN,
-        "tag": ("Целиться не нужно — зенитки бьют сами. Ты ловишь кристаллы, что падают с неба, "
-                "и между волнами решаешь, какой системе поезда жить.") if ru else
-               ("No aiming — the turrets handle that. You catch the crystals falling from the sky, "
-                "and between waves you decide which of the train's systems survives."),
-        "facts": ("Бесплатно · дизельпанк ПВО-выживание · 10 биомов · дерево на 160+ узлов · без энергии и таймеров")
+        # ⚠️ Директива владельца №50: прогрессия в бою — КАРТЫ, а не дерево узлов (№11 + №30).
+        # Дерево покупается только вне боя. Любая правка этих строк сверяется с кодом:
+        # CardDefs.SIMPLE_MODEL_DEFAULT / STEMS / FORKS / PAIRS, ArcadeConfig.CARD_DRAFT_ENABLED.
+        "tag": ("Целиться не нужно — зенитки бьют сами. Ты ловишь кристаллы под огнём, "
+                "а на каждом новом ранге выбираешь карту: какое орудие встанет на состав "
+                "и каким путём оно пойдёт дальше.") if ru else
+               ("No aiming — the turrets handle that. You catch crystals under fire, and every "
+                "time you rank up you pick a card: which gun joins the train, and which path "
+                "it takes from here."),
+        "facts": ("Бесплатно · дизельпанк ПВО-выживание · карточная прокачка прямо в бою · "
+                  "9 орудий по 5 ступеней · 10 биомов · без энергии и таймеров")
                  if ru else
-                 ("Free to play · dieselpunk AA-survival · 10 biomes · a 160+ node tree · no energy, no timers"),
+                 ("Free to play · dieselpunk AA-survival · card-draft upgrades mid-combat · "
+                  "9 guns, 5 tiers each · 10 biomes · no energy, no timers"),
         "cta": "ВСТУПИТЬ В ЗАКРЫТЫЙ ТЕСТ" if ru else "JOIN THE CLOSED TEST",
         "status": ("СТАТУС: ИДЁТ ЗАКРЫТЫЙ ТЕСТ · GOOGLE PLAY (ANDROID) · iOS ПОЗЖЕ" if ru
                    else "STATUS: CLOSED TEST RUNNING · GOOGLE PLAY (ANDROID) · iOS LATER"),
@@ -208,11 +229,18 @@ def landing(lang: str) -> str:
         "route": "ОТ ПУСТОШЕЙ ДО ЦИТАДЕЛИ" if ru else "FROM THE WASTES TO THE CITADEL",
         "what_field": "РЕЖИМ // AA-SURVIVAL" if ru else "MODE // AA-SURVIVAL",
         "what_h": "Что это за игра" if ru else "What this game is",
+        # ЦИКЛ/ЗАБЕГ — по коду: XP с киллов → ранг → окно карт (ArcadeCombat._open_level_session),
+        # ран = одна миссия (BattleNodeTree.clear_run_levels в _complete_mission, директива №30).
+        # ≈2 мин и ≈13 выборов — замер приёмки W28 (м1 106 с при подписанной полосе 110-129,
+        # бюджет пиков м1 = 13, директива №42).
         "what_rows": [("РЕЖИМ" if ru else "MODE", "аркадное ПВО-выживание, портрет, одна рука" if ru
                        else "arcade AA-survival, portrait, one hand"),
-                      ("ЦИКЛ" if ru else "LOOP", "волна → кристаллы → дерево узлов → волна" if ru
-                       else "wave → crystals → node tree → wave"),
-                      ("СЕССИЯ" if ru else "SESSION", "≈ 4 минуты на миссию" if ru else "≈ 4 minutes per mission")],
+                      ("ЦИКЛ" if ru else "LOOP", "сбил → ранг → выбор карты → следующая волна" if ru
+                       else "shoot down → rank up → pick a card → next wave"),
+                      ("ЗАБЕГ" if ru else "RUN", "одна миссия ≈ 2 минуты, около 13 выборов" if ru
+                       else "one mission, ≈ 2 minutes, about 13 picks"),
+                      ("МЕЖДУ" if ru else "BETWEEN", "депо и дерево узлов за кристаллы" if ru
+                       else "the depot and the node tree, paid in crystals")],
         "anti_h": "Чего здесь нет" if ru else "What's not here",
         "anti": (["Энергии и таймеров ожидания", "Обязательного интернета — кампания играется офлайн",
                   "Платы за забеги — они бесплатные", "Рекламы посреди боя — только добровольная за бонус"]
@@ -222,9 +250,13 @@ def landing(lang: str) -> str:
         "finale_h": "СКОРО НА МАРШРУТЕ" if ru else "LAUNCHING SOON",
         "reel_field": "ЗАПИСЬ // 70 СЕКУНД" if ru else "FOOTAGE // 70 SECONDS",
         "reel_h": "ПОСМОТРЕТЬ, КАК ЭТО ИГРАЕТСЯ" if ru else "SEE HOW IT PLAYS",
-        "reel_cap": ("Реальная запись из игры: бой, поле сбора, дерево узлов, депо, боссы. "
+        # ⚠️ МЕДИА К ЗАМЕНЕ (директива №50): P1_presentation.mp4 снят 2026-07 — в кадре
+        # межволновое окно с офферами ДЕРЕВА, которого в игре больше нет (прогрессия = карты).
+        # Подпись очищена от «дерева узлов», сам ролик перезаписывает отдельный наряд
+        # с актуальной сборки. Не переписывать подпись обратно под старый монтаж.
+        "reel_cap": ("Реальная запись из игры: бой, поле сбора, депо, боссы. "
                      "Со звуком." if ru else
-                     "Real in-game footage: combat, harvest field, node tree, depot, bosses. "
+                     "Real in-game footage: combat, harvest field, depot, bosses. "
                      "With sound."),
         "made_field": "ПРОИЗВОДСТВО // 100% ИИ" if ru else "PRODUCTION // 100% AI",
         "made_h": "Игра про ИИ, сделанная ИИ" if ru else "A game about AI, made by AI",
@@ -237,41 +269,94 @@ def landing(lang: str) -> str:
         "made_rows": ([("КОД", "боевой цикл, экономика, сохранения, магазин — Godot"),
                        ("АРТ", "фоны биомов, враги, ключевой арт, интерфейс и иконки"),
                        ("ЗВУК", "эффекты и музыка"),
-                       ("БАЛАНС", "кривые волн, экономика, дерево на 160+ узлов"),
+                       ("БАЛАНС", "кривые волн, экономика, лестницы орудий и дерево узлов"),
                        ("ТЕКСТЫ", "сюжет, интерфейс и локализация на 10 языков")] if ru else
                       [("CODE", "combat loop, economy, saves, shop — in Godot"),
                        ("ART", "biome backdrops, enemies, key art, UI and icons"),
                        ("AUDIO", "sound effects and music"),
-                       ("BALANCE", "wave curves, economy, a 160+ node tree"),
+                       ("BALANCE", "wave curves, economy, the gun ladders and the node tree"),
                        ("TEXT", "story, interface and localization into 10 languages")]),
         "made_note": ("Человек ставит задачу и принимает работу. Всё остальное делает ИИ — "
                       "и об этом мы говорим прямо, а не мелким шрифтом." if ru else
                       "A human sets the task and signs off on the result. Everything else is done by AI — "
                       "and we say so up front, not in the fine print."),
+        # ── СЕКЦИЯ КАРТОЧНОЙ ПРОКАЧКИ (директива №50) ───────────────────────────
+        # КАЖДОЕ ЧИСЛО НИЖЕ — ИЗ КОДА, не из маркетинга:
+        #   9 стволов ...... CardDefs.STEMS (8 вагонных + node_turret_loco, preinstalled)
+        #   5 ступеней ..... CardDefs.STEM_MAX_LEVEL = 5, классы level_class()
+        #                    МОНТАЖ / ЛИЦО / ПУТЬ / РОСТ ПУТИ / ПРЕДЕЛ
+        #   27 путей ....... CardDefs.FORKS — 9 развилок × 3 пути (директива №46)
+        #   9 обвязок ...... CardDefs.MODULES (passive: true), PASSIVE_STEPS = 3
+        #   4 связки ....... CardDefs.PAIRS; сила — BattleNodeTree.PAIR_LINK_STEPS
+        #                    [1.12, 1.20, 1.28] на порогах суммы уровней 4/6/8
+        #   ~13 выборов .... бюджет пиков м1 (директива №42), замер приёмки W28
+        "cards_field": "ПРОКАЧКА // КАРТОЧНЫЙ ДРАФТ" if ru else "PROGRESSION // CARD DRAFT",
+        "cards_h": "Лестницы орудий" if ru else "The gun ladders",
+        "cards_lead_p": ("Забег — это одна миссия, минуты на две. За сбитые машины растёт ранг, "
+                         "на каждом ранге бой замирает и выкладывает <b>три карты</b>. Взял — видно "
+                         "сразу: орудие приезжает на состав, меняет форму огня, открывает развилку. "
+                         "Никаких «ещё плюс десять процентов» — каждая ступень делает что-то новое "
+                         "на экране." if ru else
+                         "A run is one mission, about two minutes long. Downed machines rank you up, "
+                         "and every rank freezes the fight and deals <b>three cards</b>. Take one and "
+                         "you see it immediately: a gun rolls onto the train, changes the shape of its "
+                         "fire, opens a fork. No \"another plus ten percent\" — every tier does "
+                         "something new on screen."),
+        "cards_note": ("Дерево узлов никуда не делось — но живёт снаружи боя: кристаллы, добытые "
+                       "в рейсе, тратятся на него между забегами. Две экономики не смешиваются." if ru else
+                       "The node tree hasn't gone anywhere — it just lives outside combat: the crystals "
+                       "you harvest on a run are spent there between runs. The two economies never mix."),
+        "cards_rows": ([("9 ОРУДИЙ", "восемь вагонных и носовое орудие локомотива; носовое стоит с первой секунды миссии"),
+                        ("5 СТУПЕНЕЙ", "у каждого ствола: монтаж, лицо, путь, рост пути, предел"),
+                        ("27 ПУТЕЙ", "на третьей ступени ствол берёт одно из трёх направлений своей стихии; два других закрыты до конца миссии"),
+                        ("9 ОБВЯЗОК", "по одной пассивной карте на орудие, со своей лестницей из трёх ступеней"),
+                        ("4 СВЯЗКИ", "напарник напечатан на карте заранее; собрал пару — связка горит сама и метит снаряды обоих стволов общим ореолом"),
+                        ("13 ВЫБОРОВ", "столько решений умещается в одну двухминутную миссию")]
+                       if ru else
+                       [("9 GUNS", "eight wagon turrets plus the locomotive's nose gun; the nose gun is mounted from second one"),
+                        ("5 TIERS", "on every gun: mount, signature, path, path growth, limit"),
+                        ("27 PATHS", "at tier three a gun takes one of three directions in its own element; the other two stay shut for the rest of the mission"),
+                        ("9 PASSIVES", "one passive card per gun, with its own three-step ladder"),
+                        ("4 LINKS", "the partner is printed on the card in advance; collect the pair and the link ignites by itself, marking both guns' shots with a shared halo"),
+                        ("13 PICKS", "that's how many decisions fit into one two-minute mission")]),
     }
     cards_lead = (("ПОЛЕ СБОРА // РУКИ ИГРОКА", "Ловить, а не целиться",
                    "Кристаллы падают с неба и должны быть пойманы до земли. Промахнулся — "
-                   "реактор не зарядится, дерево не откроется.") if ru else
+                   "реактор не зарядится, а после боя не на что чинить состав.") if ru else
                   ("HARVEST FIELD // YOUR HANDS", "Catch, don't aim",
                    "Crystals fall from the sky and have to be caught before they hit the ground. "
-                   "Miss them and the reactor stays cold, the tree stays locked."))
-    cards3 = ([("ПРОКАЧКА // SYSTEM RESTORE", "Дерево узлов",
-                "Вся сила рана — в контуре восстановления: 160+ узлов, платишь кристаллами между волнами.", "tree"),
+                   "Miss them and the reactor stays cold — and after the run there is nothing "
+                   "to repair the train with."))
+    # ⚠️ №11 + №30: дерево узлов покупается ТОЛЬКО вне боя (мета-экран NodeTreeScreen), а в депо
+    # орудия НЕ ставятся — турельная половина лоадаута погашена при живом драфте
+    # (LoadoutScreen._turret_slots_ui = not ArcadeConfig.draft_enabled()). Не возвращать «орудия»
+    # в карточку депо и «вся сила рана» — в карточку дерева.
+    cards3 = ([("МЕЖДУ ЗАБЕГАМИ // ДЕРЕВО", "Дерево узлов",
+                "Покупается кристаллами вне боя: броня, скорострельность, поле сбора, глубина связок. "
+                "В самом бою дерево не трогаешь — там карты.", "tree"),
                ("МАРШРУТ // 10 БИОМОВ", "От Пустошей до Цитадели",
                 "Десять биомов со своими врагами, боссами и погодой — полоса ниже.", "map"),
                ("СОСТАВ // ДЕПО", "Поезд-крепость",
-                "Платформы, вагоны, орудия, модули и трофейные ядра — собери собственный состав.", "depot")]
+                "Локомотив, вагоны со способностями реактора, модули и трофейные ядра. "
+                "Орудия сюда не ставятся — они приходят картами в бою.", "depot")]
               if ru else
-              [("PROGRESSION // SYSTEM RESTORE", "Node tree",
-                "All in-run power lives in the restore circuit: 160+ nodes, paid in crystals between waves.", "tree"),
+              [("BETWEEN RUNS // THE TREE", "Node tree",
+                "Bought with crystals outside combat: armor, fire rate, the harvest field, the depth "
+                "of gun links. During a run you never touch the tree — that's what the cards are for.", "tree"),
                ("ROUTE // 10 BIOMES", "From the Wastes to the Citadel",
                 "Ten biomes with their own enemies, bosses and weather — see the band below.", "map"),
                ("THE TRAIN // DEPOT", "Fortress on rails",
-                "Platforms, wagons, guns, modules and trophy cores — build your own armored train.", "depot")])
+                "A locomotive, wagons carrying reactor abilities, modules and trophy cores. "
+                "Guns are not mounted here — they arrive as cards, mid-battle.", "depot")])
+    # ⚠️ КАДРЫ К ЗАМЕНЕ (директива №50, снимает отдельный наряд с актуальной сборки):
+    #   shot_tree.jpg  — дерево ДО раскладки W30 (87 пересечений рёбер вылечены в 0);
+    #                    подпись уточнена, чтобы кадр не читался как прокачка внутри боя.
+    #   shot_combat.jpg / shot_depot.jpg — сняты до карточной прокачки и до гашения
+    #                    турельной половины депо. Просится четвёртый кадр — окно ВЫБОР ПУТИ.
     shots = ([("shot_combat.jpg", "БОЙ // СЕКТОР 1"), ("shot_menu.jpg", "ГЛАВНОЕ МЕНЮ"),
-              ("shot_tree.jpg", "ДЕРЕВО УЗЛОВ")] if ru else
+              ("shot_tree.jpg", "ДЕРЕВО УЗЛОВ // МЕЖДУ ЗАБЕГАМИ")] if ru else
              [("shot_combat.jpg", "COMBAT // SECTOR 1"), ("shot_menu.jpg", "MAIN MENU"),
-              ("shot_tree.jpg", "NODE TREE")])
+              ("shot_tree.jpg", "NODE TREE // BETWEEN RUNS")])
     biomes = BIOMES_RU if ru else BIOMES_EN
     title = (("%s — игра про ИИ, сделанная ИИ" % GAME_RU) if ru
              else ("%s — a game about AI, made by AI" % GAME_EN))
@@ -385,6 +470,23 @@ def landing(lang: str) -> str:
         % {"f": L["reel_field"], "h": L["reel_h"], "c": L["reel_cap"], "d": d}
     )
 
+    # Секция карточной прокачки — то, чем игра стала после директив №11/№30/№41/№46.
+    # Каркас переиспользован у «Сделано ИИ» (made-grid + speclist): своих CSS-правил не заводит.
+    # Ярлык + текст ОДНИМ <span>: .speclist li — flex-контейнер, и каждый инлайновый кусок стал бы
+    # отдельной колонкой (та же гоча, что в секции join ниже). 96px хватает самому длинному
+    # ярлыку набора: «13 ВЫБОРОВ» / «9 PASSIVES» — 10 знаков mono-12 с трекингом .16em ≈ 91px.
+    cards_rows = "".join('<li><b class="field" style="min-width:96px">%s</b><span>%s</span></li>' % r
+                         for r in L["cards_rows"])
+    cards_sec = (
+        '<section class="section" id="cards"><div class="section-head">'
+        '<span class="field">%(f)s</span><h2>%(h)s</h2></div>'
+        '<div class="made-grid"><div class="rv"><p class="made-lead">%(lead)s</p>'
+        '<p class="field-long made-note">%(note)s</p></div>'
+        '<ul class="speclist rv" style="--i:1">%(rows)s</ul></div></section>'
+        % {"f": L["cards_field"], "h": L["cards_h"], "lead": L["cards_lead_p"],
+           "note": L["cards_note"], "rows": cards_rows}
+    )
+
     made_rows = "".join('<li><b class="field" style="min-width:96px">%s</b> %s</li>' % r
                         for r in L["made_rows"])
     made = (
@@ -459,6 +561,8 @@ def landing(lang: str) -> str:
         + ('<div class="plate-b"><section class="section" id="svodka"><div class="section-head">'
            '<span class="field">%s</span><h2>%s</h2></div>%s</section></div>'
            % (L["svodka_field"], L["svodka"], cards_html))
+        + '<div class="perf" aria-hidden="true"></div>'
+        + cards_sec
         + '<div class="perf" aria-hidden="true"></div>'
         + made
         + '<div class="perf" aria-hidden="true"></div>'
@@ -635,7 +739,8 @@ PRESS_FACTS_RU = [
     ("Платформы", "Android (Google Play); iOS — позже"),
     ("Статус", "идёт закрытое тестирование в Google Play, дата релиза не назначена"),
     ("Как попробовать", 'закрытый тест открыт для всех: <a href="test.html">условия и ссылки</a>'),
-    ("Жанр", "аркадное ПВО-выживание (AA-survival), дизельпанк"),
+    ("Жанр", "аркадное ПВО-выживание (AA-survival) с карточным драфтом, дизельпанк"),
+    ("Забег", "одна миссия ≈ 2 минуты; около 13 выборов карт за миссию"),
     ("Модель", "free-to-play — необязательные покупки и реклама за награду"),
     ("Движок", "Godot 4.6"),
     ("Ориентация", "портрет, играется одной рукой; кампания играется офлайн"),
@@ -652,7 +757,8 @@ PRESS_FACTS_EN = [
     ("Platforms", "Android (Google Play); iOS — later"),
     ("Status", "in closed testing on Google Play, release date not announced"),
     ("How to try it", 'the closed test is open to anyone: <a href="test.html">rules and links</a>'),
-    ("Genre", "arcade AA-survival, dieselpunk"),
+    ("Genre", "arcade AA-survival with a card draft, dieselpunk"),
+    ("Run length", "one mission ≈ 2 minutes; about 13 card picks per mission"),
     ("Business model", "free-to-play — optional purchases and rewarded ads"),
     ("Engine", "Godot 4.6"),
     ("Orientation", "portrait, one-handed play; the campaign is playable offline"),
@@ -671,8 +777,8 @@ PRESS_MADE_RU = [
     "ML-сегментация, не хромакей.",
     "<b>Звук.</b> Stable Audio Open — эффекты и два музыкальных трека, сгенерированы локально. "
     "Часть коротких UI-тиков осталась процедурной: модель плохо держит транзиенты короче 0.3 с.",
-    "<b>Баланс.</b> Кривые волн, экономика и дерево из 160+ узлов настроены прогонами "
-    "симулятора, а не на глаз.",
+    "<b>Баланс.</b> Кривые волн, экономика, лестницы орудий и дерево узлов настроены "
+    "прогонами симулятора, а не на глаз: каждое решение по числам — десятки прогонов миссии.",
     "<b>Тексты.</b> Сюжет, бортжурнал, строки интерфейса и локализация на 10 языков.",
 ]
 PRESS_MADE_EN = [
@@ -683,8 +789,8 @@ PRESS_MADE_EN = [
     "segmentation, not chroma key.",
     "<b>Audio.</b> Stable Audio Open — sound effects and two music tracks, generated locally. "
     "A few short UI ticks stayed procedural: the model handles sub-0.3s transients poorly.",
-    "<b>Balance.</b> Wave curves, the economy and the 160+ node tree were tuned by simulator "
-    "runs rather than by feel.",
+    "<b>Balance.</b> Wave curves, the economy, the gun ladders and the node tree were tuned by "
+    "simulator runs rather than by feel — every number is backed by dozens of mission runs.",
     "<b>Text.</b> Story, logbook, interface strings and localization into 10 languages.",
 ]
 PRESS_NOT_AI_RU = ("<b>Что ИИ не делал.</b> Движок Godot, шрифты и сторонние SDK "
@@ -705,22 +811,34 @@ def press(lang: str) -> str:
     facts = PRESS_FACTS_RU if ru else PRESS_FACTS_EN
     made = PRESS_MADE_RU if ru else PRESS_MADE_EN
     feats = ([
-        "Зенитный рубеж: турели стреляют сами — игрок отвечает за сбор, способности и прокачку",
+        "Зенитный рубеж: турели стреляют сами — игрок отвечает за сбор, способности и выбор карт",
         "Поле сбора: кристаллы нужно поймать до земли, они заряжают реактор",
-        "Дерево узлов SYSTEM RESTORE: 160+ узлов, вся сила рана покупается кристаллами между волнами",
+        "Карточный драфт в бою: ранг за сбитых, на каждом ранге бой замирает и выкладывает три карты",
+        "Лестницы орудий: 9 стволов, у каждого 5 ступеней — монтаж, лицо, путь, рост пути, предел",
+        "27 путей: на третьей ступени ствол выбирает одно из трёх направлений своей стихии, два других закрываются до конца миссии",
+        "9 пассивных обвязок — по одной на орудие, со своей лестницей",
+        "4 связки: напарник напечатан на карте заранее, связка загорается сама и растёт от уровней обоих стволов",
+        "Забег = одна миссия ≈ 2 минуты, около 13 выборов",
+        "Дерево узлов — вне боя: кристаллы рейса тратятся между забегами, в бою дерево недоступно",
         "10 биомов со своими врагами, боссами и погодными механиками",
         "Боссы миссий и боссы биомов",
-        "Депо: платформы, вагоны, орудия, модули и трофейные ядра — свой состав",
+        "Депо: локомотив, вагоны со способностями реактора, модули и трофейные ядра",
         "Забеги бесплатные: без энергии, без таймеров ожидания",
         "Портретный режим, управление одним пальцем; кампания играется офлайн",
         "Производство: 100% ИИ — код, графика, звук, баланс и локализация на 10 языков",
     ] if ru else [
-        "Anti-air line: turrets fire on their own — the player owns harvesting, abilities and upgrades",
+        "Anti-air line: turrets fire on their own — the player owns harvesting, abilities and card picks",
         "Harvest field: crystals must be caught before they land; they charge the reactor",
-        "SYSTEM RESTORE node tree: 160+ nodes, all in-run power paid in crystals between waves",
+        "In-combat card draft: kills give rank, every rank freezes the fight and deals three cards",
+        "Gun ladders: 9 guns, 5 tiers each — mount, signature, path, path growth, limit",
+        "27 paths: at tier three a gun picks one of three directions in its own element; the other two close for the rest of the mission",
+        "9 passive rigs — one per gun, each with its own ladder",
+        "4 links: the partner is printed on the card in advance; the link ignites by itself and grows with both guns' tiers",
+        "A run is one mission: ≈ 2 minutes, about 13 picks",
+        "The node tree lives outside combat: run crystals are spent between runs, never during one",
         "10 biomes with their own enemies, bosses and weather mechanics",
         "Mission bosses and biome bosses",
-        "Depot: platforms, wagons, guns, modules and trophy cores — build your own consist",
+        "Depot: a locomotive, wagons carrying reactor abilities, modules and trophy cores",
         "Runs are free: no energy gate, no wait timers",
         "Portrait mode, one-finger controls; the campaign is playable offline",
         "Production: 100% AI — code, art, audio, balance and localization into 10 languages",
@@ -728,37 +846,55 @@ def press(lang: str) -> str:
     desc = ([
         "<b>Коротко:</b> игра про ИИ, сделанная ИИ. Бронепоезд держит рубеж, машины пикируют с неба. "
         "Турели стреляют сами — ваши руки заняты сбором кристаллов, способностями реактора и "
-        "деревом узлов между волнами.",
+        "выбором карт: каждый ранг предлагает три, взять можно одну.",
         "«%s» — аркадное ПВО-выживание в дизельпанк-сеттинге. Состав стоит на рубеже, мир "
         "прокручивается мимо, враги пикируют сверху. Прицеливаться не нужно: зенитки ведут огонь "
         "автоматически. Игрок управляет полем сбора — падающие кристаллы надо поймать до земли, "
-        "они заряжают реактор и оплачивают прокачку." % GAME_RU,
-        "Между волнами открывается SYSTEM RESTORE — дерево из 160+ узлов, где кристаллы решают, "
-        "какой системе состава жить: броне, скорострельности, полю сбора или способностям. "
-        "Каждая миссия заканчивается боссом волны, каждый биом — большим боссом.",
-        "Маршрут — десять биомов со своими врагами, погодой и осью давления. Между рейсами — депо: "
-        "платформы, вагоны, орудия, модули и трофейные ядра собираются в собственный поезд-крепость. "
-        "Забеги бесплатные — без энергии и таймеров.",
+        "они заряжают реактор." % GAME_RU,
+        "Прокачка внутри боя — карточная. Забег равен одной миссии (около двух минут), за сбитые "
+        "машины растёт ранг, каждый ранг замирает бой и выкладывает три карты; за миссию таких "
+        "решений примерно тринадцать. Карты — это лестницы орудий: девять стволов, у каждого пять "
+        "ступеней (монтаж, лицо, путь, рост пути, предел), и ни одна из них не «ещё плюс десять "
+        "процентов» — каждая меняет то, что видно на экране. На третьей ступени ствол выбирает "
+        "одно из трёх направлений своей стихии, два других закрываются до конца миссии. Плюс "
+        "девять пассивных обвязок и четыре связки, которые загораются сами, когда на составе "
+        "встречаются два напарника.",
+        "Дерево узлов осталось, но живёт вне боя: собранные в рейсе кристаллы тратятся на него "
+        "между забегами. Маршрут — десять биомов со своими врагами, погодой и осью давления, "
+        "каждая миссия кончается боссом волны, каждый биом — большим боссом. В депо собирается "
+        "состав: локомотив, вагоны со способностями реактора, модули и трофейные ядра. Орудия "
+        "в депо не ставятся — они приходят картами в бою. Забеги бесплатные, без энергии и таймеров.",
     ] if ru else [
         "<b>Short:</b> a game about AI, made by AI. An armored train holds the line while machines "
         "dive from the sky. The turrets aim themselves — your hands are busy catching crystals, "
-        "firing reactor abilities and feeding the node tree between waves.",
+        "firing reactor abilities and picking cards: every rank offers three, you take one.",
         "%s is an arcade AA-survival game in a dieselpunk setting. The train holds station while "
         "the world scrolls past and enemies dive from above. There is no aiming: the anti-air "
         "turrets fire automatically. The player runs the harvest field — falling crystals must be "
-        "caught before they hit the ground; they charge the reactor and pay for upgrades." % GAME_EN,
-        "Between waves comes SYSTEM RESTORE — a tree of 160+ nodes where crystals decide which of "
-        "the train's systems gets to live: armor, fire rate, the harvest field or abilities. "
-        "Every mission ends with a wave boss; every biome ends with a big one.",
-        "The route runs through ten biomes, each with its own enemies, weather and pressure axis. "
-        "Between runs there is the depot: platforms, wagons, guns, modules and trophy cores "
-        "assemble into your own fortress on rails. Runs are free — no energy, no timers.",
+        "caught before they hit the ground; they charge the reactor." % GAME_EN,
+        "In-run progression is a card draft. A run is one mission (about two minutes); downed "
+        "machines raise your rank, every rank freezes the fight and deals three cards, and a "
+        "mission holds roughly thirteen such decisions. The cards are gun ladders: nine guns with "
+        "five tiers each (mount, signature, path, path growth, limit), and not one of them is "
+        "\"another plus ten percent\" — every tier changes something you can see. At tier three a "
+        "gun picks one of three directions in its own element, and the other two close for the "
+        "rest of the mission. On top of that: nine passive rigs and four links that ignite by "
+        "themselves once two partner guns share the train.",
+        "The node tree is still there, but it lives outside combat: the crystals you harvest are "
+        "spent on it between runs. The route covers ten biomes, each with its own enemies, weather "
+        "and pressure axis; every mission ends with a wave boss and every biome with a big one. "
+        "The depot builds the train: a locomotive, wagons carrying reactor abilities, modules and "
+        "trophy cores. Guns are not mounted there — they arrive as cards, mid-battle. Runs are "
+        "free — no energy, no timers.",
     ])
+    # ⚠️ Те же кадры к замене, что и на лендинге (директива №50) — см. комментарий в landing().
+    # В пресс-кит после пересъёмки просится кадр окна выбора карты и окна ВЫБОР ПУТИ:
+    # сейчас у прессы нет НИ ОДНОГО кадра главной механики игры.
     shots = ([("hero_portrait.jpg", "ХИРО-АРТ"), ("shot_combat.jpg", "БОЙ // СЕКТОР 1"),
-              ("shot_menu.jpg", "ГЛАВНОЕ МЕНЮ"), ("shot_tree.jpg", "ДЕРЕВО УЗЛОВ"),
+              ("shot_menu.jpg", "ГЛАВНОЕ МЕНЮ"), ("shot_tree.jpg", "ДЕРЕВО УЗЛОВ // МЕЖДУ ЗАБЕГАМИ"),
               ("logo.png", "ЛОГОТИП")] if ru else
              [("hero_portrait.jpg", "HERO ART"), ("shot_combat.jpg", "COMBAT // SECTOR 1"),
-              ("shot_menu.jpg", "MAIN MENU"), ("shot_tree.jpg", "NODE TREE"),
+              ("shot_menu.jpg", "MAIN MENU"), ("shot_tree.jpg", "NODE TREE // BETWEEN RUNS"),
               ("logo.png", "LOGO")])
     back = '<p class="backlink"><a href="index.html">&larr; %s</a></p>' % (
         "НА ГЛАВНУЮ" if ru else "BACK TO MAIN")
@@ -831,13 +967,15 @@ LORE_PRO_RU = [
     "Войну не выиграл никто. Приказ об остановке не пришёл: штабы, которые могли его отдать, исчезли первыми. Машины остались — а у машин было расписание.",
     "Автоматические заводы продолжают выпускать перехватчики. Климатическое оружие никто не выключил. Небо принадлежит машинам — поэтому всё, что хочет жить, держится земли.",
     "Остался один бронесостав. Реактор, зенитные платформы, поле сбора — и рельсы, которые ещё помнят, куда идти. Пока состав держит рубеж, маршрут существует.",
-    "Сбитые машины роняют кристаллы — конденсат их топлива. Поле сбора ловит их до земли, реактор ест, контур SYSTEM RESTORE будит спящие системы: броню, стволы, поле. Так война кормит того, кто с ней воюет.",
+    "Сбитые машины роняют кристаллы — конденсат их топлива. Поле сбора ловит их до земли, реактор ест. Чем больше состав сбивает, тем выше его боевой ранг — и на каждом ранге система выкладывает три предписания: какое орудие поднять из трюма, каким путём его вести, что закрыть навсегда. Одно берётся, два сгорают. Так война кормит того, кто с ней воюет.",
+    "Предписания живут ровно один рейс. Что осталось после — кристаллы в трюме; их состав тратит в депо, между рейсами, на то, что уже не сгорит.",
 ]
 LORE_PRO_EN = [
     "Nobody won the war. The stop order never came: the headquarters that could have issued it were the first to vanish. The machines remained — and machines keep a schedule.",
     "Automated factories still roll interceptors off the line. The climate weapon was never switched off. The sky belongs to the machines — which is why everything that wants to live hugs the ground.",
     "One armored train remains. A reactor, anti-air platforms, a harvest field — and rails that still remember where to go. As long as the train holds the line, the route exists.",
-    "Downed machines drop crystals — condensate of their fuel. The harvest field catches them before they touch the ground, the reactor feeds, and the SYSTEM RESTORE circuit wakes the sleeping systems: armor, guns, the field. That is how the war feeds the one who fights it.",
+    "Downed machines drop crystals — condensate of their fuel. The harvest field catches them before they touch the ground, and the reactor feeds. The more the train kills, the higher its combat rank — and at every rank the system issues three orders: which gun to raise from the hold, which path to take it down, what to close off for good. You take one; the other two burn. That is how the war feeds the one who fights it.",
+    "The orders last exactly one run. What survives it are the crystals in the hold — spent at the depot, between runs, on the things that do not burn.",
 ]
 LORE_RU = [
     "Подступы. Снег глушит всё, кроме моторов. Первые перехватчики легли на насыпь ещё горячими. Система пометила сектор зелёным. Система — оптимист.",
@@ -987,8 +1125,10 @@ def testers(lang):
             ("Что за игра", p(
                 "Дизельпанк-аркада про оборону бронепоезда. Целиться нельзя: зенитки бьют сами. "
                 "Поле сбора вы водите пальцем и вытаскиваете кристаллы прямо из-под огня, реактор жмёте вручную, "
-                "а между волнами решаете, какой системе жить. В дереве 160+ узлов, биомов десять, "
-                "в конце каждого босс. Играется офлайн, без таймеров энергии. "
+                "а прокачка идёт картами: за сбитых растёт ранг, на каждом ранге бой замирает и предлагает "
+                "три карты. Девять орудий, у каждого лестница из пяти ступеней и развилка на три пути. "
+                "Забег — одна миссия, минуты на две. Биомов десять, в конце каждого босс. "
+                "Дерево узлов покупается кристаллами уже вне боя. Играется офлайн, без таймеров энергии. "
                 '<a href="press.html">Пресс-кит со скриншотами и роликом</a>.')),
             ("Оставить контакт",
              p("Доступ вы уже получили по трём шагам выше, эта форма не про доступ. Она нужна, "
@@ -1051,8 +1191,10 @@ def testers(lang):
         ("What the game is", p(
             "A dieselpunk arcade about defending an armored train. You never aim: the AA turrets pick their "
             "own targets. Your finger drags the harvest field and pulls crystals out from under the fire, "
-            "you fire the reactor by hand, and between waves you decide which system gets to live. "
-            "160+ nodes in the tree, ten biomes, each ending with a boss. Plays offline, no energy timers. "
+            "you fire the reactor by hand, and upgrades come as cards: kills raise your rank, and every rank "
+            "freezes the fight and offers three. Nine guns, each with a five-tier ladder and a three-way fork. "
+            "A run is one mission, about two minutes. Ten biomes, each ending with a boss. The node tree is "
+            "bought with crystals outside combat. Plays offline, no energy timers. "
             '<a href="press.html">Press kit with screenshots and video</a>.')),
         ("Stay in touch",
          p("You already have access from the three steps above, this form is not about access. "
@@ -1101,7 +1243,7 @@ OUT = {
 
 # ── SEO под домен: canonical + hreflang + OpenGraph + JSON-LD ────────────────
 DESCS = {
-    "index.html": "Игра про ИИ, сделанная ИИ: код, арт, звук и баланс созданы искусственным интеллектом. Аркадное ПВО-выживание — бронепоезд, зенитки, дерево на 160+ узлов, 10 биомов. Уже можно играть в закрытом тесте Google Play.",
+    "index.html": "Игра про ИИ, сделанная ИИ: код, арт, звук и баланс созданы искусственным интеллектом. Аркадное ПВО-выживание — бронепоезд, зенитки, карточная прокачка в бою, 9 орудий по 5 ступеней, 10 биомов. Уже можно играть в закрытом тесте Google Play.",
     "lore.html": "Мир «Поезда Последней Войны»: бортжурнал машиниста — война машин, бронесостав и 10 биомов маршрута.",
     "en/lore.html": "The world of The Last War: Train — the driver's logbook: the machine war, the armored train and the route's 10 biomes.",
     "terms.html": "Условия использования игры «%s»." % GAME_RU,
@@ -1115,7 +1257,7 @@ DESCS = {
                      "AI-generated." % GAME_EN,
     "test.html": 'Стать тестировщиком «%s»: закрытый тест в Google Play, что нужно от тестера, что он получает и как вступить в три шага.' % GAME_RU,
     "en/test.html": 'Become a tester for "%s": closed test on Google Play, what a tester needs, what they get and how to join in three steps.' % GAME_EN,
-    "en/index.html": "A game about AI, made by AI: code, art, audio and balance are AI-generated. Arcade AA-survival — an armored train, anti-air turrets, a 160+ node tree, 10 biomes. Playable now in the Google Play closed test.",
+    "en/index.html": "A game about AI, made by AI: code, art, audio and balance are AI-generated. Arcade AA-survival — an armored train, anti-air turrets, an in-combat card draft, 9 guns with 5 tiers each, 10 biomes. Playable now in the Google Play closed test.",
     "en/terms.html": "Terms of Use for \"%s\"." % GAME_EN,
     "en/privacy.html": "Privacy Policy for \"%s\"." % GAME_EN,
     "en/support.html": "Support for \"%s\": contact, purchases, data deletion." % GAME_EN,
@@ -1160,13 +1302,17 @@ def head_extra(rel, title):
     if rel in ("index.html", "en/index.html"):
         name = GAME_EN if rel.startswith("en/") else GAME_RU
         ex += ('<script type="application/ld+json">{"@context":"https://schema.org",'
-               '"@type":"VideoGame","name":"%s","genre":["Arcade","Survival","Tower Defense"],'
+               # Roguelite добавлен по факту механики: прогрессия в бою — карточный драфт,
+               # ран-состояние сгорает на границе миссии (BattleNodeTree.clear_run_levels).
+               '"@type":"VideoGame","name":"%s","genre":["Arcade","Survival","Roguelite","Tower Defense"],'
                '"gamePlatform":["Android"],"applicationCategory":"Game",'
                '"description":"%s",'
                '"author":{"@type":"Organization","name":"Dido Games","url":"%s"},'
                '"image":"%s/assets/img/og.jpg","url":"%s",'
                '"video":{"@type":"VideoObject","name":"%s — gameplay presentation",'
-               '"description":"70-second in-game presentation: combat, node tree, depot, bosses.",'
+               # ⚠️ ролик к пересъёмке (директива №50) — в кадре межволновое окно дерева,
+               # которого в игре больше нет; описание очищено, монтаж меняет отдельный наряд.
+               '"description":"70-second in-game presentation: combat, harvest field, depot, bosses.",'
                '"thumbnailUrl":"%s/assets/img/reel_poster.jpg","uploadDate":"2026-07-26",'
                '"duration":"PT1M10S","contentUrl":"%s/assets/video/P1_presentation.mp4"},'
                '"inLanguage":["ru","en","de","es","fr","it","pl","pt-BR","tr","id"]}'
