@@ -289,7 +289,9 @@ def landing(lang: str) -> str:
         #   9 обвязок ...... CardDefs.MODULES (passive: true), PASSIVE_STEPS = 3
         #   4 связки ....... CardDefs.PAIRS; сила — BattleNodeTree.PAIR_LINK_STEPS
         #                    [1.12, 1.20, 1.28] на порогах суммы уровней 4/6/8
-        #   ~13 выборов .... бюджет пиков м1 (директива №42), замер приёмки W28
+        #   ~13 выборов .... бюджет пиков м1 (директива №42), замер приёмки W28. ТОЛЬКО «≈»:
+    #                  пол пиков гаснет при глубине дерева ≥ 24 (ArcadeCombat._apply_xp_floor
+    #                  :1842 → ArcadeConfig.XP_FLOOR_ACCOUNT_DEPTH := 24, :1794).
         "cards_field": "ПРОКАЧКА // КАРТОЧНЫЙ ДРАФТ" if ru else "PROGRESSION // CARD DRAFT",
         "cards_h": "Лестницы орудий" if ru else "The gun ladders",
         "cards_lead_p": ("Забег — это одна миссия, минуты на две. За сбитые машины растёт ранг, "
@@ -311,14 +313,14 @@ def landing(lang: str) -> str:
                         ("27 ПУТЕЙ", "на третьей ступени ствол берёт одно из трёх направлений своей стихии; два других закрыты до конца миссии"),
                         ("9 ОБВЯЗОК", "по одной пассивной карте на орудие, со своей лестницей из трёх ступеней"),
                         ("4 СВЯЗКИ", "напарник напечатан на карте заранее; собрал пару — связка горит сама и метит снаряды обоих стволов общим ореолом"),
-                        ("13 ВЫБОРОВ", "столько решений умещается в одну двухминутную миссию")]
+                        ("≈13 ВЫБОРОВ", "примерно столько решений умещается в одну двухминутную миссию")]
                        if ru else
                        [("9 GUNS", "eight wagon turrets plus the locomotive's nose gun; the nose gun is mounted from second one"),
                         ("5 TIERS", "on every gun: mount, signature, path, path growth, limit"),
                         ("27 PATHS", "at tier three a gun takes one of three directions in its own element; the other two stay shut for the rest of the mission"),
                         ("9 PASSIVES", "one passive card per gun, with its own three-step ladder"),
                         ("4 LINKS", "the partner is printed on the card in advance; collect the pair and the link ignites by itself, marking both guns' shots with a shared halo"),
-                        ("13 PICKS", "that's how many decisions fit into one two-minute mission")]),
+                        ("≈13 PICKS", "roughly how many decisions fit into one two-minute mission")]),
     }
     cards_lead = (("ПОЛЕ СБОРА // РУКИ ИГРОКА", "Ловить, а не целиться",
                    "Кристаллы падают с неба и должны быть пойманы до земли. Промахнулся — "
@@ -474,8 +476,9 @@ def landing(lang: str) -> str:
     # Каркас переиспользован у «Сделано ИИ» (made-grid + speclist): своих CSS-правил не заводит.
     # Ярлык + текст ОДНИМ <span>: .speclist li — flex-контейнер, и каждый инлайновый кусок стал бы
     # отдельной колонкой (та же гоча, что в секции join ниже). 96px хватает самому длинному
-    # ярлыку набора: «13 ВЫБОРОВ» / «9 PASSIVES» — 10 знаков mono-12 с трекингом .16em ≈ 91px.
-    cards_rows = "".join('<li><b class="field" style="min-width:96px">%s</b><span>%s</span></li>' % r
+    # ярлыку набора: «≈13 ВЫБОРОВ» — 11 знаков mono-12 с трекингом .16em ≈ 100px (W36: ярлык
+    # вырос с «13 ВЫБОРОВ», min-width поднят 96→104px, иначе строка ломает выравнивание).
+    cards_rows = "".join('<li><b class="field" style="min-width:104px">%s</b><span>%s</span></li>' % r
                          for r in L["cards_rows"])
     cards_sec = (
         '<section class="section" id="cards"><div class="section-head">'
@@ -987,7 +990,7 @@ LORE_RU = [
     "Фон критический. Всё, что сбиваешь, делится пополам — и обе половины злее. Лом светится и встаёт обратно. После Мегаполиса это почти отпуск. Почти.",
     "Вода пришла и не ушла. Барокорпуса держат очередь, призраки прибоя рвут дистанцию рывком. Рельсов не видно — состав помнит их наизусть.",
     "Здесь война складывала своих мёртвых. Теперь лом реактивируется: стаи мелочи идут кластерами, контакт — пиковый за весь маршрут. Если у машин есть ад, он переполнен и принимает заявки.",
-    "Последний рубеж. Полный морозный гарнизон, элита старой войны, Последний Шпиль на горизонте. За цитаделью нет ничего — поэтому маршрут начинается заново.",
+    "Последний рубеж. Полный морозный гарнизон, элита старой войны, Последний Шпиль на горизонте. За цитаделью нет ничего: маршрут кончается здесь.",
 ]
 LORE_EN = [
     "The approaches. Snow muffles everything but the engines. The first interceptors hit the embankment still hot. The system marked the sector green. The system is an optimist.",
@@ -999,7 +1002,7 @@ LORE_EN = [
     "Radiation critical. Everything you shoot down splits in two — and both halves are angrier. The scrap glows and stands back up. After the Megalopolis this is almost a vacation. Almost.",
     "The water came and never left. Pressure hulls soak up the bursts; surf wraiths break the line of fire in dashes. You can't see the rails. The train knows them by heart.",
     "This is where the war stacked its dead. Now the scrap reactivates: swarms come in clusters, contact damage peaks for the whole route. If machines have a hell, it is overcrowded and still taking applications.",
-    "The last line. A full cold-weather garrison, the old war's elite, the Final Spire on the horizon. There is nothing beyond the citadel — which is why the route begins again.",
+    "The last line. A full cold-weather garrison, the old war's elite, the Final Spire on the horizon. There is nothing beyond the citadel: the route ends here.",
 ]
 
 
@@ -1016,9 +1019,9 @@ def lore(lang):
         '<div><div class="lore-num">%s %02d // %s</div><p>%s</p></div></div>'
         % (d, i + 1, ("СЕКТОР" if ru else "SECTOR"), i + 1, biomes[i], entries[i])
         for i in range(10))
-    epi = ("Маршрут закольцован. Война не заканчивается — она обслуживается по регламенту. "
+    epi = ("Десять секторов, сто миссий. Война не заканчивается — она обслуживается по регламенту. "
            "Состав идёт, пока есть кому держать рубеж. Рубеж — это ты." if ru else
-           "The route is a loop. The war doesn't end — it is maintained on schedule. "
+           "Ten sectors, a hundred missions. The war doesn't end — it is maintained on schedule. "
            "The train runs as long as someone holds the line. The line is you.")
     # Связка вымысла с производством — USP владельца 2026-07-26.
     coda = ("<b>Сноска архивариуса.</b> Этот мир, его враги, музыка и сами эти записи "
