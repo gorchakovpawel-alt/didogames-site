@@ -351,8 +351,17 @@ def landing(lang: str) -> str:
                 "A locomotive, wagons carrying reactor abilities, modules and trophy cores. "
                 "Guns are not mounted here — they arrive as cards, mid-battle.", "depot")])
     # ⚠️ КАДРЫ К ЗАМЕНЕ (директива №50, снимает отдельный наряд с актуальной сборки):
-    #   shot_tree.jpg  — дерево ДО раскладки W30 (87 пересечений рёбер вылечены в 0);
-    #                    подпись уточнена, чтобы кадр не читался как прокачка внутри боя.
+    #   shot_tree.jpg  — 🔴 В КАДР ВШИТО СНЯТОЕ ЧИСЛО УЗЛОВ: шапка экрана читается как
+    #                    «SYNC // 41 / 167 NODES · AVAILABLE 73». Живых видимых узлов 91
+    #                    (CardDefs.SIMPLE_MODEL_DEFAULT прячет легаси-карточные), «167» —
+    #                    та самая Л2 из STORE_CLAIMS_RULE §4, и текстом она НЕ лечится:
+    #                    нужен новый кадр. Заодно дерево ДО раскладки W30 (87 пересечений
+    #                    рёбер вылечены в 0) и dev-гротеск в кошельке (30.0M / 999K вместо
+    #                    правдоподобного профиля data/qa_profiles/storefront.json).
+    #                    Подпись уже очищена — кадр не читается как прокачка внутри боя.
+    #                    Харнесс: godot --path . -- lang_en seed_profile storefront
+    #                             goto_screen node_tree shot   (рецепт целиком —
+    #                             docs/store/appstore/CONSOLE_STATUS.md §Пересъёмка скриншотов)
     #   shot_combat.jpg / shot_depot.jpg — сняты до карточной прокачки и до гашения
     #                    турельной половины депо. Просится четвёртый кадр — окно ВЫБОР ПУТИ.
     shots = ([("shot_combat.jpg", "БОЙ // СЕКТОР 1"), ("shot_menu.jpg", "ГЛАВНОЕ МЕНЮ"),
