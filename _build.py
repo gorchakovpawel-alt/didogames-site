@@ -55,15 +55,20 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          'family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap&subset=cyrillic"'
          ' rel="stylesheet">')
 
-# Имена биомов = набор UI_BIOME_* (то, что игрок видит в меню/сторах; рекомендация АД).
+# Имена биомов = набор МЕНЮ/КАРТЫ (UiSession._BIOME_NAME_KEYS: UI_MAP_ICE_WASTES + UI_BIOME_N_NAME).
+# ⚠️ В ИГРЕ ДВА НАБОРА ИМЁН (аудит 2026-09-01): меню/карта/выбор миссии дают этот, а боевые
+# интро и HUD — BIOME_W*_NAME, и они расходятся в 4 из 10 (01 Ледяные пустоши/Подступы,
+# 03 Горный перевал/Ниже нуля, 05 Пепельная пустошь/Пепелище, 07 …пустыня/…пустошь).
+# Витрина держит набор МЕНЮ — он же на скриншоте главного экрана. Чинить надо в игре;
+# после сведения имён обновить и этот список.
 BIOMES_RU = ["ЛЕДЯНЫЕ ПУСТОШИ", "МЁРТВЫЙ ЛЕС", "ГОРНЫЙ ПЕРЕВАЛ", "ТОКСИЧНАЯ ЗОНА",
              "ПЕПЕЛЬНАЯ ПУСТОШЬ", "МЁРТВЫЙ МЕГАПОЛИС", "РАДИОАКТИВНАЯ ПУСТЫНЯ",
              "ЗАТОПЛЕННАЯ ЗОНА", "КЛАДБИЩЕ МАШИН", "ЛЕДЯНАЯ ЦИТАДЕЛЬ"]
 # EN-имена сверены с localization/en.po 2026-08-30 (UI_MAP_ICE_WASTES + UI_BIOME_2..10_NAME):
 # сайт расходился с игрой в четырёх (DEAD FOREST / ASH WASTES / DEAD MEGALOPOLIS / ICE CITADEL).
-BIOMES_EN = ["ICE WASTES", "FROZEN FOREST", "MOUNTAIN PASS", "TOXIC ZONE",
-             "ASH WASTELAND", "DEAD MEGACITY", "RADIOACTIVE DESERT",
-             "FLOODED ZONE", "MACHINE GRAVEYARD", "FROZEN CITADEL"]
+BIOMES_EN = ["ICE WASTES", "FROZEN FOREST", "MOUNTAIN PASS", "TOXIC ZONE", "ASH WASTELAND",
+             "DEAD MEGACITY", "RADIOACTIVE DESERT", "FLOODED ZONE", "MACHINE GRAVEYARD",
+             "FROZEN CITADEL"]
 
 
 def chrome_top(lang: str, depth: str, rel: str) -> str:
@@ -364,9 +369,12 @@ def landing(lang: str) -> str:
     #                             docs/store/appstore/CONSOLE_STATUS.md §Пересъёмка скриншотов)
     #   shot_combat.jpg / shot_depot.jpg — сняты до карточной прокачки и до гашения
     #                    турельной половины депо. Просится четвёртый кадр — окно ВЫБОР ПУТИ.
-    shots = ([("shot_combat.jpg", "БОЙ // СЕКТОР 1"), ("shot_menu.jpg", "ГЛАВНОЕ МЕНЮ"),
+    # Кадры пересняты 2026-09-01 с ЖИВОГО билда (прежние были от 26.07 — до карточной прокачки:
+    # старый HUD без строки КРИСТАЛЛЫ и без ранга, дерево ещё на 167 узлов). Первым идёт драфт —
+    # фича, которую страница описывает подробнее всего, а показать было нечем.
+    shots = ([("shot_cards.jpg", "ВЫБОР КАРТЫ // КАЖДЫЙ РАНГ"), ("shot_combat.jpg", "БОЙ // СЕКТОР 2"),
               ("shot_tree.jpg", "ДЕРЕВО УЗЛОВ // МЕЖДУ ЗАБЕГАМИ")] if ru else
-             [("shot_combat.jpg", "COMBAT // SECTOR 1"), ("shot_menu.jpg", "MAIN MENU"),
+             [("shot_cards.jpg", "PICK A CARD // EVERY RANK"), ("shot_combat.jpg", "COMBAT // SECTOR 2"),
               ("shot_tree.jpg", "NODE TREE // BETWEEN RUNS")])
     biomes = BIOMES_RU if ru else BIOMES_EN
     title = (("%s — игра про ИИ, сделанная ИИ" % GAME_RU) if ru
@@ -902,10 +910,12 @@ def press(lang: str) -> str:
     # ⚠️ Те же кадры к замене, что и на лендинге (директива №50) — см. комментарий в landing().
     # В пресс-кит после пересъёмки просится кадр окна выбора карты и окна ВЫБОР ПУТИ:
     # сейчас у прессы нет НИ ОДНОГО кадра главной механики игры.
-    shots = ([("hero_portrait.jpg", "ХИРО-АРТ"), ("shot_combat.jpg", "БОЙ // СЕКТОР 1"),
+    shots = ([("hero_portrait.jpg", "ХИРО-АРТ"), ("shot_cards.jpg", "ВЫБОР КАРТЫ // КАЖДЫЙ РАНГ"),
+              ("shot_combat.jpg", "БОЙ // СЕКТОР 2"),
               ("shot_menu.jpg", "ГЛАВНОЕ МЕНЮ"), ("shot_tree.jpg", "ДЕРЕВО УЗЛОВ // МЕЖДУ ЗАБЕГАМИ"),
               ("logo.png", "ЛОГОТИП")] if ru else
-             [("hero_portrait.jpg", "HERO ART"), ("shot_combat.jpg", "COMBAT // SECTOR 1"),
+             [("hero_portrait.jpg", "HERO ART"), ("shot_cards.jpg", "PICK A CARD // EVERY RANK"),
+              ("shot_combat.jpg", "COMBAT // SECTOR 2"),
               ("shot_menu.jpg", "MAIN MENU"), ("shot_tree.jpg", "NODE TREE // BETWEEN RUNS"),
               ("logo.png", "LOGO")])
     back = '<p class="backlink"><a href="index.html">&larr; %s</a></p>' % (
