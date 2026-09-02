@@ -55,20 +55,18 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          'family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap&subset=cyrillic"'
          ' rel="stylesheet">')
 
-# Имена биомов = набор МЕНЮ/КАРТЫ (UiSession._BIOME_NAME_KEYS: UI_MAP_ICE_WASTES + UI_BIOME_N_NAME).
-# ⚠️ В ИГРЕ ДВА НАБОРА ИМЁН (аудит 2026-09-01): меню/карта/выбор миссии дают этот, а боевые
-# интро и HUD — BIOME_W*_NAME, и они расходятся в 4 из 10 (01 Ледяные пустоши/Подступы,
-# 03 Горный перевал/Ниже нуля, 05 Пепельная пустошь/Пепелище, 07 …пустыня/…пустошь).
-# Витрина держит набор МЕНЮ — он же на скриншоте главного экрана. Чинить надо в игре;
-# после сведения имён обновить и этот список.
-BIOMES_RU = ["ЛЕДЯНЫЕ ПУСТОШИ", "МЁРТВЫЙ ЛЕС", "ГОРНЫЙ ПЕРЕВАЛ", "ТОКСИЧНАЯ ЗОНА",
-             "ПЕПЕЛЬНАЯ ПУСТОШЬ", "МЁРТВЫЙ МЕГАПОЛИС", "РАДИОАКТИВНАЯ ПУСТЫНЯ",
-             "ЗАТОПЛЕННАЯ ЗОНА", "КЛАДБИЩЕ МАШИН", "ЛЕДЯНАЯ ЦИТАДЕЛЬ"]
+# Имена биомов = ключи BIOME_W*_NAME из localization/*.po — единый набор игры.
+# 2026-09-01: наборы СВЕДЕНЫ (UiSession/GlobalMap переведены на боевые ключи), канон выбран
+# по магазинным листингам — в ASC и Google Play залито «Подступы»/«The Approaches».
+# Витрина, меню игры, боевые интро и стор теперь говорят одно и то же.
+BIOMES_RU = ["ПОДСТУПЫ", "МЁРТВЫЙ ЛЕС", "НИЖЕ НУЛЯ", "ТОКСИЧНАЯ ЗОНА", "ПЕПЕЛИЩЕ",
+             "МЁРТВЫЙ МЕГАПОЛИС", "РАДИОАКТИВНАЯ ПУСТОШЬ", "ЗАТОПЛЕННАЯ ЗОНА", "КЛАДБИЩЕ МАШИН",
+             "ЛЕДЯНАЯ ЦИТАДЕЛЬ"]
 # EN-имена сверены с localization/en.po 2026-08-30 (UI_MAP_ICE_WASTES + UI_BIOME_2..10_NAME):
 # сайт расходился с игрой в четырёх (DEAD FOREST / ASH WASTES / DEAD MEGALOPOLIS / ICE CITADEL).
-BIOMES_EN = ["ICE WASTES", "FROZEN FOREST", "MOUNTAIN PASS", "TOXIC ZONE", "ASH WASTELAND",
-             "DEAD MEGACITY", "RADIOACTIVE DESERT", "FLOODED ZONE", "MACHINE GRAVEYARD",
-             "FROZEN CITADEL"]
+BIOMES_EN = ["THE APPROACHES", "DEAD FOREST", "SUB-ZERO", "TOXIC ZONE", "THE ASHLANDS",
+             "DEAD METROPOLIS", "RADIOACTIVE WASTES", "FLOODED ZONE", "MACHINE GRAVEYARD",
+             "ICE CITADEL"]
 
 
 def chrome_top(lang: str, depth: str, rel: str) -> str:
