@@ -259,9 +259,9 @@ def landing(lang: str) -> str:
         # межволновое окно с офферами ДЕРЕВА, которого в игре больше нет (прогрессия = карты).
         # Подпись очищена от «дерева узлов», сам ролик перезаписывает отдельный наряд
         # с актуальной сборки. Не переписывать подпись обратно под старый монтаж.
-        "reel_cap": ("Реальная запись из игры: бой, поле сбора, депо, боссы. "
+        "reel_cap": ("Реальная запись из игры: бой, поле сбора, выбор карты на ранге, депо, боссы. "
                      "Со звуком." if ru else
-                     "Real in-game footage: combat, harvest field, depot, bosses. "
+                     "Real in-game footage: combat, harvest field, a card pick on rank-up, depot, bosses. "
                      "With sound."),
         "made_field": "ПРОИЗВОДСТВО // 100% ИИ" if ru else "PRODUCTION // 100% AI",
         "made_h": "Игра про ИИ, сделанная ИИ" if ru else "A game about AI, made by AI",
