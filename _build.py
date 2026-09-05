@@ -42,12 +42,11 @@ FORM_F_EMAIL = "entry.1602638693"     # Почта (обязательное)
 FORM_F_NAME = "entry.1736986761"      # Позывной
 FORM_F_PLATFORM = "entry.1734298389"  # Платформа
 FORM_F_LANG = "entry.219790479"       # Язык сайта
-# Закрытый тест: доступ выдаётся членством в открытой Google-группе, поэтому обе ссылки
-# публичные и работают без участия владельца. Порядок жёсткий: opt-in не сработает, пока
-# аккаунт не в группе. Ссылки живут здесь, а не в функциях страниц — их две страницы, и
-# разъехавшийся адрес трека это отказ доступа, который увидят все.
-GROUP_URL = "https://groups.google.com/g/lastwar-testers"
-OPTIN_URL = "https://play.google.com/apps/testing/net.didogames.thelastwar"
+# РЕЛИЗ 2026-09-03: закрытый тест пройден, приложение опубликовано. Проверено фактом, а не
+# по плану: страница пакета отдаёт публичный листинг (кнопка Install, разработчик Dido Games,
+# заполнены реклама/покупки/рейтинг, «Early access» нет). Ссылки на группу тестировщиков и
+# opt-in удалены — они вели в трек, которого для игрока больше не существует.
+PLAY_URL = "https://play.google.com/store/apps/details?id=net.didogames.thelastwar"
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
@@ -88,10 +87,9 @@ def chrome_top(lang: str, depth: str, rel: str) -> str:
     ru_href = (base if lang == "ru" else "../" + base)
     en_href = ("en/" + base if lang == "ru" else base)
     links = " ".join('<a href="%s">%s</a>' % (h, t) for h, t in nav)
-    # Пока идёт закрытый тест, шапка ведёт в него, а не на подписку о выходе: игра уже
-    # играбельна, и «сыграть сегодня» сильнее «сообщим когда-нибудь». После релиза вернуть #notify.
-    hdr_cta = ('<a class="hdr-cta" href="test.html">%s</a>'
-               % ('ИГРАТЬ В ТЕСТЕ' if lang == 'ru' else 'PLAY THE TEST'))
+    # Релиз: шапка ведёт прямо в магазин — это главное действие страницы.
+    hdr_cta = ('<a class="hdr-cta" href="%s" target="_blank" rel="noopener">%s</a>'
+               % (PLAY_URL, 'СКАЧАТЬ' if lang == 'ru' else 'GET IT'))
     return (
         '<div class="secureline"><span class="dot"></span>'
         '<span>SECURE_LINE // %s</span><span class="grow"></span><nav class="hdr-nav">%s</nav> '
@@ -221,9 +219,9 @@ def landing(lang: str) -> str:
                  if ru else
                  ("Free to play · dieselpunk AA-survival · card-draft upgrades mid-combat · "
                   "9 guns, 5 tiers each · 10 biomes · no energy, no timers"),
-        "cta": "ВСТУПИТЬ В ЗАКРЫТЫЙ ТЕСТ" if ru else "JOIN THE CLOSED TEST",
-        "status": ("СТАТУС: ИДЁТ ЗАКРЫТЫЙ ТЕСТ · GOOGLE PLAY (ANDROID) · iOS ПОЗЖЕ" if ru
-                   else "STATUS: CLOSED TEST RUNNING · GOOGLE PLAY (ANDROID) · iOS LATER"),
+        "cta": "СКАЧАТЬ В GOOGLE PLAY" if ru else "GET IT ON GOOGLE PLAY",
+        "status": ("СТАТУС: ВЫШЛА · GOOGLE PLAY (ANDROID) · БЕСПЛАТНО · iOS ПОЗЖЕ" if ru
+                   else "STATUS: OUT NOW · GOOGLE PLAY (ANDROID) · FREE · iOS LATER"),
         "svodka_field": "ФОРМУЛЯР 141-У" if ru else "FILE 141-U",
         "svodka": "СВОДКА" if ru else "OVERVIEW",
         "kadry_field": "АРХИВ ШТАБА" if ru else "HQ ARCHIVE",
@@ -250,7 +248,7 @@ def landing(lang: str) -> str:
                  if ru else
                  ["No energy, no wait timers", "No forced internet — the campaign plays offline",
                   "No paying per run — runs are free", "No mid-combat ads — rewarded only, always your choice"]),
-        "finale_h": "СКОРО НА МАРШРУТЕ" if ru else "LAUNCHING SOON",
+        "finale_h": "УЖЕ НА МАРШРУТЕ" if ru else "ON THE ROUTE NOW",
         "reel_field": "ЗАПИСЬ // 70 СЕКУНД" if ru else "FOOTAGE // 70 SECONDS",
         "reel_h": "ПОСМОТРЕТЬ, КАК ЭТО ИГРАЕТСЯ" if ru else "SEE HOW IT PLAYS",
         # ⚠️ МЕДИА К ЗАМЕНЕ (директива №50): P1_presentation.mp4 снят 2026-07 — в кадре
@@ -380,15 +378,17 @@ def landing(lang: str) -> str:
 
     one = ("Одно письмо в день релиза. Больше ничего." if ru
            else "One email on release day. Nothing else.")
-    # Герой: CTA ведёт на /test — доступ в закрытый трек самообслуживание, письма ждать не надо.
-    # Форма о выходе осталась вторым путём: для iOS и для тех, кто не хочет тестировать.
-    join_sub = ('Android, бесплатно, три шага. Не сейчас? <a href="#notify">Сообщу о выходе</a>.'
+    # Герой: CTA ведёт прямо в магазин. Форма осталась вторым путём — теперь она про iOS,
+    # которого ещё нет (см. подпись под кнопкой).
+    join_sub = ('Android, бесплатно, без энергии и таймеров. На iPhone? '
+                '<a href="#notify">Сообщу, когда выйдет</a>.'
                 if ru else
-                'Android, free, three steps. Not now? <a href="#notify">Get the launch email</a>.')
-    cta_block = ('<a class="cta" href="test.html">%s</a>'
+                'Android, free, no energy and no wait timers. On iPhone? '
+                '<a href="#notify">I&rsquo;ll email you at launch</a>.')
+    cta_block = ('<a class="cta" href="%s" target="_blank" rel="noopener">%s</a>'
                  '<div class="cta-sub field-long">%s</div>'
                  '<div class="cta-sub field-long">%s</div>'
-                 % (L["cta"], nbl(L["status"]), join_sub))
+                 % (PLAY_URL, L["cta"], nbl(L["status"]), join_sub))
     nff = {
         "post": FORM_POST, "lang": lang,
         "f_email": FORM_F_EMAIL, "f_name": FORM_F_NAME,
@@ -517,53 +517,39 @@ def landing(lang: str) -> str:
            "note": L["made_note"], "rows": made_rows}
     )
 
-    # Вход в тест прямо на лендинге: обе ссылки здесь, чтобы человек с телефона не ходил на
-    # вторую страницу. Оговорки стоят ВЫШЕ ссылок — если нажать раньше, чем сменить аккаунт
-    # или выйти из внутреннего теста, игра просто не появится, и человек уходит навсегда.
-    join_rows = ([("ШАГ 1", 'Вступить в <a href="%s" target="_blank" rel="noopener">группу '
-                            'тестировщиков</a> в Google Группах. Она открытая, одобрение не нужно.' % GROUP_URL),
-                  ("ШАГ 2", 'Согласиться на участие: '
-                            '<a href="%s" target="_blank" rel="noopener">страница теста в Google Play</a>. '
-                            'Обязательно тем же аккаунтом.' % OPTIN_URL),
-                  ("ШАГ 3", "Установить игру из Google Play по ссылке с той же страницы. "
-                            "Доступ появляется не мгновенно.")]
+    # РЕЛИЗ: блок «как вступить в закрытый тест» (группа → opt-in → установка) снят целиком —
+    # трека больше нет, а его шаги вели бы в тупик. На его месте — прямой путь в магазин и
+    # честные факты о том, что человек получает, установив игру.
+    play_rows = ([("ЦЕНА", "бесплатно. Покупки и реклама за награду — по желанию, не обязательны"),
+                  ("УСТРОЙСТВО", "Android, портрет, одна рука; кампания играется офлайн"),
+                  ("ЯЗЫК", "10 языков, включая русский — интерфейс и сюжет целиком"),
+                  ("СЕССИЯ", "миссия ≈ 2 минуты: можно играть по одной в очереди")]
                  if ru else
-                 [("STEP 1", 'Join the <a href="%s" target="_blank" rel="noopener">tester group</a> '
-                             'on Google Groups. It is open, no approval needed.' % GROUP_URL),
-                  ("STEP 2", 'Opt in to the test: '
-                             '<a href="%s" target="_blank" rel="noopener">the test page on Google Play</a>. '
-                             'Same account, always.' % OPTIN_URL),
-                  ("STEP 3", "Install from Google Play through the link on that page. "
-                             "Access does not appear instantly.")])
+                 [("PRICE", "free. Purchases and rewarded ads are optional, never required"),
+                  ("DEVICE", "Android, portrait, one hand; the campaign plays offline"),
+                  ("LANGUAGES", "10 languages — full interface and story"),
+                  ("SESSION", "a mission is about 2 minutes: one run fits into a queue")])
     join = (
-        '<section class="section" id="test"><div class="section-head">'
+        '<section class="section" id="get"><div class="section-head">'
         '<span class="field">%(f)s</span><h2>%(h)s</h2></div>'
         '<div class="made-grid"><div class="rv"><p class="made-lead">%(lead)s</p>'
-        '<p class="field-long made-note">%(warn)s</p>'
-        '<a class="cta" href="test.html" style="margin-top:20px">%(cta)s</a></div>'
+        '<p class="field-long made-note">%(note)s</p>'
+        '<a class="cta" href="%(url)s" target="_blank" rel="noopener" style="margin-top:20px">%(cta)s</a></div>'
         '<ul class="speclist rv" style="--i:1">%(rows)s</ul></div></section>'
         % {"f": "ДОСТУП // ОТКРЫТ" if ru else "ACCESS // OPEN",
-           "h": "Играть можно уже сейчас" if ru else "You can play it right now",
-           "lead": ("Игра идёт в <b>закрытом тесте Google Play</b> на Android. Вход "
-                    "самостоятельный: писем ждать не нужно, вы вступаете сами и играете сегодня."
+           "h": "Игра вышла" if ru else "The game is out",
+           "lead": ("«Поезд Последней Войны» <b>доступен в Google Play</b> на Android. "
+                    "Никаких списков и приглашений: открываете магазин и играете."
                     if ru else
-                    "The game is running in a <b>Google Play closed test</b> on Android. Access is "
-                    "self-service: there is no invite to wait for, you join yourself and play today."),
-           "warn": ("Два условия, без которых игру вы не увидите. Первое: все шаги делайте тем же "
-                    "Google-аккаунтом, под которым залогинены в Play Маркете на телефоне. Второе: "
-                    "если вы уже во внутреннем тесте, сначала выйдите из него, иначе закрытый трек "
-                    "вам не покажут."
+                    "The Last War: Train is <b>available on Google Play</b> for Android. "
+                    "No lists, no invites: open the store and play."),
+           "note": ("Версия для iPhone готовится — оставьте почту ниже, и я напишу в день выхода."
                     if ru else
-                    "Two conditions, or the game will not show up. One: do every step with the same "
-                    "Google account you are signed in with in the Play Store on your phone. Two: if "
-                    "you are already in the internal test, leave it first, or the closed track stays "
-                    "hidden."),
-           "cta": "ПОДРОБНО ПРО ТЕСТ" if ru else "MORE ABOUT THE TEST",
-           # Текст строки обязан быть ОДНИМ элементом: .speclist li это flex-контейнер, и каждый
-           # инлайновый кусок (текст, ссылка, снова текст) стал бы отдельной колонкой. У соседних
-           # списков ссылок внутри нет, поэтому они и не ломались.
-           "rows": "".join('<li><b class="field" style="min-width:96px">%s</b><span>%s</span></li>' % r
-                           for r in join_rows)}
+                    "An iPhone version is in the works — leave your email below and I'll write on launch day."),
+           "url": PLAY_URL,
+           "cta": "СКАЧАТЬ В GOOGLE PLAY" if ru else "GET IT ON GOOGLE PLAY",
+           "rows": "".join('<li><b class="field" style="min-width:104px">%s</b> %s</li>' % r
+                           for r in play_rows)}
     )
 
     fan = '<div class="fan">' + "".join(
@@ -722,7 +708,7 @@ def support(lang):
                 "<b>Игра не запускается / вылетает.</b> Перезапустите устройство, проверьте свободное место и обновление игры. Если не помогло — напишите нам с моделью устройства.",
                 "<b>Пропала покупка.</b> В магазине откройте «Восстановить покупки» на вкладке «Ресурсы», затем перезапустите игру.",
                 "<b>Можно ли играть без интернета?</b> Да, игра полностью проходится офлайн; сеть нужна только для рекламы и покупок.",
-                "<b>Не вижу игру в Google Play, хотя вступил в тест.</b> Почти всегда дело в аккаунте: вступление в группу и согласие на тест должны быть сделаны тем же Google-аккаунтом, под которым вы залогинены в Play Маркете на телефоне. Если аккаунт тот же, просто подождите: доступ выдаётся не мгновенно, обновите страницу магазина позже. Отдельный случай: если вы состоите во внутреннем тесте этой же игры, закрытый трек вам не покажут, пока вы из внутреннего не выйдете. Все условия и ссылки: <a href=\"test.html\">страница закрытого теста</a>.")),
+                "<b>Не вижу игру в Google Play.</b> Игра вышла и доступна всем на Android: откройте <a href=\"https://play.google.com/store/apps/details?id=net.didogames.thelastwar\">страницу игры</a> тем же аккаунтом, под которым залогинены в Play Маркете. Если устройство не подходит по требованиям (Android 7.0 и новее, 64-битный процессор), магазин покажет предупреждение вместо кнопки установки.")),
         ]
         return doc_page("ru", "СЛУЖБА ПОДДЕРЖКИ", "Поддержка", DATE_RU, secs,
                         "Игру делает искусственный интеллект — но на письма отвечает человек.",
@@ -735,7 +721,7 @@ def support(lang):
             "<b>The game does not start / crashes.</b> Restart the device, check free space and updates. If it persists, email us your device model.",
             "<b>A purchase is missing.</b> Open \"Restore purchases\" on the Resources tab of the shop, then restart the game.",
             "<b>Can I play offline?</b> Yes, the game is fully playable offline; a connection is only needed for ads and purchases.",
-            "<b>I joined the test but the game is not in Google Play.</b> Almost always it is the account: joining the group and opting in must be done with the same Google account you are signed in with in the Play Store on your phone. If the account is right, just wait: access does not open instantly, reload the store page later. Separate case: if you are in the internal test of this same game, the closed track stays hidden until you leave it. All the rules and links: <a href=\"test.html\">the closed test page</a>.")),
+            "<b>I can&rsquo;t find the game on Google Play.</b> It is out and available to everyone on Android: open <a href=\"https://play.google.com/store/apps/details?id=net.didogames.thelastwar\">the store page</a> with the same account you use in the Play Store. If your device does not meet the requirements (Android 7.0+, 64-bit), the store shows a warning instead of the install button.")),
     ]
     return doc_page("en", "SUPPORT DESK", "Support", DATE_EN, secs,
                     "The game is built by AI - but a human answers every email.",
@@ -755,8 +741,8 @@ PRESS_FACTS_RU = [
     ("Роль человека", "постановка задач, дизайн-решения, приёмка, тестирование на устройстве "
                       "и публикация"),
     ("Платформы", "Android (Google Play); iOS — позже"),
-    ("Статус", "идёт закрытое тестирование в Google Play, дата релиза не назначена"),
-    ("Как попробовать", 'закрытый тест открыт для всех: <a href="test.html">условия и ссылки</a>'),
+    ("Статус", "вышла — доступна всем в Google Play на Android; iOS позже"),
+    ("Как попробовать", 'установить из Google Play: <a href="%s">страница игры</a>' % PLAY_URL),
     ("Жанр", "аркадное ПВО-выживание (AA-survival) с карточным драфтом, дизельпанк"),
     ("Забег", "одна миссия ≈ 2 минуты; около 13 выборов карт за миссию"),
     ("Модель", "free-to-play — необязательные покупки и реклама за награду"),
@@ -773,8 +759,8 @@ PRESS_FACTS_EN = [
                    "audio, balance, text and localization"),
     ("Human role", "setting the tasks, design calls, sign-off, on-device testing and publishing"),
     ("Platforms", "Android (Google Play); iOS — later"),
-    ("Status", "in closed testing on Google Play, release date not announced"),
-    ("How to try it", 'the closed test is open to anyone: <a href="test.html">rules and links</a>'),
+    ("Status", "released — available to everyone on Google Play for Android; iOS later"),
+    ("How to try it", 'install from Google Play: <a href="%s">the store page</a>' % PLAY_URL),
     ("Genre", "arcade AA-survival with a card draft, dieselpunk"),
     ("Run length", "one mission ≈ 2 minutes; about 13 card picks per mission"),
     ("Business model", "free-to-play — optional purchases and rewarded ads"),
@@ -1107,133 +1093,48 @@ def testers(lang):
            "ok": ("КОНТАКТ ПРИНЯТ. Доступ открывается по трём шагам выше."
                   if ru else "CONTACT RECEIVED. Access comes from the three steps above.")})
 
+    # РЕЛИЗ 2026-09-03: страница закрытого теста осталась по прежнему адресу намеренно —
+    # ссылку на неё владелец раздавал тестировщикам и в постах, 404 сломал бы эти следы.
+    # Содержание заменено на правду: тест закончился, игра в магазине.
     if ru:
         secs = [
-            ("Что это", p(
-                "Игра выходит на Android, и перед публикацией её нужно обкатать на живых людях. "
-                "Нужны те, кто поиграет пару недель и расскажет, что ломается, что непонятно и где скучно.")),
-            ("Как вступить",
-             p("Доступ уже открыт. Вы вступаете сами по ссылкам ниже, ждать письма не нужно.")
-             + p("<b>Сначала два условия, без них игры вы не увидите.</b> "
-                 "Первое: оба шага делайте тем же Google-аккаунтом, под которым вы залогинены "
-                 "в Play Маркете на телефоне. Если аккаунтов несколько, откройте Play Маркет "
-                 "и проверьте, под каким вы сидите. Это причина номер один «игры нет, ссылка не работает». "
-                 "Второе: если вы уже во внутреннем тесте, выйдите из него, иначе закрытый трек вам "
-                 "не покажут. Путь: Play Маркет, профиль, «Приложения и устройства», вкладка «Бета», "
-                 "игра, «Выйти».")
-             + steps(
-                 'Вступите в группу тестировщиков «The Last War Closed Test»: '
-                 '<a href="%s" target="_blank" rel="noopener">groups.google.com/g/lastwar-testers</a>. '
-                 'Группа открытая, одобрение не нужно, вступление занимает один клик.' % GROUP_URL,
-                 'Согласитесь на участие в тесте: '
-                 '<a href="%s" target="_blank" rel="noopener">страница теста в Google Play</a>. '
-                 'Откройте её тем же аккаунтом и нажмите кнопку согласия.' % OPTIN_URL,
-                 'Установите игру из Google Play по ссылке с той же страницы. Доступ появляется '
-                 'не мгновенно: если магазин пишет, что приложения нет, подождите и обновите страницу.')),
-            ("Что нужно от вас", ul(
-                "Телефон на Android и адрес <b>Google-аккаунта</b> с этого телефона. Обычная почта не подойдёт: "
-                "Play выдаёт доступ к тесту только по Google или Workspace адресу.",
-                "Остаться в тесте <b>две недели подряд</b>. Это единственное формальное требование Google: "
-                "если выйти раньше, дни не засчитываются, а при повторном входе отсчёт начинается заново.",
-                "И просьба уже от меня, а не от Google: <b>заходить в игру раз в пару дней</b> и писать, что не так. "
-                "Такого правила нет, но заявку на публикацию заворачивают, если тестеры игрой не пользовались.")),
-            ("Что вы получите", ul(
-                "Ранний доступ до публикации.",
-                "Прямое влияние: правки по вашему фидбэку идут в сборку, и я пишу, что именно поменял.",
-                "Упоминание в титрах, если захотите.",
-                "Честно: денег, ключей и подарков нет, даты релиза тоже пока нет.")),
-            ("Что за игра", p(
-                "Дизельпанк-аркада про оборону бронепоезда. Целиться нельзя: зенитки бьют сами. "
-                "Поле сбора вы водите пальцем и вытаскиваете кристаллы прямо из-под огня, реактор жмёте вручную, "
-                "а прокачка идёт картами: за сбитых растёт ранг, на каждом ранге бой замирает и предлагает "
-                "три карты. Девять орудий, у каждого лестница из пяти ступеней и развилка на три пути. "
-                "Забег — одна миссия, минуты на две. Биомов десять, в конце каждого босс. "
-                "Дерево узлов покупается кристаллами уже вне боя. Играется офлайн, без таймеров энергии. "
-                '<a href="press.html">Пресс-кит со скриншотами и роликом</a>.')),
-            ("Оставить контакт",
-             p("Доступ вы уже получили по трём шагам выше, эта форма не про доступ. Она нужна, "
-               "чтобы я знал, кто пришёл в тест, и мог написать вам по ходу: что поменялось в сборке, "
-               "что стоит проверить, куда слать баги. Не хотите заполнять, просто напишите мне на "
-               '<a href="mailto:%s">%s</a>.' % (EMAIL, EMAIL))
-             + form),
-            ("Что будет с вашими данными", p(
-                "Из формы приходят позывной, адрес Google-аккаунта и тип устройства. Адрес нужен ровно затем, "
-                "чтобы писать вам по самому тесту и помогать, если доступ не открылся. Список тестеров лежит у меня "
-                "и в Play Console, третьим лицам не передаётся и в рекламу не идёт. "
-                "После окончания теста адреса удаляются из списка, если вы не попросите оставить вас "
-                "для будущих тестов. Написать «удалите меня» можно в любой момент на "
-                '<a href="mailto:%s">%s</a>. Подробнее: <a href="privacy.html">Политика конфиденциальности</a>.'
-                % (EMAIL, EMAIL))),
+            ("Тест закончился", p(
+                "Закрытый тест «Поезда Последней Войны» завершён — спасибо всем, кто в нём играл "
+                "и писал о найденном. Игра прошла проверку и опубликована.")),
+            ("Где играть", p(
+                'Игра доступна всем в Google Play на Android: '
+                '<a href="%s" target="_blank" rel="noopener">страница игры в Google Play</a>. '
+                'Вступать никуда не нужно — просто установите.' % PLAY_URL)),
+            ("Если вы были тестировщиком", p(
+                "Отдельных действий не требуется: установленная тестовая сборка обновляется "
+                "до публичной версии сама. Прогресс остаётся на месте. Из группы тестировщиков "
+                "можно выйти в любой момент — на игру это больше не влияет.")),
+            ("Вопросы", p(
+                'Что-то не работает или есть идея — пишите: '
+                '<a href="mailto:%s">%s</a>. Отвечает человек.' % (EMAIL, EMAIL))),
         ]
-        return doc_page("ru", "НАБОР // ЗАКРЫТЫЙ ТЕСТ", "Стать тестировщиком", DATE_RU, secs,
-                        "Ищу людей, которые обкатают игру перед публикацией и скажут, что в ней не так.",
-                        "Стать тестировщиком. %s" % GAME_RU, "test.html",
-                        date_label="Набор открыт")
-
+        return doc_page("ru", "ФОРМУЛЯР // ДОСТУП", "Игра вышла", DATE_RU, secs,
+                        "Закрытый тест закончился — игра опубликована в Google Play.",
+                        "Игра вышла — %s" % GAME_RU, "test.html")
     secs = [
-        ("What this is", p(
-            "The game is coming to Android, and before it goes public it needs real people playing it. "
-            "I am looking for testers who will play for a couple of weeks and tell me what breaks, "
-            "what is confusing and where it gets boring.")),
-        ("How to join",
-         p("Access is already open. You join yourself through the links below, "
-           "there is no invite email to wait for.")
-         + p("<b>Two conditions first, or the game will not show up.</b> "
-             "One: do both steps with the same Google account you are signed in with in the Play "
-             "Store on your phone. If you have several accounts, open the Play Store and check "
-             "which one is active. This is the number one reason people say the link does not work. "
-             "Two: if you are already in the internal test, leave it, otherwise the closed track "
-             "stays hidden. The path: Play Store, profile, Manage apps and devices, Beta tab, "
-             "the game, Leave.")
-         + steps(
-             'Join the tester group "The Last War Closed Test": '
-             '<a href="%s" target="_blank" rel="noopener">groups.google.com/g/lastwar-testers</a>. '
-             'The group is open, no approval is needed, joining takes one click.' % GROUP_URL,
-             'Opt in to the test: '
-             '<a href="%s" target="_blank" rel="noopener">the test page on Google Play</a>. '
-             'Open it with the same account and press the button that accepts the invitation.' % OPTIN_URL,
-             'Install the game from Google Play through the link on that same page. Access does not '
-             'appear instantly: if the store says the app is unavailable, wait a little and refresh '
-             'the page.')),
-        ("What I need from you", ul(
-            "An Android phone and the <b>Google account address</b> used on it. A regular email will not work: "
-            "Play only grants test access to a Google or Workspace address.",
-            "Stay in the test for <b>14 days in a row</b>. That is Google's only formal requirement: "
-            "leaving early means those days do not count, and rejoining starts the count from zero.",
-            "And a request from me, not from Google: <b>open the game every couple of days</b> and tell me "
-            "what is wrong. There is no such rule, but an application gets rejected if testers did not "
-            "actually use the app.")),
-        ("What you get", ul(
-            "Early access before the public release.",
-            "Real influence: fixes from your feedback go into the build, and I tell you what changed.",
-            "A credit in the game if you want one.",
-            "Honestly: there is no money, no keys, no gifts, and no release date yet.")),
-        ("What the game is", p(
-            "A dieselpunk arcade about defending an armored train. You never aim: the AA turrets pick their "
-            "own targets. Your finger drags the harvest field and pulls crystals out from under the fire, "
-            "you fire the reactor by hand, and upgrades come as cards: kills raise your rank, and every rank "
-            "freezes the fight and offers three. Nine guns, each with a five-tier ladder and a three-way fork. "
-            "A run is one mission, about two minutes. Ten biomes, each ending with a boss. The node tree is "
-            "bought with crystals outside combat. Plays offline, no energy timers. "
-            '<a href="press.html">Press kit with screenshots and video</a>.')),
-        ("Stay in touch",
-         p("You already have access from the three steps above, this form is not about access. "
-           "It is how I know who joined and how I reach you during the test: what changed in the "
-           "build, what is worth checking, where to send bugs. If you would rather not fill it in, "
-           'just write to me at <a href="mailto:%s">%s</a>.' % (EMAIL, EMAIL))
-         + form),
-        ("What happens to your data", p(
-            "The form sends a handle, a Google account address and a device type. The address is used to email "
-            "you about the test itself and to help you if access does not open. The tester list lives with me and in Play "
-            "Console, it is not shared with anyone and never goes into advertising. "
-            "After the test ends the addresses are removed from the list unless you ask to stay on for future "
-            'tests. You can ask to be removed at any time at <a href="mailto:%s">%s</a>. '
-            'More detail: <a href="privacy.html">Privacy Policy</a>.' % (EMAIL, EMAIL))),
+        ("The test is over", p(
+            "The closed test of The Last War: Train is finished — thank you to everyone who played "
+            "it and reported what broke. The game passed review and is published.")),
+        ("Where to play", p(
+            'It is available to everyone on Google Play for Android: '
+            '<a href="%s" target="_blank" rel="noopener">the game on Google Play</a>. '
+            'Nothing to join — just install it.' % PLAY_URL)),
+        ("If you were a tester", p(
+            "Nothing to do: an installed test build updates to the public version on its own, and "
+            "your progress stays. You can leave the tester group whenever you like — it no longer "
+            "affects the game.")),
+        ("Questions", p(
+            'Something broken, or an idea — write to '
+            '<a href="mailto:%s">%s</a>. A human answers.' % (EMAIL, EMAIL))),
     ]
-    return doc_page("en", "RECRUITING // CLOSED TEST", "Become a tester", DATE_EN, secs,
-                    "Looking for people to put the game through its paces before it goes public.",
-                    "Become a tester. %s" % GAME_EN, "en/test.html",
-                    date_label="Recruiting now")
+    return doc_page("en", "FORM // ACCESS", "The game is out", DATE_EN, secs,
+                    "The closed test is over — the game is published on Google Play.",
+                    "The game is out — %s" % GAME_EN, "en/test.html")
 
 
 OUT = {
@@ -1263,7 +1164,7 @@ OUT = {
 
 # ── SEO под домен: canonical + hreflang + OpenGraph + JSON-LD ────────────────
 DESCS = {
-    "index.html": "Игра про ИИ, сделанная ИИ: код, арт, звук и баланс созданы искусственным интеллектом. Аркадное ПВО-выживание — бронепоезд, зенитки, карточная прокачка в бою, 9 орудий по 5 ступеней, 10 биомов. Уже можно играть в закрытом тесте Google Play.",
+    "index.html": "Аркадное ПВО-выживание, сделанное ИИ: бронепоезд, зенитки, карточная прокачка в бою, 10 биомов. Бесплатно в Google Play на Android.",
     "lore.html": "Мир «Поезда Последней Войны»: бортжурнал машиниста — война машин, бронесостав и 10 биомов маршрута.",
     "en/lore.html": "The world of The Last War: Train — the driver's logbook: the machine war, the armored train and the route's 10 biomes.",
     "terms.html": "Условия использования игры «%s»." % GAME_RU,
@@ -1275,9 +1176,9 @@ DESCS = {
     "en/press.html": "Press kit for \"%s\": factsheet, description, screenshots, logo, video, "
                      "contact. A game about AI, made by AI — code, art, audio and balance are "
                      "AI-generated." % GAME_EN,
-    "test.html": 'Стать тестировщиком «%s»: закрытый тест в Google Play, что нужно от тестера, что он получает и как вступить в три шага.' % GAME_RU,
-    "en/test.html": 'Become a tester for "%s": closed test on Google Play, what a tester needs, what they get and how to join in three steps.' % GAME_EN,
-    "en/index.html": "A game about AI, made by AI: code, art, audio and balance are AI-generated. Arcade AA-survival — an armored train, anti-air turrets, an in-combat card draft, 9 guns with 5 tiers each, 10 biomes. Playable now in the Google Play closed test.",
+    "test.html": 'Закрытый тест «%s» завершён — игра опубликована в Google Play на Android.' % GAME_RU,
+    "en/test.html": 'The closed test of "%s" is over — the game is published on Google Play for Android.' % GAME_EN,
+    "en/index.html": "Arcade AA-survival made by AI: an armored train, auto-firing turrets, a card draft in combat, 10 biomes. Free on Google Play for Android.",
     "en/terms.html": "Terms of Use for \"%s\"." % GAME_EN,
     "en/privacy.html": "Privacy Policy for \"%s\"." % GAME_EN,
     "en/support.html": "Support for \"%s\": contact, purchases, data deletion." % GAME_EN,
@@ -1326,17 +1227,21 @@ def head_extra(rel, title):
                # ран-состояние сгорает на границе миссии (BattleNodeTree.clear_run_levels).
                '"@type":"VideoGame","name":"%s","genre":["Arcade","Survival","Roguelite","Tower Defense"],'
                '"gamePlatform":["Android"],"applicationCategory":"Game",'
+               '"operatingSystem":"Android 7.0+",'
+               # Релиз: приложение опубликовано — даём поисковикам ссылку в магазин и цену.
+               '"installUrl":"%s","downloadUrl":"%s",'
+               '"offers":{"@type":"Offer","price":"0","priceCurrency":"USD",'
+               '"availability":"https://schema.org/InStock"},'
                '"description":"%s",'
                '"author":{"@type":"Organization","name":"Dido Games","url":"%s"},'
                '"image":"%s/assets/img/og.jpg","url":"%s",'
                '"video":{"@type":"VideoObject","name":"%s — gameplay presentation",'
-               # ⚠️ ролик к пересъёмке (директива №50) — в кадре межволновое окно дерева,
-               # которого в игре больше нет; описание очищено, монтаж меняет отдельный наряд.
-               '"description":"70-second in-game presentation: combat, harvest field, depot, bosses.",'
+               # Ролик переснят 01.09 под карточную прокачку — описание можно давать полное.
+               '"description":"70-second in-game presentation: combat, harvest field, a card pick on rank-up, depot, bosses.",'
                '"thumbnailUrl":"%s/assets/img/reel_poster.jpg","uploadDate":"2026-07-26",'
                '"duration":"PT1M10S","contentUrl":"%s/assets/video/P1_presentation.mp4"},'
                '"inLanguage":["ru","en","de","es","fr","it","pl","pt-BR","tr","id"]}'
-               '</script>' % (name, DESCS[rel].replace('"', "'"), BASE, BASE, canon(rel),
+               '</script>' % (name, PLAY_URL, PLAY_URL, DESCS[rel].replace('"', "'"), BASE, BASE, canon(rel),
                               name, BASE, BASE))
     return ex
 
