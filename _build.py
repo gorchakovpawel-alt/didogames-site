@@ -1137,8 +1137,13 @@ def testers(lang):
                     "The game is out — %s" % GAME_EN, "en/test.html")
 
 
+# ⚠ ЛЕНДИНГИ index.html и en/index.html ЭТОТ ГЕНЕРАТОР БОЛЬШЕ НЕ ПИШЕТ.
+# С 2026-09-16 титульная — студийный сайт Dido Games («Разворот»), он собирается
+# отдельно (scratchpad/mock/deploy.py) и кладёт файлы сюда же. Если вернуть их в OUT,
+# следующий прогон затрёт студийный сайт формуляром игры.
+LANDINGS = ["index.html", "en/index.html"]      # существуют, но не генерируются здесь
+
 OUT = {
-    "index.html": landing("ru"),
     "lore.html": lore("ru"),
     "en/lore.html": lore("en"),
     "terms.html": doc_page("ru", "ФОРМУЛЯР // ДОКУМЕНТ 01", "Условия использования", DATE_RU, TERMS_RU,
@@ -1150,7 +1155,6 @@ OUT = {
     "support.html": support("ru"),
     "press.html": press("ru"),
     "en/press.html": press("en"),
-    "en/index.html": landing("en"),
     "en/terms.html": doc_page("en", "FORM // DOCUMENT 01", "Terms of Use", DATE_EN, TERMS_EN,
                               "These Terms of Use (the \"Terms\") govern your access to and use of the game \"%s\" (the \"Game\"). By installing, launching, or using the Game, you confirm that you have read, understood, and accept these Terms. If you do not agree, do not use the Game." % GAME_EN,
                               "Terms of Use — %s" % GAME_EN, "en/terms.html"),
@@ -1260,7 +1264,7 @@ for rel, html in OUT.items():
 with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8", newline="\n") as f:
     f.write("User-agent: *\nAllow: /\nSitemap: %s/sitemap.xml\n" % BASE)
 with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8", newline="\n") as f:
-    urls = "".join("<url><loc>%s</loc></url>" % canon(r) for r in OUT)   # press теперь в OUT
+    urls = "".join("<url><loc>%s</loc></url>" % canon(r) for r in LANDINGS + list(OUT))
     f.write('<?xml version="1.0" encoding="UTF-8"?>'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">%s</urlset>\n' % urls)
 with open(os.path.join(ROOT, "CNAME"), "w", encoding="utf-8", newline="\n") as f:
