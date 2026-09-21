@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Условия использования ШароКотов</title>
+<meta name="description" content="Условия использования ШароКотов">
+<link rel="canonical" href="https://didogames.net/sharokoty/terms.html">
+<link rel="alternate" hreflang="ru" href="https://didogames.net/sharokoty/terms.html">
+<link rel="alternate" hreflang="en" href="https://didogames.net/sharokoty/terms.html#en">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dido Games">
+<meta property="og:title" content="Условия использования ШароКотов">
+<meta property="og:url" content="https://didogames.net/sharokoty/terms.html">
+<meta name="theme-color" content="#F5EFE8">
+</head>
+<body>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&display=swap');
+
+:root{
+  --ground:#F5EFE8; --paper:#FFFCF8; --ink:#3B2B4D; --dim:#7C6C8A;
+  --lilac:#C9B3E8; --plum:#6A4A9E; --line:#E9DFEC; --fish:#2F3A5C;
+  --card-sh:0 1px 2px rgba(59,43,77,.05), 0 8px 24px -14px rgba(59,43,77,.22);
+}
+:root:not([data-theme="light"]){ }
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#231B2E; --paper:#2D2439; --ink:#F2EBF7; --dim:#A797B8;
+    --lilac:#B9A0DE; --plum:#CBB2F2; --line:#3E3452; --fish:#C7D2F0;
+    --card-sh:0 1px 2px rgba(0,0,0,.3), 0 10px 28px -16px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#231B2E; --paper:#2D2439; --ink:#F2EBF7; --dim:#A797B8;
+  --lilac:#B9A0DE; --plum:#CBB2F2; --line:#3E3452; --fish:#C7D2F0;
+  --card-sh:0 1px 2px rgba(0,0,0,.3), 0 10px 28px -16px rgba(0,0,0,.6);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font:400 17px/1.68 Literata, Georgia, "Times New Roman", serif;
+  -webkit-text-size-adjust:100%;
+}
+body::before{
+  content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.5;
+  background-image:
+    radial-gradient(circle at 12% 18%, color-mix(in srgb, var(--lilac) 26%, transparent) 0 8px, transparent 9px),
+    radial-gradient(circle at 86% 42%, color-mix(in srgb, var(--lilac) 20%, transparent) 0 6px, transparent 7px),
+    radial-gradient(circle at 30% 78%, color-mix(in srgb, var(--lilac) 16%, transparent) 0 7px, transparent 8px);
+  background-size:520px 520px, 700px 700px, 620px 620px;
+}
+.wrap{position:relative; z-index:1; max-width:none; padding:0 20px}
+
+/* шапка */
+.top{
+  position:sticky; top:env(safe-area-inset-top, 0px); z-index:5;
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  margin:0 -20px 0; padding:10px 20px;
+  background:color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+}
+.brand{
+  display:flex; align-items:center; gap:9px; min-width:0;
+  font:700 13px/1 Nunito, system-ui, sans-serif; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--dim);
+}
+.brand svg{width:19px;height:19px;flex:none;fill:var(--lilac)}
+.spacer{flex:1 1 auto}
+.langs{display:flex; gap:4px; flex:none}
+.langs button{
+  font:700 12px/1 Nunito, system-ui, sans-serif; letter-spacing:.08em;
+  padding:7px 12px; border-radius:999px; cursor:pointer;
+  border:1px solid var(--line); background:transparent; color:var(--dim);
+}
+.langs button[aria-pressed="true"]{
+  background:var(--lilac); border-color:var(--lilac); color:#2A1F3B;
+}
+.langs button:focus-visible{outline:2px solid var(--plum); outline-offset:2px}
+
+main{max-width:min(68ch, 100%); margin:0 auto; padding-block:38px 56px}
+
+.eyebrow{
+  font:700 12px/1 Nunito, system-ui, sans-serif; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--plum); margin:0 0 14px;
+}
+h1{
+  font:800 clamp(30px, 6vw, 44px)/1.1 Nunito, system-ui, sans-serif;
+  margin:0 0 10px; letter-spacing:-.01em; text-wrap:balance;
+}
+.date{color:var(--dim); font-size:15px; margin:0 0 30px}
+.lede{font-size:18px; margin:0 0 34px}
+.lede p{margin:0 0 14px}
+
+/* §1 — единственная поднятая карточка: остальное плоский текст */
+.short{
+  background:var(--paper); border:1px solid var(--line); border-radius:18px;
+  box-shadow:var(--card-sh); padding:22px 24px; margin:0 0 42px;
+  border-left:4px solid var(--lilac);
+}
+.short h2{
+  font:700 13px/1 Nunito, system-ui, sans-serif; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--plum); margin:0 0 14px;
+}
+.short ul{margin:0; padding-left:0; list-style:none; display:grid; gap:11px}
+.short li{position:relative; padding-left:26px; font-size:16px; line-height:1.6}
+.short li::before{
+  content:""; position:absolute; left:2px; top:.62em; width:9px; height:9px;
+  border-radius:50%; background:var(--lilac);
+}
+
+section{margin:0 0 38px; scroll-margin-top:72px}
+section h2{
+  display:flex; align-items:baseline; gap:12px;
+  font:700 clamp(19px, 3.4vw, 23px)/1.3 Nunito, system-ui, sans-serif;
+  margin:0 0 12px; text-wrap:balance;
+}
+.num{
+  flex:none; display:inline-grid; place-items:center;
+  width:30px; height:30px; border-radius:50%;
+  background:color-mix(in srgb, var(--lilac) 40%, transparent);
+  color:var(--plum); font:700 13px/1 Nunito, system-ui, sans-serif;
+  font-variant-numeric:tabular-nums; align-self:center;
+}
+section p{margin:0 0 13px}
+section ul{margin:0 0 13px; padding-left:0; list-style:none; display:grid; gap:9px}
+section li{position:relative; padding-left:22px}
+section li::before{
+  content:""; position:absolute; left:3px; top:.68em; width:6px; height:6px;
+  border-radius:50%; background:color-mix(in srgb, var(--lilac) 75%, transparent);
+}
+a{color:var(--plum); text-underline-offset:3px; text-decoration-thickness:1px}
+a:focus-visible{outline:2px solid var(--plum); outline-offset:3px; border-radius:3px}
+strong{font-weight:600}
+
+.glyph{
+  width:1.05em; height:1.05em; vertical-align:-.16em; margin-right:.32em;
+  fill:var(--lilac);
+}
+.glyph.fish{fill:var(--fish)}
+
+footer{
+  border-top:1px solid var(--line); margin-top:10px; padding-block:26px 8px;
+  display:grid; gap:18px; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+}
+.fb{font-size:15px; line-height:1.6}
+.fb .field{
+  font:700 11px/1 Nunito, system-ui, sans-serif; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--dim); margin:0 0 7px;
+}
+.fb a{display:block}
+.fnote{
+  grid-column:1/-1; border-top:1px solid var(--line); padding-top:16px;
+  color:var(--dim); font-size:13.5px;
+}
+@media (prefers-reduced-motion: reduce){*{animation:none!important; transition:none!important}}
+</style>
+<div class="wrap">
+<div class="top"><span class="brand"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="15" r="5.4"/><circle cx="5.2" cy="9.4" r="2.5"/><circle cx="9.6" cy="6.1" r="2.5"/><circle cx="14.4" cy="6.1" r="2.5"/><circle cx="18.8" cy="9.4" r="2.5"/></svg> Dido Games · ШароКоты</span><span class="spacer"></span><nav class="langs" aria-label="Язык / Language"><button type="button" id="lang-ru-terms" data-lang="ru" aria-pressed="true">RU</button><button type="button" id="lang-en-terms" data-lang="en" aria-pressed="false">EN</button></nav></div>
+<main class="doc" data-lang="ru">
+<p class="eyebrow">ШАРОКОТЫ · ПРАВИЛА</p>
+<h1>Условия использования</h1>
+<p class="date">Дата вступления в силу: 20 сентября 2026 г.</p>
+<div class="lede"><p>Настоящие Условия использования (далее — «Условия») описывают, на каких основаниях вы пользуетесь игрой «ШароКоты» (далее — «Игра»). Разработчик — Dido Games. Устанавливая, запуская или используя Игру, вы подтверждаете, что прочли Условия и принимаете их. Если вы с ними не согласны — не пользуйтесь Игрой.</p></div>
+<div class="short"><h2>В двух словах</h2><p>Разработчик даёт вам ограниченное, личное, неисключительное, непередаваемое и отзывное право пользоваться Игрой в личных некоммерческих целях на устройствах, которыми вы владеете, — в рамках настоящих Условий и правил магазина приложений, где вы получили Игру.</p></div>
+<section id="terms-ru-2"><h2><span class="num">2</span>Как пользоваться Игрой</h2>
+<p>Игра одиночная: соперников в ней нет, и мешать в ней некому. Просим только не делать следующего: (а) изменять, декомпилировать и разбирать Игру; (б) вмешиваться в её работу и в работу игровых сервисов, через которые идут таблицы рекордов; (в) подделывать результаты, отправляемые в таблицы; (г) использовать Игру способом, нарушающим закон или права других людей.</p></section>
+<section id="terms-ru-3"><h2><span class="num">3</span>Лапки и рыбки</h2>
+<p>В Игре два кошелька. Лапки только зарабатываются — партиями и задачами; за деньги они не продаются. Рыбки и зарабатываются в Игре, и продаются наборами за деньги.</p>
+<p>И лапки, и рыбки — часть Игры, а не деньги: они не имеют денежной стоимости, не обмениваются обратно на деньги, не передаются другим игрокам и не выносятся за пределы Игры. Покупая набор, вы получаете право пользоваться рыбками внутри Игры, а не приобретаете их в собственность.</p>
+<p>Случайных платных предметов, коробок с неизвестным содержимым и платных механик с вероятностью в Игре нет: до оплаты вы всегда видите, что именно получите. (Сама игра случайна там, где это её суть: порядок котов в стакане тянется генератором случайных чисел. За деньги случайность не продаётся.) Разработчик может менять состав витрины и цены в рыбках.</p></section>
+<section id="terms-ru-4"><h2><span class="num">4</span>Покупки</h2>
+<p>Все платежи проходят через магазин приложений — Google Play или App Store — и подчиняются его правилам. Возврат средств, спорные списания и прочие вопросы оплаты решает магазин. Разработчик не видит и не хранит данных вашей платёжной карты.</p>
+<p>Наборы рыбок — расходуемый товар: после начисления они не восстанавливаются. Ничего другого за деньги Игра не продаёт. Оформление дома, украшения и наборы окрасов покупаются за рыбки — игровую валюту — и остаются открытыми на этом устройстве. Кнопка «Восстановить покупки» в витрине спрашивает у магазина оплаченные, но не доставленные наборы и доводит их до конца; уже начисленные рыбки она не возвращает и вернуть не может.</p>
+<p>Подписок в Игре нет. Цен Игра не назначает: она показывает ту цену, которую вернул магазин в вашей стране и валюте.</p></section>
+<section id="terms-ru-5"><h2><span class="num">5</span>Рекламы нет</h2>
+<p>В Игре нет рекламы — ни баннеров, ни роликов, ни рекламы за награду. Ни один предмет, ни одна попытка и ни одно продолжение не выдаются за просмотр рекламы: рекламных сетей в сборке нет вовсе.</p></section>
+<section id="terms-ru-6"><h2><span class="num">6</span>Таблицы рекордов</h2>
+<p>Игра умеет отправлять результат в Game Center (iOS) и Google Play Games (Android). Вход добровольный и делается вашей кнопкой; без входа доступна вся Игра целиком. Таблицы показывает сама платформа, и обращение с данными в них определяют её правила. Своих учётных записей Разработчик не заводит и не ведёт. Результаты вызова дня в таблицы не отправляются и остаются на устройстве. Что именно уходит и приходит при входе — в Политике конфиденциальности.</p></section>
+<section id="terms-ru-7"><h2><span class="num">7</span>Прогресс и его стирание</h2>
+<p>Прогресс хранится только на вашем устройстве. Копии у Разработчика нет, и восстановить потерянный прогресс он не может.</p>
+<p>Кнопка «СТЕРЕТЬ ПРОГРЕСС» в настройках необратима. Она возвращает Игру в состояние первого запуска: обнуляются рекорды, коллекция, дом и оба кошелька. Рыбки, купленные наборами, стираются вместе с остальными — расходуемый товар после стирания не возвращается. «Восстановить покупки» его не вернёт: эта кнопка доводит до конца оплаченное, но не доставленное, а не отменяет стирание.</p>
+<p>Удаление Игры с устройства удаляет весь локальный прогресс.</p></section>
+<section id="terms-ru-8"><h2><span class="num">8</span>Права на Игру</h2>
+<p>Игра, включая код, изображения, звук, тексты и название, принадлежит Разработчику или его лицензиарам и охраняется законом. Никаких прав, кроме прямо названной выше лицензии, вам не передаётся.</p></section>
+<section id="terms-ru-9"><h2><span class="num">9</span>Гарантии и ответственность</h2>
+<p>Игра предоставляется «как есть» и «как доступна», без гарантий любого рода. В максимальной степени, допустимой законом, Разработчик не отвечает за косвенные, случайные и последующие убытки, возникшие из-за использования Игры или невозможности ею пользоваться. Ничто в настоящих Условиях не ограничивает прав, которые по применимому закону ограничить нельзя, — в том числе прав потребителя.</p></section>
+<section id="terms-ru-10"><h2><span class="num">10</span>Прекращение</h2>
+<p>Вы можете прекратить пользоваться Игрой в любой момент, удалив её. Разработчик не ведёт учётных записей и технически не может «отключить» вам Игру: она работает на вашем устройстве. Нарушение Условий даёт Разработчику право снять сборку с продажи и обратиться к магазину приложений в рамках его правил.</p></section>
+<section id="terms-ru-11"><h2><span class="num">11</span>Изменения</h2>
+<p>Условия могут обновляться. Существенные изменения отражаются новой датой вступления в силу; продолжая пользоваться Игрой, вы принимаете обновлённую редакцию.</p></section>
+<section id="terms-ru-12"><h2><span class="num">12</span>Применимое право</h2>
+<p>К настоящим Условиям применяется право страны постоянного пребывания Разработчика, без учёта коллизионных норм.</p></section>
+<section id="terms-ru-13"><h2><span class="num">13</span>Связь</h2>
+<p>Вопросы по настоящим Условиям: Dido Games, support@didogames.net.</p></section>
+<footer><div class="fb"><div class="field">РАЗРАБОТЧИК</div>Dido Games<br>Игра сделана с помощью ИИ-инструментов: код, изображения, звук и баланс.</div><div class="fb"><div class="field">СВЯЗЬ</div><a href="mailto:support@didogames.net">support@didogames.net</a></div><div class="fb"><div class="field">ДОКУМЕНТЫ</div><a href="privacy.html">Политика конфиденциальности</a><a href="#">Условия использования</a></div><div class="fnote">© 2026 Dido Games. «ШароКоты». Лапки и рыбки не имеют денежной стоимости.</div></footer>
+</main>
+<main class="doc" data-lang="en" hidden>
+<p class="eyebrow">SHAROKOTY · RULES</p>
+<h1>Terms of Use</h1>
+<p class="date">Effective date: September 20, 2026</p>
+<div class="lede"><p>These Terms of Use (the Terms) describe the basis on which you use the game Sharokoty (ШароКоты) (the Game). The developer is Dido Games (the Developer). By installing, launching or using the Game you confirm that you have read these Terms and accept them. If you do not agree with them, do not use the Game.</p></div>
+<div class="short"><h2>In short</h2><p>The Developer grants you a limited, personal, non-exclusive, non-transferable and revocable right to use the Game for personal, non-commercial purposes on devices you own, subject to these Terms and to the rules of the app store where you obtained the Game.</p></div>
+<section id="terms-en-2"><h2><span class="num">2</span>How to use the Game</h2>
+<p>The Game is single-player: there are no opponents in it and nobody to disturb. We only ask you not to: (a) modify, decompile or disassemble the Game; (b) interfere with its operation or with the game services that carry the leaderboards; (c) falsify the results sent to leaderboards; (d) use the Game in a way that breaks the law or infringes the rights of others.</p></section>
+<section id="terms-en-3"><h2><span class="num">3</span>Paws and fish</h2>
+<p>The Game has two wallets. Paws are earned only — through runs and tasks; they are not sold for money. Fish are both earned in the Game and sold in packs for money.</p>
+<p><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="15" r="5.4"/><circle cx="5.2" cy="9.4" r="2.5"/><circle cx="9.6" cy="6.1" r="2.5"/><circle cx="14.4" cy="6.1" r="2.5"/><circle cx="18.8" cy="9.4" r="2.5"/></svg>Paws and fish are part of the Game, not money: they have no monetary value, cannot be exchanged back for money, cannot be transferred to other players and cannot be taken outside the Game. By buying a pack you receive the right to use fish inside the Game, not ownership of them.</p>
+<p>The Game contains no random paid items, no boxes with unknown contents and no paid probability-based mechanics: before you pay, you always see exactly what you will get. (The game itself is random where randomness is the point: the order of cats in the cup is drawn by a random number generator. Randomness is not sold for money.) The Developer may change the contents of the shop and the prices in fish.</p></section>
+<section id="terms-en-4"><h2><span class="num">4</span>Purchases</h2>
+<p>All payments go through the app store — Google Play or the App Store — and are subject to its rules. Refunds, disputed charges and other payment matters are handled by the store. The Developer neither sees nor stores your payment card details.</p>
+<p><svg class="glyph fish" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 12c0 3-3 5.5-6.7 5.5C5.6 17.5 3 15 3 12s2.6-5.5 5.8-5.5C12.5 6.5 15.5 9 15.5 12z"/><path d="M15.2 12 21 7.6v8.8z"/><circle cx="7.4" cy="10.8" r="1.15" fill="#FFFCF8"/></svg>Fish packs are a consumable product: once credited, they are not restored. The Game sells nothing else for money. House decoration, ornaments and coat sets are bought with fish — the in-game currency — and stay unlocked on this device. The Restore purchases button in the shop asks the store for packs that were paid for but not delivered and completes them; it does not and cannot return fish that have already been credited.</p>
+<p>The Game has no subscriptions. The Game sets no prices: it shows the price returned by the store for your country and currency.</p></section>
+<section id="terms-en-5"><h2><span class="num">5</span>No advertising</h2>
+<p>The Game has no advertising — no banners, no videos, no rewarded ads. No item, no attempt and no continue is granted for watching an ad: the build contains no ad networks at all.</p></section>
+<section id="terms-en-6"><h2><span class="num">6</span>Leaderboards</h2>
+<p>The Game can send a result to Game Center (iOS) and Google Play Games (Android). Signing in is voluntary and done with your own button; without signing in the whole Game is available. The leaderboards are shown by the platform itself, and the handling of data in them is governed by its rules. The Developer creates and keeps no accounts of its own. Daily challenge results are not sent to leaderboards and stay on the device. What exactly goes out and comes in when you sign in is described in the Privacy Policy.</p></section>
+<section id="terms-en-7"><h2><span class="num">7</span>Progress and erasing it</h2>
+<p>Progress is stored on your device only. The Developer has no copy and cannot restore progress that is lost.</p>
+<p>The ERASE PROGRESS button in settings is irreversible. It returns the Game to its first-launch state: records, collection, house and both wallets are set to zero. Fish bought in packs are erased along with the rest — a consumable product does not come back after erasing. Purchases made directly with money are not lost to erasing: Restore purchases brings them back.</p>
+<p>Deleting the Game from the device deletes all local progress.</p></section>
+<section id="terms-en-8"><h2><span class="num">8</span>Intellectual property</h2>
+<p>The Game, including its code, art, audio, text and name, belongs to the Developer or its licensors and is protected by law. No rights are granted to you other than the licence expressly stated above.</p></section>
+<section id="terms-en-9"><h2><span class="num">9</span>Disclaimer and limitation of liability</h2>
+<p>The Game is provided as is and as available, without warranties of any kind. To the maximum extent permitted by law, the Developer is not liable for indirect, incidental or consequential damages arising from the use of, or inability to use, the Game. Nothing in these Terms limits rights that cannot be limited under applicable law, including consumer rights.</p></section>
+<section id="terms-en-10"><h2><span class="num">10</span>Termination</h2>
+<p>You may stop using the Game at any time by deleting it. The Developer keeps no accounts and cannot technically switch the Game off for you: it runs on your device. A breach of these Terms entitles the Developer to withdraw the build from sale and to approach the app store under its own rules.</p></section>
+<section id="terms-en-11"><h2><span class="num">11</span>Changes</h2>
+<p>These Terms may be updated. Material changes are reflected by a new effective date; by continuing to use the Game you accept the updated version.</p></section>
+<section id="terms-en-12"><h2><span class="num">12</span>Governing law</h2>
+<p>These Terms are governed by the laws of the country of residence of the Developer, without regard to conflict-of-law rules.</p></section>
+<section id="terms-en-13"><h2><span class="num">13</span>Contact</h2>
+<p>Questions about these Terms: Dido Games, support@didogames.net.</p></section>
+<footer><div class="fb"><div class="field">DEVELOPER</div>Dido Games<br>The Game is made with AI tools: code, images, audio and balance.</div><div class="fb"><div class="field">CONTACT</div><a href="mailto:support@didogames.net">support@didogames.net</a></div><div class="fb"><div class="field">DOCUMENTS</div><a href="privacy.html">Privacy Policy</a><a href="#">Terms of Use</a></div><div class="fnote">© 2026 Dido Games. SharoKoty. Paws and fish have no monetary value.</div></footer>
+</main>
+</div>
+<script>
+(function(){
+  var btns = document.querySelectorAll('.langs button');
+  var docs = document.querySelectorAll('main.doc');
+  function pick(lang){
+    docs.forEach(function(d){ d.hidden = d.dataset.lang !== lang; });
+    btns.forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.lang === lang)); });
+    document.documentElement.lang = lang;
+    try { history.replaceState(null, '', lang === 'ru' ? location.pathname : '#en'); } catch (e) {}
+  }
+  btns.forEach(function(b){ b.addEventListener('click', function(){ pick(b.dataset.lang); }); });
+  pick(location.hash.toLowerCase() === '#en' ? 'en' : 'ru');
+})();
+</script>
+</body>
+</html>

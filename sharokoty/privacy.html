@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Политика конфиденциальности ШароКотов</title>
+<meta name="description" content="Политика конфиденциальности ШароКотов">
+<link rel="canonical" href="https://didogames.net/sharokoty/privacy.html">
+<link rel="alternate" hreflang="ru" href="https://didogames.net/sharokoty/privacy.html">
+<link rel="alternate" hreflang="en" href="https://didogames.net/sharokoty/privacy.html#en">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dido Games">
+<meta property="og:title" content="Политика конфиденциальности ШароКотов">
+<meta property="og:url" content="https://didogames.net/sharokoty/privacy.html">
+<meta name="theme-color" content="#F5EFE8">
+</head>
+<body>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&display=swap');
+
+:root{
+  --ground:#F5EFE8; --paper:#FFFCF8; --ink:#3B2B4D; --dim:#7C6C8A;
+  --lilac:#C9B3E8; --plum:#6A4A9E; --line:#E9DFEC; --fish:#2F3A5C;
+  --card-sh:0 1px 2px rgba(59,43,77,.05), 0 8px 24px -14px rgba(59,43,77,.22);
+}
+:root:not([data-theme="light"]){ }
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#231B2E; --paper:#2D2439; --ink:#F2EBF7; --dim:#A797B8;
+    --lilac:#B9A0DE; --plum:#CBB2F2; --line:#3E3452; --fish:#C7D2F0;
+    --card-sh:0 1px 2px rgba(0,0,0,.3), 0 10px 28px -16px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#231B2E; --paper:#2D2439; --ink:#F2EBF7; --dim:#A797B8;
+  --lilac:#B9A0DE; --plum:#CBB2F2; --line:#3E3452; --fish:#C7D2F0;
+  --card-sh:0 1px 2px rgba(0,0,0,.3), 0 10px 28px -16px rgba(0,0,0,.6);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font:400 17px/1.68 Literata, Georgia, "Times New Roman", serif;
+  -webkit-text-size-adjust:100%;
+}
+body::before{
+  content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.5;
+  background-image:
+    radial-gradient(circle at 12% 18%, color-mix(in srgb, var(--lilac) 26%, transparent) 0 8px, transparent 9px),
+    radial-gradient(circle at 86% 42%, color-mix(in srgb, var(--lilac) 20%, transparent) 0 6px, transparent 7px),
+    radial-gradient(circle at 30% 78%, color-mix(in srgb, var(--lilac) 16%, transparent) 0 7px, transparent 8px);
+  background-size:520px 520px, 700px 700px, 620px 620px;
+}
+.wrap{position:relative; z-index:1; max-width:none; padding:0 20px}
+
+/* шапка */
+.top{
+  position:sticky; top:env(safe-area-inset-top, 0px); z-index:5;
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  margin:0 -20px 0; padding:10px 20px;
+  background:color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+}
+.brand{
+  display:flex; align-items:center; gap:9px; min-width:0;
+  font:700 13px/1 Nunito, system-ui, sans-serif; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--dim);
+}
+.brand svg{width:19px;height:19px;flex:none;fill:var(--lilac)}
+.spacer{flex:1 1 auto}
+.langs{display:flex; gap:4px; flex:none}
+.langs button{
+  font:700 12px/1 Nunito, system-ui, sans-serif; letter-spacing:.08em;
+  padding:7px 12px; border-radius:999px; cursor:pointer;
+  border:1px solid var(--line); background:transparent; color:var(--dim);
+}
+.langs button[aria-pressed="true"]{
+  background:var(--lilac); border-color:var(--lilac); color:#2A1F3B;
+}
+.langs button:focus-visible{outline:2px solid var(--plum); outline-offset:2px}
+
+main{max-width:min(68ch, 100%); margin:0 auto; padding-block:38px 56px}
+
+.eyebrow{
+  font:700 12px/1 Nunito, system-ui, sans-serif; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--plum); margin:0 0 14px;
+}
+h1{
+  font:800 clamp(30px, 6vw, 44px)/1.1 Nunito, system-ui, sans-serif;
+  margin:0 0 10px; letter-spacing:-.01em; text-wrap:balance;
+}
+.date{color:var(--dim); font-size:15px; margin:0 0 30px}
+.lede{font-size:18px; margin:0 0 34px}
+.lede p{margin:0 0 14px}
+
+/* §1 — единственная поднятая карточка: остальное плоский текст */
+.short{
+  background:var(--paper); border:1px solid var(--line); border-radius:18px;
+  box-shadow:var(--card-sh); padding:22px 24px; margin:0 0 42px;
+  border-left:4px solid var(--lilac);
+}
+.short h2{
+  font:700 13px/1 Nunito, system-ui, sans-serif; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--plum); margin:0 0 14px;
+}
+.short ul{margin:0; padding-left:0; list-style:none; display:grid; gap:11px}
+.short li{position:relative; padding-left:26px; font-size:16px; line-height:1.6}
+.short li::before{
+  content:""; position:absolute; left:2px; top:.62em; width:9px; height:9px;
+  border-radius:50%; background:var(--lilac);
+}
+
+section{margin:0 0 38px; scroll-margin-top:72px}
+section h2{
+  display:flex; align-items:baseline; gap:12px;
+  font:700 clamp(19px, 3.4vw, 23px)/1.3 Nunito, system-ui, sans-serif;
+  margin:0 0 12px; text-wrap:balance;
+}
+.num{
+  flex:none; display:inline-grid; place-items:center;
+  width:30px; height:30px; border-radius:50%;
+  background:color-mix(in srgb, var(--lilac) 40%, transparent);
+  color:var(--plum); font:700 13px/1 Nunito, system-ui, sans-serif;
+  font-variant-numeric:tabular-nums; align-self:center;
+}
+section p{margin:0 0 13px}
+section ul{margin:0 0 13px; padding-left:0; list-style:none; display:grid; gap:9px}
+section li{position:relative; padding-left:22px}
+section li::before{
+  content:""; position:absolute; left:3px; top:.68em; width:6px; height:6px;
+  border-radius:50%; background:color-mix(in srgb, var(--lilac) 75%, transparent);
+}
+a{color:var(--plum); text-underline-offset:3px; text-decoration-thickness:1px}
+a:focus-visible{outline:2px solid var(--plum); outline-offset:3px; border-radius:3px}
+strong{font-weight:600}
+
+.glyph{
+  width:1.05em; height:1.05em; vertical-align:-.16em; margin-right:.32em;
+  fill:var(--lilac);
+}
+.glyph.fish{fill:var(--fish)}
+
+footer{
+  border-top:1px solid var(--line); margin-top:10px; padding-block:26px 8px;
+  display:grid; gap:18px; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+}
+.fb{font-size:15px; line-height:1.6}
+.fb .field{
+  font:700 11px/1 Nunito, system-ui, sans-serif; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--dim); margin:0 0 7px;
+}
+.fb a{display:block}
+.fnote{
+  grid-column:1/-1; border-top:1px solid var(--line); padding-top:16px;
+  color:var(--dim); font-size:13.5px;
+}
+@media (prefers-reduced-motion: reduce){*{animation:none!important; transition:none!important}}
+</style>
+<div class="wrap">
+<div class="top"><span class="brand"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="15" r="5.4"/><circle cx="5.2" cy="9.4" r="2.5"/><circle cx="9.6" cy="6.1" r="2.5"/><circle cx="14.4" cy="6.1" r="2.5"/><circle cx="18.8" cy="9.4" r="2.5"/></svg> Dido Games · ШароКоты</span><span class="spacer"></span><nav class="langs" aria-label="Язык / Language"><button type="button" id="lang-ru-privacy" data-lang="ru" aria-pressed="true">RU</button><button type="button" id="lang-en-privacy" data-lang="en" aria-pressed="false">EN</button></nav></div>
+<main class="doc" data-lang="ru">
+<p class="eyebrow">ШАРОКОТЫ · ДАННЫЕ</p>
+<h1>Политика конфиденциальности</h1>
+<p class="date">Дата вступления в силу: 20 сентября 2026 г.</p>
+<div class="lede"><p>Настоящая Политика конфиденциальности описывает, какие данные обрабатываются при использовании игры «ШароКоты» (далее — «Игра») и как они используются. Оператор — Dido Games (далее — «Разработчик»). Используя Игру, вы соглашаетесь с настоящей Политикой.</p></div>
+<div class="short"><h2>В двух словах</h2><ul>
+<li>Игра не требует регистрации и не запрашивает у вас имя, адрес, телефон или электронную почту.</li>
+<li>Прогресс хранится только на вашем устройстве.</li>
+<li>В Игре нет рекламы, нет рекламного идентификатора, нет аналитики и нет отчётов о сбоях.</li>
+<li>Своего сервера у Разработчика нет, поэтому ваши данные ему попросту некуда отправлять — и он их не получает.</li>
+<li>С устройства уходят две вещи, и обе — к платформе, а не к Разработчику: результат партии в таблицу рекордов (только после того, как вы сами вошли в игровой сервис) и запрос к магазину приложений о товарах и ваших покупках.</li>
+</ul></div>
+<section id="privacy-ru-2"><h2><span class="num">2</span>Что хранится на устройстве</h2>
+<p>Игра создаёт на устройстве три файла:</p>
+<ul>
+<li>прогресс — рекорды и открытые арены, вызов дня и серия, задачи и достижения, дом, двор, город и усадьба, коллекция окрасов, кошельки (лапки и рыбки), настройки (звук, вибрация, язык) и короткий журнал игры за последние 14 суток: сколько партий сыграно, сколько времени они заняли, чем закончилась последняя и насколько ровно шла картинка;</li>
+<li>права на купленное — отдельно от прогресса, чтобы купленное не терялось;</li>
+<li>очередь результатов, ожидающих отправки в таблицу рекордов.</li>
+</ul>
+<p>Персональных данных среди этих полей нет ни одного: ни имени, ни почты, ни идентификатора устройства. К идентификатору устройства Игра не обращается нигде.</p>
+<p>Журнал игры остаётся на устройстве. Скопировать его можно только самому — кнопкой «СКОПИРОВАТЬ ЖУРНАЛ» на экране ПРОФИЛЬ: тогда он попадает в буфер обмена, чтобы вы могли приложить его к письму в поддержку. Сама Игра его никуда не отправляет.</p></section>
+<section id="privacy-ru-3"><h2><span class="num">3</span>Чего Игра не делает</h2>
+<p>Это перечень не намерений, а сборки:</p>
+<ul>
+<li>рекламы нет — ни баннеров, ни роликов, ни рекламных сетей; рекламный идентификатор (Google Advertising ID / Apple IDFA) Игра не запрашивает и не получает, и разрешения на него в сборке для Android нет;</li>
+<li>своей аналитики, телеметрии и отчётов о сбоях нет ни байта; библиотека покупок магазина приносит в сборку собственные служебные компоненты Google и отчитывается перед своим владельцем по его правилам — Разработчик их не настраивает, данных от них не получает и доступа к ним не имеет;</li>
+<li>отслеживания между приложениями и сайтами нет, поэтому запрос на отслеживание в iOS не появляется;</li>
+<li>облачного сохранения нет: прогресс не копируется ни на серверы Разработчика (их нет), ни на чужие;</li>
+<li>учётных записей Разработчика, паролей, профилей и списков друзей нет;</li>
+<li>чата, сообщений и публикации текстов игроками нет;</li>
+<li>доступа к геолокации, камере, микрофону, контактам и вашим файлам Игра не запрашивает.</li>
+</ul></section>
+<section id="privacy-ru-4"><h2><span class="num">4</span>Таблицы рекордов</h2>
+<p>Игра умеет показывать результаты в Game Center (iOS) и Google Play Games (Android). Вход — только по вашей кнопке на экране ПРОФИЛЬ. Без входа Игра работает целиком, и в таблицы рекордов не уходит ничего.</p>
+<p>После входа:</p>
+<ul>
+<li>наружу уходят два поля: число очков и адрес таблицы;</li>
+<li>внутрь приходят идентификатор игрока и отображаемое имя. Имя показывается на экране ПРОФИЛЬ, живёт только в памяти приложения и на диск не записывается; идентификатор записывается на диск только необратимым хешем — чтобы очередь одного игрока не смешалась с очередью другого;</li>
+<li>при первом подключении аккаунта могут быть опубликованы рекорды арен, уже накопленные на устройстве. Это происходит один раз.</li>
+</ul>
+<p>Результаты вызова дня остаются на устройстве: таблицы для них не заведено. Достижения считаются и хранятся на устройстве и в сервис не отправляются.</p>
+<p>Что игровой сервис делает с этими данными дальше и кому их показывает, определяют его правила и ваши настройки видимости профиля: <a href="https://support.google.com/googleplay/answer/3129346" target="_blank" rel="noopener">Google Play Games</a>, <a href="https://www.apple.com/legal/privacy/data/ru/game-center/" target="_blank" rel="noopener">Game Center и конфиденциальность</a>. Там данные могут обрабатываться на серверах в других странах — как и остальные данные вашего аккаунта в этих сервисах.</p></section>
+<section id="privacy-ru-5"><h2><span class="num">5</span>Покупки</h2>
+<p>Покупки обрабатывают магазины приложений: Google Play Billing на Android и StoreKit на iOS. Игра видит только идентификатор товара, готовую строку цены от магазина, состояние операции и её номер. Ни номера карты, ни имени плательщика, ни адреса Игра не получает и не хранит; чек хранит магазин.</p>
+<p>Чтобы витрина знала цены, а недоставленная покупка дошла, Игра обращается к магазину приложений при запуске и при возвращении из фона — без вашего участия. В этом обращении нет ваших персональных данных: Игра спрашивает про товары и про ваши покупки именно этого приложения.</p>
+<p>Номера состоявшихся покупок (последние двести) хранятся на устройстве ровно затем, чтобы одна оплата не была начислена дважды. Наружу они не уходят.</p></section>
+<section id="privacy-ru-6"><h2><span class="num">6</span>Разрешения</h2>
+<p>Android: доступ в интернет (вход в Google Play Games и связь с магазином приложений), вибрация (тактильный отклик на крупном слиянии), оплата в Google Play и проверка состояния сети — последнее добавляют библиотеки Google. Разрешения на рекламный идентификатор в сборке нет.</p>
+<p>iOS: право доступа к Game Center. Ключей доступа к камере, микрофону, геолокации, контактам и отслеживанию в сборке нет.</p></section>
+<section id="privacy-ru-7"><h2><span class="num">7</span>Хранение и удаление</h2>
+<p>Прогресс хранится на устройстве, пока вы его не сотрёте или не удалите Игру. Сроков хранения у Разработчика нет — у Разработчика нет копии.</p>
+<p>«СТЕРЕТЬ ПРОГРЕСС» в настройках возвращает Игру в состояние первого запуска и удаляет прогресс вместе с очередью результатов. Это касается и кошельков: лапки и рыбки обнуляются, а купленное за рыбки открывается заново. Рыбки из платных наборов — расходуемый товар, и после стирания они не возвращаются. Покупки за деньги напрямую стиранием не теряются: право на них хранится отдельно, и его же возвращает кнопка «Восстановить покупки» в витрине.</p>
+<p>Удаление Игры уносит всё локальное: системной резервной копии прогресса сборка для Android не делает.</p>
+<p>Результаты, уже опубликованные в Game Center или Google Play Games, стиранием и удалением не отзываются: они живут в вашем аккаунте этого сервиса и удаляются его средствами.</p></section>
+<section id="privacy-ru-8"><h2><span class="num">8</span>Ваши права</h2>
+<p>Разработчик не хранит ваших данных, поэтому обращаться к нему за доступом, исправлением или удалением обычно незачем: всё локальное удаляется на устройстве, а всё платформенное — в настройках Game Center, Google Play Games и вашего аккаунта Apple или Google. Прав, которые даёт вам применимое законодательство (например, GDPR в ЕЭЗ или CCPA в Калифорнии), это не отменяет: напишите на support@didogames.net, и мы ответим, что именно у нас есть.</p></section>
+<section id="privacy-ru-9"><h2><span class="num">9</span>Дети</h2>
+<p>В Игре нет рекламы, рекламного идентификатора, аналитики, чата и публикации текстов игроками. Разработчик персональных данных не получает: сам он не собирает ничего, а идентификатор игрока и имя профиля приходят от платформы и только после вашего входа — см. §4. Поэтому отдельного порядка для детских данных не требуется. Покупки и вход в игровые сервисы идут через аккаунт магазина или платформы — ограничить их можно родительскими настройками устройства. Возрастная категория Игры указана на её странице в магазине приложений.</p></section>
+<section id="privacy-ru-10"><h2><span class="num">10</span>Безопасность</h2>
+<p>Данные, уходящие в игровые сервисы и в магазин приложений, передаются их собственными защищёнными каналами. Файлы на устройстве защищены средствами операционной системы. Абсолютной гарантии безопасности не даёт никто, и мы её не даём.</p></section>
+<section id="privacy-ru-11"><h2><span class="num">11</span>Изменения</h2>
+<p>Политика обновляется вместе со сборкой, которая меняет обработку данных. Существенные изменения отражаются новой датой вступления в силу; страница остаётся по тому же адресу.</p></section>
+<section id="privacy-ru-12"><h2><span class="num">12</span>Контакты</h2>
+<p>Оператор: Dido Games. Вопросы о данных: support@didogames.net.</p></section>
+<footer><div class="fb"><div class="field">РАЗРАБОТЧИК</div>Dido Games<br>Игра сделана с помощью ИИ-инструментов: код, изображения, звук и баланс.</div><div class="fb"><div class="field">СВЯЗЬ</div><a href="mailto:support@didogames.net">support@didogames.net</a></div><div class="fb"><div class="field">ДОКУМЕНТЫ</div><a href="#">Политика конфиденциальности</a><a href="terms.html">Условия использования</a></div><div class="fnote">© 2026 Dido Games. «ШароКоты». Лапки и рыбки не имеют денежной стоимости.</div></footer>
+</main>
+<main class="doc" data-lang="en" hidden>
+<p class="eyebrow">SHAROKOTY · DATA</p>
+<h1>Privacy Policy</h1>
+<p class="date">Effective date: September 20, 2026</p>
+<div class="lede"><p>This Privacy Policy describes what data is processed when you use the game Sharokoty (ШароКоты) (the Game) and how it is used. The operator is Dido Games (the Developer). By using the Game you agree to this Policy.</p></div>
+<div class="short"><h2>In short</h2><ul>
+<li>The Game requires no registration and does not ask you for a name, address, phone number or email.</li>
+<li>Your progress is stored on your device only.</li>
+<li>The Game has no advertising, no advertising identifier, no analytics and no crash reporting.</li>
+<li>The Developer runs no server of its own, so there is nowhere for your data to be sent — and the Developer does not receive it.</li>
+<li>Two things leave the device, and both go to the platform rather than to the Developer: a run result sent to a leaderboard (only after you have signed in to the game service yourself) and a request to the app store about products and your purchases.</li>
+</ul></div>
+<section id="privacy-en-2"><h2><span class="num">2</span>What is stored on your device</h2>
+<p>The Game creates three files on your device:</p>
+<ul>
+<li>progress — records and unlocked arenas, the daily challenge and its streak, tasks and achievements, the house, the yard, the city and the estate, the coat collection, the wallets (paws and fish), settings (sound, vibration, language) and a short gameplay log for the last 14 days: how many runs were played, how long they took, how the last one ended and how smoothly the picture ran;</li>
+<li>entitlements for what you bought — kept apart from progress so that purchases are not lost;</li>
+<li>a queue of results waiting to be sent to a leaderboard.</li>
+</ul>
+<p>There is no personal data among these fields: no name, no email, no device identifier. The Game never reads the device identifier anywhere.</p>
+<p>The gameplay log stays on the device. Only you can copy it — with the COPY THE LOG button on the PROFILE screen: it then goes to the clipboard so that you can attach it to a support message. The Game itself never sends it anywhere.</p></section>
+<section id="privacy-en-3"><h2><span class="num">3</span>What the Game does not do</h2>
+<p>This is a list taken from the build, not from intentions:</p>
+<ul>
+<li>no advertising — no banners, no videos, no ad networks; the Game neither requests nor receives an advertising identifier (Google Advertising ID / Apple IDFA), and the Android build declares no permission for it;</li>
+<li>not a byte of the Developer’s own analytics, telemetry or crash reporting; the store’s billing library brings its own Google service components into the build and reports to their owner under their own rules — the Developer neither configures them, nor receives their data, nor has access to it;</li>
+<li>no tracking across apps and websites, so no iOS tracking prompt appears;</li>
+<li>no cloud saving: progress is copied neither to the Developer’s servers (there are none) nor to anyone else;</li>
+<li>no Developer accounts, passwords, profiles or friend lists;</li>
+<li>no chat, no messaging, no player-published text;</li>
+<li>the Game requests no access to location, camera, microphone, contacts or your files.</li>
+</ul></section>
+<section id="privacy-en-4"><h2><span class="num">4</span>Leaderboards</h2>
+<p>The Game can show results in Game Center (iOS) and Google Play Games (Android). Signing in happens only when you press the button on the PROFILE screen. Without signing in the Game works in full, and nothing goes to the leaderboards.</p>
+<p>After you sign in:</p>
+<ul>
+<li>two fields go out: the score and the leaderboard identifier;</li>
+<li>two come in: the player identifier and the display name. The name is shown on the PROFILE screen, lives only in application memory and is never written to disk; the identifier is written to disk only as an irreversible hash, so that one player queue is not mixed with another;</li>
+<li>when an account is connected for the first time, arena records already accumulated on the device may be published. This happens once.</li>
+</ul>
+<p>Daily challenge results stay on the device: no leaderboard is set up for them. Achievements are counted and stored on the device and are not sent to the service.</p>
+<p>What the game service then does with this data and to whom it shows it is governed by its own rules and by your profile visibility settings: <a href="https://support.google.com/googleplay/answer/3129346" target="_blank" rel="noopener">Google Play Games</a>, <a href="https://www.apple.com/legal/privacy/data/en/game-center/" target="_blank" rel="noopener">Game Center and privacy</a>. There the data may be processed on servers in other countries, like the rest of your account data in those services.</p></section>
+<section id="privacy-en-5"><h2><span class="num">5</span>Purchases</h2>
+<p>Purchases are handled by the app stores: Google Play Billing on Android and StoreKit on iOS. The Game sees only the product identifier, the ready-made price string from the store, the state of the transaction and its number. The Game neither receives nor stores your card number, payer name or address; the receipt is kept by the store.</p>
+<p>So that the shop knows prices and an undelivered purchase still arrives, the Game contacts the app store at launch and when returning from the background — without any action from you. That request carries no personal data of yours: the Game asks about the products and about your purchases of this app.</p>
+<p>The numbers of completed purchases (the last two hundred) are kept on the device for one purpose only: so that a single payment is not credited twice. They never leave the device.</p></section>
+<section id="privacy-en-6"><h2><span class="num">6</span>Permissions</h2>
+<p>Android: internet access (signing in to Google Play Games and talking to the app store), vibration (haptic feedback on a large merge), Google Play billing, and network state — the last one is added by Google libraries. The build declares no advertising identifier permission.</p>
+<p>iOS: the Game Center entitlement. The build contains no access keys for camera, microphone, location, contacts or tracking.</p></section>
+<section id="privacy-en-7"><h2><span class="num">7</span>Storage and deletion</h2>
+<p>Progress is kept on the device until you erase it or delete the Game. The Developer has no retention period, because the Developer has no copy.</p>
+<p>ERASE PROGRESS in settings returns the Game to its first-launch state and removes progress together with the queue of results. That includes the wallets: paws and fish are set to zero, and anything bought with fish becomes available to unlock again. Fish from paid packs are a consumable product and do not come back after erasing. Purchases made directly with money are not lost to erasing: the entitlement for them is kept separately, and the Restore purchases button in the shop brings it back.</p>
+<p>Deleting the Game removes everything local: the Android build makes no system backup of your progress.</p>
+<p>Results already published to Game Center or Google Play Games are not withdrawn by erasing or by deletion: they live in your account with that service and are deleted by its own tools.</p></section>
+<section id="privacy-en-8"><h2><span class="num">8</span>Your rights</h2>
+<p>The Developer stores none of your data, so there is usually nothing to ask it for: everything local is deleted on the device, and everything held by a platform is managed in the settings of Game Center, Google Play Games and your Apple or Google account. This does not remove the rights granted to you by applicable law (for example GDPR in the EEA or CCPA in California): write to support@didogames.net and we will tell you exactly what we hold.</p></section>
+<section id="privacy-en-9"><h2><span class="num">9</span>Children</h2>
+<p>The Game has no advertising, no advertising identifier, no analytics, no chat and no player-published text. The Developer receives no personal data: it collects none itself, and the player identifier and profile name come from the platform, and only after you sign in — see §4. No separate procedure for children’s data is required. Purchases and signing in to game services go through a store or platform account, and can be restricted with the parental controls of the device. The age rating of the Game is shown on its app store page.</p></section>
+<section id="privacy-en-10"><h2><span class="num">10</span>Security</h2>
+<p>Data that goes to game services and to the app store travels over their own secure channels. Files on the device are protected by the operating system. Nobody can guarantee absolute security, and neither do we.</p></section>
+<section id="privacy-en-11"><h2><span class="num">11</span>Changes</h2>
+<p>This Policy is updated together with the build that changes data handling. Material changes are reflected by a new effective date; the page stays at the same address.</p></section>
+<section id="privacy-en-12"><h2><span class="num">12</span>Contact</h2>
+<p>Operator: Dido Games. Data enquiries: support@didogames.net.</p></section>
+<footer><div class="fb"><div class="field">DEVELOPER</div>Dido Games<br>The Game is made with AI tools: code, images, audio and balance.</div><div class="fb"><div class="field">CONTACT</div><a href="mailto:support@didogames.net">support@didogames.net</a></div><div class="fb"><div class="field">DOCUMENTS</div><a href="#">Privacy Policy</a><a href="terms.html">Terms of Use</a></div><div class="fnote">© 2026 Dido Games. SharoKoty. Paws and fish have no monetary value.</div></footer>
+</main>
+</div>
+<script>
+(function(){
+  var btns = document.querySelectorAll('.langs button');
+  var docs = document.querySelectorAll('main.doc');
+  function pick(lang){
+    docs.forEach(function(d){ d.hidden = d.dataset.lang !== lang; });
+    btns.forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.lang === lang)); });
+    document.documentElement.lang = lang;
+    try { history.replaceState(null, '', lang === 'ru' ? location.pathname : '#en'); } catch (e) {}
+  }
+  btns.forEach(function(b){ b.addEventListener('click', function(){ pick(b.dataset.lang); }); });
+  pick(location.hash.toLowerCase() === '#en' ? 'en' : 'ru');
+})();
+</script>
+</body>
+</html>
