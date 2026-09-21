@@ -51,9 +51,22 @@ PLAY_URL = "https://play.google.com/store/apps/details?id=net.didogames.thelastw
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-         '<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&'
-         'family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap&subset=cyrillic"'
-         ' rel="stylesheet">')
+         '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
+         'family=Oranienbaum&family=Sofia+Sans:wght@400;500;600&'
+         'family=Martian+Mono:wght@400&display=swap">')
+
+# Каналы студии — те же, что в подвале титульной.
+YT_URL = "https://www.youtube.com/@didogames_official"
+TT_URL = "https://www.tiktok.com/@didogamesofficial"
+IC_GP = ('<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 3.5v17c0 .4.4.7.8.5'
+         'l9.6-8.5L4.8 3c-.4-.2-.8.1-.8.5zm12.5 7.2-2.4 2.3 2.4 2.3 3.2-1.8c.5-.3.5-.8 0-1.1zM5.6 2.6l9.4 '
+         '9.4-2.1 2L5.6 2.6zm0 18.8 7.3-11.4 2.1 2z"/></svg>')
+IC_YT = ('<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.6-.5-5.3a2.8 '
+         '2.8 0 0 0-1.9-2C18.9 4.2 12 4.2 12 4.2s-6.9 0-8.6.5a2.8 2.8 0 0 0-1.9 2C1 8.4 1 12 1 12s0 3.6.5 '
+         '5.3c.3 1 1 1.7 1.9 2 1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5a2.8 2.8 0 0 0 1.9-2C23 15.6 23 12 23 12zM9.8 '
+         '15.3V8.7l5.7 3.3-5.7 3.3z"/></svg>')
+IC_TT = ('<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 2h-3v13.2a2.9 2.9 '
+         '0 1 1-2.3-2.8V9.2a6 6 0 1 0 5.3 6V8.9a7 7 0 0 0 4.1 1.3V7.2a4.2 4.2 0 0 1-4.1-4.1V2z"/></svg>')
 
 # Имена биомов = ключи BIOME_W*_NAME из localization/*.po — единый набор игры.
 # 2026-09-01: наборы СВЕДЕНЫ (UiSession/GlobalMap переведены на боевые ключи), канон выбран
@@ -70,61 +83,60 @@ BIOMES_EN = ["THE APPROACHES", "DEAD FOREST", "SUB-ZERO", "TOXIC ZONE", "THE ASH
 
 
 def chrome_top(lang: str, depth: str, rel: str) -> str:
-    game = GAME_RU if lang == "ru" else GAME_EN
+    """Шапка документа = шапка титульной. Пункты меню ведут в маршруты студийного
+    сайта: у прежнего лендинга были якоря #video/#cards/#ai/#marshrut, и после
+    переезда титульной они умерли — ссылались на секции, которых больше нет."""
     nav = {
-        # #cards — секция карточной прокачки (директива №50: ядро игры сменилось, и вход в него
-        # обязан быть в шапке, а не третьим экраном скролла). На мобильном .hdr-nav скрыт (CSS 930px).
-        "ru": [("index.html#video", "Ролик"), ("index.html#cards", "Прокачка"),
-               ("index.html#ai", "Сделано ИИ"),
-               ("index.html#marshrut", "Маршрут"), ("lore.html", "Лор"), ("press.html", "Пресс-кит")],
-        "en": [("index.html#video", "Trailer"), ("index.html#cards", "Upgrades"),
-               ("index.html#ai", "Made by AI"),
-               ("index.html#marshrut", "Route"), ("lore.html", "Lore"), ("press.html", "Press kit")],
+        "ru": [("index.html#/games", "Игры"), ("index.html#studio", "О студии"),
+               ("support.html", "Поддержка"), ("index.html#/press", "Пресс")],
+        "en": [("index.html#/games", "Games"), ("index.html#studio", "Studio"),
+               ("support.html", "Support"), ("index.html#/press", "Press")],
     }[lang]
     base = rel[3:] if rel.startswith("en/") else rel
-    if base == "index.html":   # на самом лендинге якоря — чистые # (без перезагрузки)
-        links_prefix = ""
-        nav = [(h.replace("index.html#", "#"), t) for h, t in nav]
     ru_href = (base if lang == "ru" else "../" + base)
     en_href = ("en/" + base if lang == "ru" else base)
-    links = " ".join('<a href="%s">%s</a>' % (h, t) for h, t in nav)
-    # Релиз: шапка ведёт прямо в магазин — это главное действие страницы.
-    hdr_cta = ('<a class="hdr-cta" href="%s" target="_blank" rel="noopener">%s</a>'
-               % (PLAY_URL, 'СКАЧАТЬ' if lang == 'ru' else 'GET IT'))
+    links = "".join('<a href="%s"%s>%s</a>'
+                    % (h, ' aria-current="page"' if h == base else "", t) for h, t in nav)
     return (
-        '<div class="secureline"><span class="dot"></span>'
-        '<span>SECURE_LINE // %s</span><span class="grow"></span><nav class="hdr-nav">%s</nav> '
-        '%s<nav class="langs"><a href="%s" class="%s">RU</a><a href="%s" class="%s">EN</a></nav></div>'
-        % (game.upper(), links, hdr_cta,
-           ru_href, "active" if lang == "ru" else "",
+        '<header class="hd"><div class="wrap">'
+        '<a class="mark" href="index.html">Dido Games<i></i></a>'
+        '<nav class="hdnav">%s</nav>'
+        '<nav class="langs"><a href="%s" class="%s">RU</a><a href="%s" class="%s">EN</a></nav>'
+        '</div></header>'
+        % (links, ru_href, "active" if lang == "ru" else "",
            en_href, "active" if lang == "en" else "")
     )
 
 
 def chrome_foot(lang: str, depth: str) -> str:
-    t = {
-        "ru": ("РАЗРАБОТЧИК", "СВЯЗЬ", "ДОКУМЕНТЫ", "Политика конфиденциальности",
-               "Условия использования", "Поддержка",
-               "© 2026 %s. «%s». Виртуальные предметы не имеют денежной стоимости." % (DEV_RU, GAME_RU),
-               "Игра про ИИ, сделанная ИИ: код, арт, звук и баланс созданы искусственным интеллектом."),
-        "en": ("DEVELOPER", "CONTACT", "DOCUMENTS", "Privacy Policy", "Terms of Use", "Support",
-               "© 2026 %s. \"%s\". Virtual items have no monetary value." % (DEV_EN, GAME_EN),
-               "A game about AI, made by AI: code, art, audio and balance are AI-generated."),
+    """Подвал документа = подвал титульной, вплоть до тех же каналов и той же
+    строки внизу. Юридическая оговорка про виртуальные предметы сохранена."""
+    L = {
+        "ru": ("Скачать в Google Play", "Игры", "О студии", "Поддержка", "Пресс-кит",
+               "Условия", "Конфиденциальность",
+               "© 2026 Dido Games · «%s» · виртуальные предметы не имеют денежной стоимости" % GAME_RU,
+               "Эксперимент с ИИ, который можно скачать"),
+        "en": ("Get it on Google Play", "Games", "Studio", "Support", "Press kit",
+               "Terms", "Privacy",
+               "© 2026 Dido Games · \"%s\" · virtual items have no monetary value" % GAME_EN,
+               "An AI experiment you can download"),
     }[lang]
-    dev = DEV_RU if lang == "ru" else DEV_EN
     return (
-        '<footer><div class="foot-inner">'
-        '<div class="foot-block foot-logo"><img src="%(d)sassets/img/logo.png" alt=""><span>%(game)s</span></div>'
-        '<div class="foot-block"><div class="field">%(f0)s</div>%(dev)s<br><span class="foot-note-sm">%(solo)s</span></div>'
-        '<div class="foot-block"><div class="field">%(f1)s</div><a href="mailto:%(mail)s">%(mail)s</a></div>'
-        '<div class="foot-block"><div class="field">%(f2)s</div>'
-        '<a href="privacy.html">%(p)s</a><a href="terms.html">%(tm)s</a><a href="support.html">%(s)s</a>'
-        '<a href="press.html">%(pk)s</a></div>'
-        '<div class="stamp" aria-hidden="true"><img src="%(d)sassets/img/logo.png" alt=""></div>'
-        '</div><div class="foot-note">%(note)s</div></footer>'
-        % {"d": depth, "game": (GAME_RU if lang == "ru" else GAME_EN), "dev": dev, "mail": EMAIL,
-           "f0": t[0], "f1": t[1], "f2": t[2], "p": t[3], "tm": t[4], "s": t[5],
-           "note": t[6], "solo": t[7], "pk": ("Пресс-кит" if lang == "ru" else "Press kit")}
+        '<footer class="ft"><div class="wrap"><div class="top"><div>'
+        '<span class="wm">Dido Games<i></i></span>'
+        '<div class="stores"><a href="%(play)s" target="_blank" rel="noopener">%(gp)s%(get)s</a>'
+        '<a href="mailto:%(mail)s">%(mail)s</a></div>'
+        '<div class="stores social"><a href="%(yt)s" target="_blank" rel="noopener">%(iyt)sYouTube</a>'
+        '<a href="%(tt)s" target="_blank" rel="noopener">%(itt)sTikTok</a></div></div>'
+        '<nav><a href="index.html#/games">%(l1)s</a><a href="index.html#studio">%(l2)s</a>'
+        '<a href="support.html">%(l3)s</a><a href="index.html#/press">%(l4)s</a>'
+        '<a href="terms.html">%(l5)s</a><a href="privacy.html">%(l6)s</a></nav>'
+        '</div><div class="copy"><span>%(copy)s</span><span>%(tag)s</span></div>'
+        '</div></footer>'
+        % {"play": PLAY_URL, "mail": EMAIL, "yt": YT_URL, "tt": TT_URL,
+           "gp": IC_GP, "iyt": IC_YT, "itt": IC_TT,
+           "get": L[0], "l1": L[1], "l2": L[2], "l3": L[3], "l4": L[4], "l5": L[5], "l6": L[6],
+           "copy": L[7], "tag": L[8]}
     )
 
 
@@ -139,9 +151,10 @@ def page(lang: str, title: str, body: str, rel: str = "index.html", base_href: s
         '<meta name="viewport" content="width=device-width, initial-scale=1">'
         '%s'   # <base>, только для 404
         '<title>%s</title>'
-        '<link rel="icon" type="image/png" href="%sassets/img/favicon.png">'
-        '<link rel="apple-touch-icon" href="%sassets/img/touch_icon.png">'
-        '%s<link rel="stylesheet" href="%sassets/style.css">'
+        '<link rel="icon" href="%sassets/img/dg_favicon.svg" type="image/svg+xml">'
+        '<link rel="apple-touch-icon" href="%sassets/img/dg_touch_180.png">'
+        '<meta name="theme-color" content="#0B0D12">'
+        '%s<link rel="stylesheet" href="%sassets/docs.css">'
         '<script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches)'
         'document.documentElement.classList.add("js")</script></head><body>'
         % (lang, base_tag, title, depth, depth, FONTS, depth)
@@ -473,7 +486,7 @@ def landing(lang: str) -> str:
         '<img src="%(d)sassets/img/shot_depot.jpg" alt="%(alt)s" loading="lazy"></div></div>'
         '</div></section>'
         % {"wf": L["what_field"], "wh": L["what_h"], "rows": what_rows,
-           "af": "ФОРМУЛЯР // БЕЗ ЗВЁЗДОЧЕК" if ru else "FORM 141-U // NO ASTERISKS",
+           "af": "БЕЗ ЗВЁЗДОЧЕК" if ru else "FORM 141-U // NO ASTERISKS",
            "ah": L["anti_h"], "anti": anti_rows, "d": d,
            "fair": ("Покупки и реклама за награду — необязательные." if ru else "Purchases and rewarded ads are optional."),
            "alt": "Депо" if ru else "Depot"}
@@ -923,7 +936,7 @@ def press(lang: str) -> str:
         '<h2>%(h_con)s</h2><p>%(con)s</p>%(back)s</main>'
         % {
             "back": back, "d": d,
-            "field": "ФОРМУЛЯР // ПРЕСС-КИТ" if ru else "FORM // PRESS KIT",
+            "field": "ПРЕСС-КИТ" if ru else "PRESS KIT",
             "h1": "Пресс-кит" if ru else "Press Kit",
             "sub": ("Материалы для прессы и авторов контента" if ru
                     else "Materials for press and content creators"),
@@ -937,9 +950,9 @@ def press(lang: str) -> str:
             "vid_l": ("Презентационный ролик (70 с, со звуком):" if ru
                       else "Presentation video (70 s, with sound):"),
             "vid_n": ("реальная запись из игры, смотреть можно и "
-                      '<a href="index.html#video">на главной</a>.' if ru else
+                      '<a href="index.html#/games/train">на странице игры</a>.' if ru else
                       "real in-game footage, also playable "
-                      '<a href="index.html#video">on the main page</a>.'),
+                      '<a href="index.html#/games/train">on the game page</a>.'),
             "media_n": ("Скриншоты и логотип можно свободно использовать в статьях, обзорах и видео "
                         "об игре. Клик по картинке — полный размер. Нужны другие материалы — "
                         'напишите: <a href="mailto:%s">%s</a>.' % (EMAIL, EMAIL) if ru else
@@ -1031,10 +1044,10 @@ def lore(lang):
     # Связка вымысла с производством — USP владельца 2026-07-26.
     coda = ("<b>Сноска архивариуса.</b> Этот мир, его враги, музыка и сами эти записи "
             "написаны искусственным интеллектом. Игра про машины, которые продолжают войну "
-            "без людей, — сделана машиной. <a href=\"index.html#ai\">Как именно</a>." if ru else
+            "без людей, — сделана машиной. <a href=\"index.html#studio\">Как именно</a>." if ru else
             "<b>Archivist's note.</b> This world, its enemies, its music and these very entries "
             "were written by an artificial intelligence. A game about machines waging a war "
-            "without people — was made by a machine. <a href=\"index.html#ai\">Here's how</a>.")
+            "without people — was made by a machine. <a href=\"index.html#studio\">Here's how</a>.")
     body = (
         '<main class="doc lore">%s<div class="doc-head"><div class="field">%s</div>'
         '<h1>%s</h1><div class="date">%s</div></div>%s'
@@ -1115,7 +1128,7 @@ def testers(lang):
                 'Что-то не работает или есть идея — пишите: '
                 '<a href="mailto:%s">%s</a>. Отвечает человек.' % (EMAIL, EMAIL))),
         ]
-        return doc_page("ru", "ФОРМУЛЯР // ДОСТУП", "Игра вышла", DATE_RU, secs,
+        return doc_page("ru", "ДОСТУП", "Игра вышла", DATE_RU, secs,
                         "Закрытый тест закончился — игра опубликована в Google Play.",
                         "Игра вышла — %s" % GAME_RU, "test.html")
     secs = [
@@ -1134,7 +1147,7 @@ def testers(lang):
             'Something broken, or an idea — write to '
             '<a href="mailto:%s">%s</a>. A human answers.' % (EMAIL, EMAIL))),
     ]
-    return doc_page("en", "FORM // ACCESS", "The game is out", DATE_EN, secs,
+    return doc_page("en", "ACCESS", "The game is out", DATE_EN, secs,
                     "The closed test is over — the game is published on Google Play.",
                     "The game is out — %s" % GAME_EN, "en/test.html")
 
@@ -1148,19 +1161,19 @@ LANDINGS = ["index.html", "en/index.html"]      # существуют, но н�
 OUT = {
     "lore.html": lore("ru"),
     "en/lore.html": lore("en"),
-    "terms.html": doc_page("ru", "ФОРМУЛЯР // ДОКУМЕНТ 01", "Условия использования", DATE_RU, TERMS_RU,
+    "terms.html": doc_page("ru", "ДОКУМЕНТ 01", "Условия использования", DATE_RU, TERMS_RU,
                            "Настоящие Условия использования (далее — «Условия») регулируют доступ к игре «%s» (далее — «Игра») и её использование. Устанавливая, запуская или используя Игру, вы подтверждаете, что прочитали, поняли и принимаете настоящие Условия. Если вы не согласны с Условиями, не используйте Игру." % GAME_RU,
                            "Условия использования — %s" % GAME_RU, "terms.html"),
-    "privacy.html": doc_page("ru", "ФОРМУЛЯР // ДОКУМЕНТ 02", "Политика конфиденциальности", DATE_RU, PRIVACY_RU,
+    "privacy.html": doc_page("ru", "ДОКУМЕНТ 02", "Политика конфиденциальности", DATE_RU, PRIVACY_RU,
                              "Настоящая Политика конфиденциальности описывает, какие данные обрабатываются при использовании игры «%s» (далее — «Игра») и как они используются. Используя Игру, вы соглашаетесь с настоящей Политикой." % GAME_RU,
                              "Политика конфиденциальности — %s" % GAME_RU, "privacy.html"),
     "support.html": support("ru"),
     "press.html": press("ru"),
     "en/press.html": press("en"),
-    "en/terms.html": doc_page("en", "FORM // DOCUMENT 01", "Terms of Use", DATE_EN, TERMS_EN,
+    "en/terms.html": doc_page("en", "DOCUMENT 01", "Terms of Use", DATE_EN, TERMS_EN,
                               "These Terms of Use (the \"Terms\") govern your access to and use of the game \"%s\" (the \"Game\"). By installing, launching, or using the Game, you confirm that you have read, understood, and accept these Terms. If you do not agree, do not use the Game." % GAME_EN,
                               "Terms of Use — %s" % GAME_EN, "en/terms.html"),
-    "en/privacy.html": doc_page("en", "FORM // DOCUMENT 02", "Privacy Policy", DATE_EN, PRIVACY_EN,
+    "en/privacy.html": doc_page("en", "DOCUMENT 02", "Privacy Policy", DATE_EN, PRIVACY_EN,
                                 "This Privacy Policy describes what data is processed when you use the game \"%s\" (the \"Game\") and how it is used. By using the Game, you agree to this Policy." % GAME_EN,
                                 "Privacy Policy — %s" % GAME_EN, "en/privacy.html"),
     "en/support.html": support("en"),
@@ -1273,9 +1286,9 @@ with open(os.path.join(ROOT, "CNAME"), "w", encoding="utf-8", newline="\n") as f
     f.write("didogames.net\n")   # кастом-домен GitHub Pages
 # 404 в двух локалях: переключатель языка в шапке ведёт на en/404.html, и без этого файла
 # единственная ссылка сайта, отдающая 404, была именно на странице 404.
-NF = [("ru", "404.html", "/", "404 — %s" % GAME_RU, "ФОРМУЛЯР // 404", "Страница не найдена",
+NF = [("ru", "404.html", "/", "404 — %s" % GAME_RU, "404", "Страница не найдена",
        "Сигнал потерян в пустоши", "&larr; НА ГЛАВНУЮ", "/"),
-      ("en", "en/404.html", "/en/", "404 — %s" % GAME_EN, "FORM // 404", "Page not found",
+      ("en", "en/404.html", "/en/", "404 — %s" % GAME_EN, "404", "Page not found",
        "Signal lost in the wastes", "&larr; BACK TO MAIN", "/en/")]
 for _lang, _rel, _base, _title, _field, _h1, _sub, _back, _home in NF:
     _html = page(_lang, _title,
