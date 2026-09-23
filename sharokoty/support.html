@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Поддержка ШароКотов</title>
+<meta name="description" content="Поддержка игры «ШароКоты»: связь, покупки, прогресс, таблицы рекордов">
+<link rel="canonical" href="https://didogames.net/sharokoty/support.html">
+<link rel="alternate" hreflang="ru" href="https://didogames.net/sharokoty/support.html">
+<link rel="alternate" hreflang="en" href="https://didogames.net/sharokoty/support.html#en">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dido Games">
+<meta property="og:title" content="Поддержка ШароКотов">
+<meta property="og:url" content="https://didogames.net/sharokoty/support.html">
+<meta name="theme-color" content="#F5EFE8">
+</head>
+<body>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&display=swap');
+
+:root{
+  --ground:#F5EFE8; --paper:#FFFCF8; --ink:#3B2B4D; --dim:#7C6C8A;
+  --lilac:#C9B3E8; --plum:#6A4A9E; --line:#E9DFEC; --fish:#2F3A5C;
+  --card-sh:0 1px 2px rgba(59,43,77,.05), 0 8px 24px -14px rgba(59,43,77,.22);
+}
+:root:not([data-theme="light"]){ }
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#231B2E; --paper:#2D2439; --ink:#F2EBF7; --dim:#A797B8;
+    --lilac:#B9A0DE; --plum:#CBB2F2; --line:#3E3452; --fish:#C7D2F0;
+    --card-sh:0 1px 2px rgba(0,0,0,.3), 0 10px 28px -16px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#231B2E; --paper:#2D2439; --ink:#F2EBF7; --dim:#A797B8;
+  --lilac:#B9A0DE; --plum:#CBB2F2; --line:#3E3452; --fish:#C7D2F0;
+  --card-sh:0 1px 2px rgba(0,0,0,.3), 0 10px 28px -16px rgba(0,0,0,.6);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font:400 17px/1.68 Literata, Georgia, "Times New Roman", serif;
+  -webkit-text-size-adjust:100%;
+}
+body::before{
+  content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.5;
+  background-image:
+    radial-gradient(circle at 12% 18%, color-mix(in srgb, var(--lilac) 26%, transparent) 0 8px, transparent 9px),
+    radial-gradient(circle at 86% 42%, color-mix(in srgb, var(--lilac) 20%, transparent) 0 6px, transparent 7px),
+    radial-gradient(circle at 30% 78%, color-mix(in srgb, var(--lilac) 16%, transparent) 0 7px, transparent 8px);
+  background-size:520px 520px, 700px 700px, 620px 620px;
+}
+.wrap{position:relative; z-index:1; max-width:none; padding:0 20px}
+
+/* шапка */
+.top{
+  position:sticky; top:env(safe-area-inset-top, 0px); z-index:5;
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  margin:0 -20px 0; padding:10px 20px;
+  background:color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+}
+.brand{
+  display:flex; align-items:center; gap:9px; min-width:0;
+  font:700 13px/1 Nunito, system-ui, sans-serif; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--dim);
+}
+.brand svg{width:19px;height:19px;flex:none;fill:var(--lilac)}
+.spacer{flex:1 1 auto}
+.langs{display:flex; gap:4px; flex:none}
+.langs button{
+  font:700 12px/1 Nunito, system-ui, sans-serif; letter-spacing:.08em;
+  padding:7px 12px; border-radius:999px; cursor:pointer;
+  border:1px solid var(--line); background:transparent; color:var(--dim);
+}
+.langs button[aria-pressed="true"]{
+  background:var(--lilac); border-color:var(--lilac); color:#2A1F3B;
+}
+.langs button:focus-visible{outline:2px solid var(--plum); outline-offset:2px}
+
+main{max-width:min(68ch, 100%); margin:0 auto; padding-block:38px 56px}
+
+.eyebrow{
+  font:700 12px/1 Nunito, system-ui, sans-serif; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--plum); margin:0 0 14px;
+}
+h1{
+  font:800 clamp(30px, 6vw, 44px)/1.1 Nunito, system-ui, sans-serif;
+  margin:0 0 10px; letter-spacing:-.01em; text-wrap:balance;
+}
+.date{color:var(--dim); font-size:15px; margin:0 0 30px}
+.lede{font-size:18px; margin:0 0 34px}
+.lede p{margin:0 0 14px}
+
+/* §1 — единственная поднятая карточка: остальное плоский текст */
+.short{
+  background:var(--paper); border:1px solid var(--line); border-radius:18px;
+  box-shadow:var(--card-sh); padding:22px 24px; margin:0 0 42px;
+  border-left:4px solid var(--lilac);
+}
+.short h2{
+  font:700 13px/1 Nunito, system-ui, sans-serif; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--plum); margin:0 0 14px;
+}
+.short ul{margin:0; padding-left:0; list-style:none; display:grid; gap:11px}
+.short li{position:relative; padding-left:26px; font-size:16px; line-height:1.6}
+.short li::before{
+  content:""; position:absolute; left:2px; top:.62em; width:9px; height:9px;
+  border-radius:50%; background:var(--lilac);
+}
+
+section{margin:0 0 38px; scroll-margin-top:72px}
+section h2{
+  display:flex; align-items:baseline; gap:12px;
+  font:700 clamp(19px, 3.4vw, 23px)/1.3 Nunito, system-ui, sans-serif;
+  margin:0 0 12px; text-wrap:balance;
+}
+.num{
+  flex:none; display:inline-grid; place-items:center;
+  width:30px; height:30px; border-radius:50%;
+  background:color-mix(in srgb, var(--lilac) 40%, transparent);
+  color:var(--plum); font:700 13px/1 Nunito, system-ui, sans-serif;
+  font-variant-numeric:tabular-nums; align-self:center;
+}
+section p{margin:0 0 13px}
+section ul{margin:0 0 13px; padding-left:0; list-style:none; display:grid; gap:9px}
+section li{position:relative; padding-left:22px}
+section li::before{
+  content:""; position:absolute; left:3px; top:.68em; width:6px; height:6px;
+  border-radius:50%; background:color-mix(in srgb, var(--lilac) 75%, transparent);
+}
+a{color:var(--plum); text-underline-offset:3px; text-decoration-thickness:1px}
+a:focus-visible{outline:2px solid var(--plum); outline-offset:3px; border-radius:3px}
+strong{font-weight:600}
+
+.glyph{
+  width:1.05em; height:1.05em; vertical-align:-.16em; margin-right:.32em;
+  fill:var(--lilac);
+}
+.glyph.fish{fill:var(--fish)}
+
+footer{
+  border-top:1px solid var(--line); margin-top:10px; padding-block:26px 8px;
+  display:grid; gap:18px; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+}
+.fb{font-size:15px; line-height:1.6}
+.fb .field{
+  font:700 11px/1 Nunito, system-ui, sans-serif; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--dim); margin:0 0 7px;
+}
+.fb a{display:block}
+.fnote{
+  grid-column:1/-1; border-top:1px solid var(--line); padding-top:16px;
+  color:var(--dim); font-size:13.5px;
+}
+@media (prefers-reduced-motion: reduce){*{animation:none!important; transition:none!important}}
+</style>
+<div class="wrap">
+<div class="top"><span class="brand"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="15" r="5.4"/><circle cx="5.2" cy="9.4" r="2.5"/><circle cx="9.6" cy="6.1" r="2.5"/><circle cx="14.4" cy="6.1" r="2.5"/><circle cx="18.8" cy="9.4" r="2.5"/></svg> Dido Games · ШароКоты</span><span class="spacer"></span><nav class="langs" aria-label="Язык / Language"><button type="button" id="lang-ru-support" data-lang="ru" aria-pressed="true">RU</button><button type="button" id="lang-en-support" data-lang="en" aria-pressed="false">EN</button></nav></div>
+<main class="doc" data-lang="ru">
+<p class="eyebrow">ШАРОКОТЫ · ПОДДЕРЖКА</p>
+<h1>Поддержка</h1>
+<p class="date">Обновлено: 22 сентября 2026 г.</p>
+<div class="lede"><p>Здесь собрано то, что спрашивают про «ШароКотов» чаще всего, и адрес, по которому отвечает человек. Разработчик — Dido Games.</p></div>
+<div class="short"><h2>В двух словах</h2><ul>
+<li>Пишите на <a href="mailto:support@didogames.net">support@didogames.net</a> — обычно отвечаем в течение нескольких рабочих дней.</li>
+<li>Аккаунта в игре нет: ни регистрации, ни пароля, ни входа.</li>
+<li>Играть можно без сети. Прогресс лежит только на вашем устройстве — копии у Разработчика нет.</li>
+<li>Рекламы, аналитики и отслеживания в игре нет.</li>
+<li>Игра проходится целиком без покупок.</li>
+</ul></div>
+<section id="support-ru-2"><h2><span class="num">2</span>Как написать</h2>
+<p>Адрес один: <a href="mailto:support@didogames.net">support@didogames.net</a>. Чтобы ответ был по делу с первого письма, приложите к нему:</p>
+<ul>
+<li>модель устройства и версию системы;</li>
+<li>что происходит и на каком экране;</li>
+<li>журнал игры. Кнопка «СКОПИРОВАТЬ ЖУРНАЛ» на экране ПРОФИЛЬ кладёт в буфер обмена короткую сводку за последние 14 суток: сколько партий сыграно, сколько времени они заняли, чем закончилась последняя и насколько ровно шла картинка. Персональных данных в журнале нет, и сама игра никуда его не отправляет;</li>
+<li>для вопросов об оплате — номер заказа из чека магазина. Чек приходит на почту вашего аккаунта в App Store или Google Play.</li>
+</ul></section>
+<section id="support-ru-3"><h2><span class="num">3</span>Покупки</h2>
+<p>В игре шесть наборов рыбок — 10, 30, 90, 200, 450 и 1000. Рыбки тратятся только на наборы окрасов котов и на обновление задачи дня. Всё остальное — двенадцать арен, пять комнат дома и финал истории — открывается игрой, а не оплатой.</p>
+<p>Подписок нет. Случайных платных наборов — лутбоксов, гачи, «сундуков с шансом» — нет ни одного. Таймеров ожидания, которые снимаются за деньги, тоже нет.</p>
+<p>Лапки и рыбки — внутриигровые значения. Денежной стоимости у них нет, обменять их на деньги или передать другому игроку нельзя.</p></section>
+<section id="support-ru-4"><h2><span class="num">4</span>Оплата прошла, а рыбок нет</h2>
+<p>Наборы рыбок — расходуемый товар: магазин закрывает такую покупку сразу после выдачи, поэтому кнопка восстановления для них по устройству магазина ничего не вернёт. Это правило магазина, а не наше решение.</p>
+<p>Если деньги списаны, а рыбки не начислились:</p>
+<ul>
+<li>откройте МАГАЗИН и нажмите «Восстановить покупки»;</li>
+<li>перезапустите игру — незавершённая операция магазина доезжает сама при следующем запуске;</li>
+<li>если рыбок всё равно нет, напишите нам и приложите номер заказа из чека.</li>
+</ul>
+<p>Возвраты делает магазин по своим правилам: в App Store — через <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>, в Google Play — через историю заказов. К вашим платёжным данным у Разработчика доступа нет.</p></section>
+<section id="support-ru-5"><h2><span class="num">5</span>Прогресс: перенос и удаление</h2>
+<p>Облачного сохранения в игре нет. Прогресс живёт на устройстве и сам на другое устройство не переезжает; удаление игры уносит его вместе с собой.</p>
+<p>«СТЕРЕТЬ ПРОГРЕСС» в настройках возвращает игру в состояние первого запуска. Лапки и рыбки при этом обнуляются, и рыбки из купленных наборов не возвращаются — это расходуемый товар.</p></section>
+<section id="support-ru-6"><h2><span class="num">6</span>Таблицы рекордов</h2>
+<p>Рекорды показываются через Game Center на iOS и Google Play Games на Android. Вход — только по вашей кнопке на экране ПРОФИЛЬ; без входа игра работает целиком.</p>
+<p>Таблиц тринадцать: общая и по одной на каждую арену. Результат вызова дня в таблицы не уходит — он считается и хранится на устройстве.</p>
+<p>Если результат не появился в таблице: проверьте, что вход в игровой сервис выполнен, и что результат выше прежнего — наверх едет только лучший.</p></section>
+<section id="support-ru-7"><h2><span class="num">7</span>Частые вопросы</h2>
+<ul>
+<li><strong>Игра не запускается или вылетает.</strong> Перезапустите устройство, проверьте свободное место и обновления системы. Не помогло — напишите нам, приложив модель устройства и журнал из §2.</li>
+<li><strong>Можно ли играть без интернета?</strong> Да, целиком. Сеть нужна только таблицам рекордов и магазину.</li>
+<li><strong>Как сменить язык?</strong> В настройках. Игра говорит на английском, русском, немецком, испанском и французском.</li>
+<li><strong>Есть ли реклама?</strong> Нет — ни баннеров, ни роликов, ни рекламных сетей.</li>
+<li><strong>Есть ли чат или общение с другими игроками?</strong> Нет. Поля ввода текста в игре нет вовсе.</li>
+</ul></section>
+<section id="support-ru-8"><h2><span class="num">8</span>Документы</h2>
+<p><a href="privacy.html">Политика конфиденциальности</a> · <a href="terms.html">Условия использования</a></p></section>
+<footer><div class="fb"><div class="field">РАЗРАБОТЧИК</div>Dido Games<br>Игра сделана с помощью ИИ-инструментов: код, изображения, звук и баланс.</div><div class="fb"><div class="field">СВЯЗЬ</div><a href="mailto:support@didogames.net">support@didogames.net</a></div><div class="fb"><div class="field">ДОКУМЕНТЫ</div><a href="privacy.html">Политика конфиденциальности</a><a href="terms.html">Условия использования</a></div><div class="fnote">© 2026 Dido Games. «ШароКоты». Лапки и рыбки не имеют денежной стоимости.</div></footer>
+</main>
+<main class="doc" data-lang="en" hidden>
+<p class="eyebrow">SHAROKOTY · SUPPORT</p>
+<h1>Support</h1>
+<p class="date">Updated: September 22, 2026</p>
+<div class="lede"><p>This page collects what people ask most often about Ball Cats (ШароКоты), and the address where a human answers. The developer is Dido Games.</p></div>
+<div class="short"><h2>In short</h2><ul>
+<li>Write to <a href="mailto:support@didogames.net">support@didogames.net</a> — we usually reply within a few business days.</li>
+<li>The game has no account: no registration, no password, no sign-in.</li>
+<li>It plays offline. Progress is stored on your device only — the Developer keeps no copy.</li>
+<li>There is no advertising, no analytics and no tracking.</li>
+<li>The whole game can be finished without paying.</li>
+</ul></div>
+<section id="support-en-2"><h2><span class="num">2</span>How to reach us</h2>
+<p>One address: <a href="mailto:support@didogames.net">support@didogames.net</a>. To get a useful answer on the first reply, please include:</p>
+<ul>
+<li>your device model and system version;</li>
+<li>what happens, and on which screen;</li>
+<li>the gameplay log. The COPY THE LOG button on the PROFILE screen puts a short 14-day summary on the clipboard: how many runs were played, how long they took, how the last one ended and how smoothly the picture ran. It contains no personal data, and the game never sends it anywhere by itself;</li>
+<li>for anything about payment — the order number from the store receipt. The receipt arrives at the email of your App Store or Google Play account.</li>
+</ul></section>
+<section id="support-en-3"><h2><span class="num">3</span>Purchases</h2>
+<p>The game sells six packs of Fish — 10, 30, 90, 200, 450 and 1000. Fish are spent only on cosmetic cat-colour packs and on refreshing the daily task. Everything else — the twelve arenas, the five rooms of the house and the ending of its story — is opened by playing, not by paying.</p>
+<p>There are no subscriptions. There is not a single randomised paid item: no loot boxes, no gacha, no chance-based chests. There are no waiting timers that money removes.</p>
+<p>Paws and fish are in-game values. They have no monetary worth and cannot be exchanged for money or passed to another player.</p></section>
+<section id="support-en-4"><h2><span class="num">4</span>Paid, but the fish did not arrive</h2>
+<p>Fish packs are a consumable product: the store closes such a purchase as soon as it is delivered, so the store's restore mechanism returns nothing for them. That is the store's rule, not our choice.</p>
+<p>If the money was taken and the fish were not credited:</p>
+<ul>
+<li>open the SHOP and tap "Restore purchases";</li>
+<li>restart the game — an unfinished store transaction is delivered by itself on the next launch;</li>
+<li>if the fish are still missing, write to us and include the order number from the receipt.</li>
+</ul>
+<p>Refunds are handled by the store under its own rules: in the App Store through <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener">reportaproblem.apple.com</a>, in Google Play through your order history. The Developer has no access to your payment details.</p></section>
+<section id="support-en-5"><h2><span class="num">5</span>Progress: moving and deleting</h2>
+<p>The game has no cloud save. Progress lives on the device and does not travel to another device by itself; deleting the game takes it away with it.</p>
+<p>ERASE PROGRESS in Settings returns the game to its first-launch state. Paws and fish are zeroed, and fish from purchased packs do not come back — they are a consumable product.</p></section>
+<section id="support-en-6"><h2><span class="num">6</span>Leaderboards</h2>
+<p>Records are shown through Game Center on iOS and Google Play Games on Android. Signing in happens only when you press the button on the PROFILE screen; without it the game works in full.</p>
+<p>There are thirteen leaderboards: one overall and one per arena. The daily challenge result does not go to a leaderboard — it is counted and kept on the device.</p>
+<p>If a result did not appear: check that you are signed in to the game service, and that the result beats your previous one — only the best score travels.</p></section>
+<section id="support-en-7"><h2><span class="num">7</span>Frequently asked</h2>
+<ul>
+<li><strong>The game does not start, or it crashes.</strong> Restart the device, check free space and system updates. If that does not help, write to us with your device model and the log from section 2.</li>
+<li><strong>Can I play offline?</strong> Yes, entirely. A connection is needed only for leaderboards and the store.</li>
+<li><strong>How do I change the language?</strong> In Settings. The game speaks English, Russian, German, Spanish and French.</li>
+<li><strong>Is there advertising?</strong> No — no banners, no videos, no ad networks.</li>
+<li><strong>Is there a chat, or any contact with other players?</strong> No. The game has no text input field at all.</li>
+</ul></section>
+<section id="support-en-8"><h2><span class="num">8</span>Documents</h2>
+<p><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Use</a></p></section>
+<footer><div class="fb"><div class="field">DEVELOPER</div>Dido Games<br>The Game is made with AI tools: code, images, audio and balance.</div><div class="fb"><div class="field">CONTACT</div><a href="mailto:support@didogames.net">support@didogames.net</a></div><div class="fb"><div class="field">DOCUMENTS</div><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a></div><div class="fnote">© 2026 Dido Games. Ball Cats. Paws and fish have no monetary value.</div></footer>
+</main>
+</div>
+<script>
+(function(){
+  var btns = document.querySelectorAll('.langs button');
+  var docs = document.querySelectorAll('main.doc');
+  function pick(lang){
+    docs.forEach(function(d){ d.hidden = d.dataset.lang !== lang; });
+    btns.forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.lang === lang)); });
+    document.documentElement.lang = lang;
+    try { history.replaceState(null, '', lang === 'ru' ? location.pathname : '#en'); } catch (e) {}
+  }
+  btns.forEach(function(b){ b.addEventListener('click', function(){ pick(b.dataset.lang); }); });
+  pick(location.hash.toLowerCase() === '#en' ? 'en' : 'ru');
+})();
+</script>
+</body>
+</html>
