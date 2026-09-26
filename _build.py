@@ -48,6 +48,8 @@ FORM_F_LANG = "entry.219790479"       # Язык сайта
 # заполнены реклама/покупки/рейтинг, «Early access» нет). Ссылки на группу тестировщиков и
 # opt-in удалены — они вели в трек, которого для игрока больше не существует.
 PLAY_URL = "https://play.google.com/store/apps/details?id=net.didogames.thelastwar"
+# «Поезд» вышел в App Store 25.09.2026, id 6801997153; адрес без привязки к стране
+APPSTORE_URL = "https://apps.apple.com/app/id6801997153"
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
@@ -61,6 +63,12 @@ TT_URL = "https://www.tiktok.com/@didogamesofficial"
 IC_GP = ('<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 3.5v17c0 .4.4.7.8.5'
          'l9.6-8.5L4.8 3c-.4-.2-.8.1-.8.5zm12.5 7.2-2.4 2.3 2.4 2.3 3.2-1.8c.5-.3.5-.8 0-1.1zM5.6 2.6l9.4 '
          '9.4-2.1 2L5.6 2.6zm0 18.8 7.3-11.4 2.1 2z"/></svg>')
+IC_AS = ('<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.54c-.02'
+         '-2.2 1.8-3.26 1.88-3.31-1.02-1.5-2.62-1.7-3.19-1.72-1.36-.14-2.65.8-3.34.8-.69 0-1.75-.78-2.88'
+         '-.76-1.48.02-2.85.86-3.61 2.18-1.54 2.67-.39 6.62 1.11 8.79.73 1.06 1.61 2.25 2.75 2.21 1.1-.04'
+         ' 1.52-.71 2.85-.71 1.33 0 1.71.71 2.88.69 1.19-.02 1.94-1.08 2.67-2.14.84-1.23 1.19-2.42 1.21'
+         '-2.48-.03-.01-2.32-.89-2.34-3.55zM14.88 5.5c.61-.74 1.02-1.77.91-2.79-.88.04-1.94.59-2.57 1.32'
+         '-.56.65-1.05 1.7-.92 2.7.98.08 1.98-.5 2.58-1.23z"/></svg>')
 IC_YT = ('<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.6-.5-5.3a2.8 '
          '2.8 0 0 0-1.9-2C18.9 4.2 12 4.2 12 4.2s-6.9 0-8.6.5a2.8 2.8 0 0 0-1.9 2C1 8.4 1 12 1 12s0 3.6.5 '
          '5.3c.3 1 1 1.7 1.9 2 1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5a2.8 2.8 0 0 0 1.9-2C23 15.6 23 12 23 12zM9.8 '
@@ -112,11 +120,11 @@ def chrome_foot(lang: str, depth: str) -> str:
     """Подвал документа = подвал титульной, вплоть до тех же каналов и той же
     строки внизу. Юридическая оговорка про виртуальные предметы сохранена."""
     L = {
-        "ru": ("Скачать в Google Play", "Игры", "О студии", "Поддержка", "Пресс-кит",
+        "ru": ("Google Play", "Игры", "О студии", "Поддержка", "Пресс-кит",
                "Условия", "Конфиденциальность",
                "© 2026 Dido Games · «%s» · виртуальные предметы не имеют денежной стоимости" % GAME_RU,
                "Эксперимент с ИИ, который можно скачать"),
-        "en": ("Get it on Google Play", "Games", "Studio", "Support", "Press kit",
+        "en": ("Google Play", "Games", "Studio", "Support", "Press kit",
                "Terms", "Privacy",
                "© 2026 Dido Games · \"%s\" · virtual items have no monetary value" % GAME_EN,
                "An AI experiment you can download"),
@@ -125,6 +133,7 @@ def chrome_foot(lang: str, depth: str) -> str:
         '<footer class="ft"><div class="wrap"><div class="top"><div>'
         '<span class="wm">Dido Games<i></i></span>'
         '<div class="stores"><a href="%(play)s" target="_blank" rel="noopener">%(gp)s%(get)s</a>'
+        '<a href="%(appstore)s" target="_blank" rel="noopener">%(as)sApp Store</a>'
         '<a href="mailto:%(mail)s">%(mail)s</a></div>'
         '<div class="stores social"><a href="%(yt)s" target="_blank" rel="noopener">%(iyt)sYouTube</a>'
         '<a href="%(tt)s" target="_blank" rel="noopener">%(itt)sTikTok</a></div></div>'
@@ -133,8 +142,8 @@ def chrome_foot(lang: str, depth: str) -> str:
         '<a href="terms.html">%(l5)s</a><a href="privacy.html">%(l6)s</a></nav>'
         '</div><div class="copy"><span>%(copy)s</span><span>%(tag)s</span></div>'
         '</div></footer>'
-        % {"play": PLAY_URL, "mail": EMAIL, "yt": YT_URL, "tt": TT_URL,
-           "gp": IC_GP, "iyt": IC_YT, "itt": IC_TT,
+        % {"play": PLAY_URL, "appstore": APPSTORE_URL, "mail": EMAIL, "yt": YT_URL, "tt": TT_URL,
+           "gp": IC_GP, "as": IC_AS, "iyt": IC_YT, "itt": IC_TT,
            "get": L[0], "l1": L[1], "l2": L[2], "l3": L[3], "l4": L[4], "l5": L[5], "l6": L[6],
            "copy": L[7], "tag": L[8]}
     )
@@ -757,9 +766,10 @@ PRESS_FACTS_RU = [
                      "звук, баланс, тексты и локализация"),
     ("Роль человека", "постановка задач, дизайн-решения, приёмка, тестирование на устройстве "
                       "и публикация"),
-    ("Платформы", "Android (Google Play); iOS — позже"),
-    ("Статус", "вышла — доступна всем в Google Play на Android; iOS позже"),
-    ("Как попробовать", 'установить из Google Play: <a href="%s">страница игры</a>' % PLAY_URL),
+    ("Платформы", "Android (Google Play) и iOS (App Store)"),
+    ("Статус", "вышла в обоих магазинах: Google Play (Android 7.0 и новее) и App Store (iOS 17.0 и новее); бесплатно"),
+    ("Как попробовать", 'установить из магазина: <a href="%s">Google Play</a> '
+     'или <a href="%s">App Store</a>' % (PLAY_URL, APPSTORE_URL)),
     ("Жанр", "аркадное ПВО-выживание (AA-survival) с карточным драфтом, дизельпанк"),
     ("Забег", "одна миссия: десять волн, последняя — босс; ориентир 5-7 минут"),
     ("Модель", "free-to-play — необязательные покупки и реклама за награду"),
@@ -775,9 +785,10 @@ PRESS_FACTS_EN = [
     ("Production", "the entire game is made by artificial intelligence — code, art, "
                    "audio, balance, text and localization"),
     ("Human role", "setting the tasks, design calls, sign-off, on-device testing and publishing"),
-    ("Platforms", "Android (Google Play); iOS — later"),
-    ("Status", "released — available to everyone on Google Play for Android; iOS later"),
-    ("How to try it", 'install from Google Play: <a href="%s">the store page</a>' % PLAY_URL),
+    ("Platforms", "Android (Google Play) and iOS (App Store)"),
+    ("Status", "released in both stores: Google Play (Android 7.0+) and the App Store (iOS 17.0+); free"),
+    ("How to try it", 'install from a store: <a href="%s">Google Play</a> '
+     'or <a href="%s">the App Store</a>' % (PLAY_URL, APPSTORE_URL)),
     ("Genre", "arcade AA-survival with a card draft, dieselpunk"),
     ("Run length", "one mission: ten waves, the last one is a boss; 5-7 minutes as the target"),
     ("Business model", "free-to-play — optional purchases and rewarded ads"),
@@ -968,10 +979,10 @@ def press(lang: str) -> str:
             "made": "".join("<li>%s</li>" % x for x in made),
             "not_ai": PRESS_NOT_AI_RU if ru else PRESS_NOT_AI_EN,
             "h_dev": "О разработчике" if ru else "About the Developer",
-            "dev_p": ("%s — независимый разработчик. Движок — Godot 4.6, платформа — Android "
-                      "(iOS позже)." % DEV_RU if ru else
-                      "%s is an independent developer. Engine: Godot 4.6, platform: Android "
-                      "(iOS later)." % DEV_EN),
+            "dev_p": ("%s — независимый разработчик. Движок — Godot 4.6, платформы — "
+                      "Android (Google Play) и iOS (App Store)." % DEV_RU if ru else
+                      "%s is an independent developer. Engine: Godot 4.6, platforms: "
+                      "Android (Google Play) and iOS (App Store)." % DEV_EN),
             "h_con": "Контакты" if ru else "Contact",
             "con": ('Почта: <a href="mailto:%s">%s</a><br>Сайт: <a href="%s">didogames.net</a>'
                     % (EMAIL, EMAIL, BASE) if ru else

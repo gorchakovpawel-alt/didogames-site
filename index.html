@@ -449,7 +449,6 @@ p{margin:0}
   <label for="f_email" data-i="f_email"></label><input id="f_email" type="email" required placeholder="you@example.com" autocomplete="email">
   <div class="row"><div><label for="f_name" data-i="f_name"></label><input id="f_name" type="text" maxlength="40"></div>
   <div><label for="f_plat" data-i="f_plat"></label><select id="f_plat"><option>Android</option><option>iOS</option><option data-i="f_web"></option></select></div></div>
-  <label for="f_game" data-i="f_game"></label><select id="f_game"><option value="sharokoty" data-i="ct_name"></option><option value="train_ios" data-i="f_game_train"></option></select>
   <div class="acts"><span class="note" data-i="f_note"></span><button class="btn" type="submit" data-i="f_send"></button></div>
   <div class="ok" role="status" tabindex="-1"><b data-i="f_ok"></b><span class="sub" data-i="f_ok2"></span>
     <div style="margin-top:18px"><button class="btn btn--ghost" type="button" data-close data-i="a_close"></button></div></div>
@@ -458,14 +457,22 @@ p{margin:0}
 <script>
 /* ═══════════════ ДАННЫЕ ═══════════════ */
 const PLAY_URL = "https://play.google.com/store/apps/details?id=net.didogames.thelastwar";
+// «Поезд» вышел в App Store 25.09.2026, id 6801997153; адрес без привязки к стране
+const APPSTORE_URL = "https://apps.apple.com/app/id6801997153";
 const EMAIL = "support@didogames.net";
-const IMGV = 31;   // ponytail: макет пересобирает картинки, менять при пересъёмке
+const IMGV = 32;   // ponytail: макет пересобирает картинки, менять при пересъёмке
 const IC_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 20.5v-17c0-.6.6-1 1.1-.7l14.6 8.5c.5.3.5 1 0 1.4L4.1 21.2c-.5.3-1.1-.1-1.1-.7z"/></svg>';
 const YT_URL = "https://www.youtube.com/@didogames_official";
 const TT_URL = "https://www.tiktok.com/@didogamesofficial";
 const IC_YT = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.6-.5-5.3a2.8 2.8 0 0 0-1.9-2C18.9 4.2 12 4.2 12 4.2s-6.9 0-8.6.5a2.8 2.8 0 0 0-1.9 2C1 8.4 1 12 1 12s0 3.6.5 5.3c.3 1 1 1.7 1.9 2 1.7.5 8.6.5 8.6.5s6.9 0 8.6-.5a2.8 2.8 0 0 0 1.9-2C23 15.6 23 12 23 12zM9.8 15.3V8.7l5.7 3.3-5.7 3.3z"/></svg>';
 const IC_TT = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 2h-3v13.2a2.9 2.9 0 1 1-2.3-2.8V9.2a6 6 0 1 0 5.3 6V8.9a7 7 0 0 0 4.1 1.3V7.2a4.2 4.2 0 0 1-4.1-4.1V2z"/></svg>';
+const IC_AS = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.54c-.02-2.2 1.8-3.26 1.88-3.31-1.02-1.5-2.62-1.7-3.19-1.72-1.36-.14-2.65.8-3.34.8-.69 0-1.75-.78-2.88-.76-1.48.02-2.85.86-3.61 2.18-1.54 2.67-.39 6.62 1.11 8.79.73 1.06 1.61 2.25 2.75 2.21 1.1-.04 1.52-.71 2.85-.71 1.33 0 1.71.71 2.88.69 1.19-.02 1.94-1.08 2.67-2.14.84-1.23 1.19-2.42 1.21-2.48-.03-.01-2.32-.89-2.34-3.55zM14.88 5.5c.61-.74 1.02-1.77.91-2.79-.88.04-1.94.59-2.57 1.32-.56.65-1.05 1.7-.92 2.7.98.08 1.98-.5 2.58-1.23z"/></svg>';
 const IC_GP = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 3.5v17c0 .4.4.7.8.5l9.6-8.5L4.8 3c-.4-.2-.8.1-.8.5zm12.5 7.2-2.4 2.3 2.4 2.3 3.2-1.8c.5-.3.5-.8 0-1.1zM5.6 2.6l9.4 9.4-2.1 2L5.6 2.6zm0 18.8 7.3-11.4 2.1 2z"/></svg>';
+
+// Кнопки магазинов «Поезда» — пара, а не одна: игра вышла на обеих платформах.
+const storeLinks = () =>
+  `<a href="${PLAY_URL}" target="_blank" rel="noopener">${IC_GP}${t("ft_gp")}</a>`
+  + `<a href="${APPSTORE_URL}" target="_blank" rel="noopener">${IC_AS}${t("ft_as")}</a>`;
 
 
 const T = {
@@ -475,8 +482,8 @@ ru:{
   tr_name:"Поезд Последней Войны", ct_name:"ШароКоты",
   tr_one:"Зенитки стреляют сами. Ты ловишь кристаллы и выбираешь карту на ранге.", ct_one:"Коты падают в стакан, сливаются и въезжают в дом, который ты обставил.",
   tr_status:"Вышла", ct_status:"В разработке",
-  tr_news:"С сентября 2026 · Android, бесплатно, десять языков", ct_news:"Двенадцать арен, дом и Котокафе уже играются",
-  live:"Вышла · Google Play", dev:"В разработке",
+  tr_news:"С сентября 2026 · Android и iOS, бесплатно, десять языков", ct_news:"Двенадцать арен, дом и Котокафе уже играются",
+  live:"Вышла · Android и iOS", dev:"В разработке",
   // главная
   open_page:"Открыть",   tr_consist_e:"Состав", tr_consist_h:"Лестницы орудий",
   cs_loco:"Локомотив", cs_wagon:"Вагон",
@@ -484,7 +491,7 @@ ru:{
   cs_w_cargo:"Грузовой", cs_w_assault:"Штурмовой", cs_w_support:"Поддержки", cs_w_heavy:"Тяжёлый",
   cs_w_reactor:"Энергоблок", cs_w_harvest:"Сборщик", cs_w_bulwark:"Бастион",
   lore_stub:"Десять записей журнала, по одной на сектор. Страница переезжает с /lore.html как есть.",
-  hero_e:"Студия · 2026", spec:["Две игры","Игры делает ИИ","10 языков","Android · iOS позже"],
+  hero_e:"Студия · 2026", spec:["Две игры","Игры делает ИИ","10 языков","Android и iOS"],
   makers_a:"Делаем", makers_b:"и", watch:"Смотреть ролик", watch_cap:"«Поезд Последней Войны» · 70 секунд",
   h_games:"Игры студии", h_games_sub:"В одной машины доигрывают войну без людей, в другой кот выбирает лежанку. Способ производства один и тот же.", all_games:"Все игры →",
   h_how:"Как делаются эти игры", how_h:"Игры делает искусственный интеллект",
@@ -496,7 +503,7 @@ ru:{
   // страница поезда
   tr_genre:"Аркадное ПВО-выживание · дизельпанк · портрет, одной рукой",
   tr_tag:"Целиться не нужно: зенитки бьют сами. Твоя работа — ловить кристаллы под огнём и на каждом ранге решать, <b>какое орудие встанет на состав и каким путём оно пойдёт дальше.</b>",
-  tr_cta:"Скачать в Google Play", tr_st:"Статус: вышла · Google Play (Android) · бесплатно · iOS позже",
+  tr_cta:"Скачать · Google Play", tr_st:"Статус: вышла · Google Play и App Store · бесплатно · Android 7.0+, iOS 17.0+",
   tr_reel_e:"Запись · 70 секунд", tr_reel_h:"Как это играется",
   tr_reel_cap:"Бой, поле сбора, депо, боссы. Со звуком.",
   tr_shots_e:"Архив штаба", tr_shots_h:"Кадры",
@@ -522,44 +529,40 @@ ru:{
   ct_notify_e:"Когда выйдет", ct_notify_h:"Напишем один раз", ct_notify_p:"В день выхода. Больше ничего.",
   // о студии
   ab_e:"О студии", ab_h:"Эксперимент в открытую",
-  ab_p:"Dido Games — эксперимент с одним вопросом: докуда сегодня дотягивает человек, который делает игру вместе с искусственным интеллектом. Ответ видно по играм. «Поезд Последней Войны» вышел в Google Play в сентябре, «ШароКоты» делаются сейчас.",
+  ab_p:"Dido Games — эксперимент с одним вопросом: докуда сегодня дотягивает человек, который делает игру вместе с искусственным интеллектом. Ответ видно по играм. «Поезд Последней Войны» вышел в сентябре в Google Play и App Store, «ШароКоты» делаются сейчас.",
   ab_why_h:"Что здесь проверяется", ab_why_p:"Инструменты обновляются каждые несколько месяцев, и вместе с ними меняется, что вообще реально собрать и за какой срок. По играм это видно напрямую: что было недостижимо год назад и где потолок сегодня. Игроку от этого ни холодно ни жарко. Игра либо хорошая, либо нет.",
   ab_roles:[["Условия эксперимента",["Обе игры собраны так от первой строки кода до последней иконки","Сборка, которая не понравилась на телефоне, дальше не идёт","В описании игры только то, что уже работает в билде","Этот текст написан тем же способом"]]],
   tl_lede:"В хронику попадает то, что вышло, а не то, что запланировано. Студия младше своих игр: сначала появились они, потом название.", ab_tl_h:"Хроника",
-  ab_tl:[["2026 · лето","Сайт и закрытый тест","Поднят didogames.net; «Поезд» уходит в закрытый тест Google Play."],["2026 · сентябрь","«Поезд Последней Войны» вышел","Опубликован в Google Play. Бесплатно, Android, десять языков."],["2026 · сентябрь","«ШароКоты» в работе","Вторая игра: merge с физикой и котами. Русский и английский, цель — Google Play и App Store."]],
+  ab_tl:[["2026 · лето","Сайт и закрытый тест","Поднят didogames.net; «Поезд» уходит в закрытый тест Google Play."],["2026 · сентябрь","«Поезд Последней Войны» вышел","Опубликован в Google Play. Бесплатно, Android, десять языков."],["2026 · 25 сентября","Релиз на iPhone","«Поезд» появился в App Store — бесплатно, на iOS 17.0 и новее."],["2026 · сентябрь","«ШароКоты» в работе","Вторая игра: merge с физикой и котами. Русский и английский, цель — Google Play и App Store."]],
   ab_contact_h:"Связаться", ab_contact_p:"Одна почта на всё: поддержка, пресса, партнёрства.",
   // поддержка
   su_h:"Поддержка", su_sub:"Выберите игру — под ней почта и ответы на то, что ломается чаще всего.",
   su_tr:[["Написать в поддержку","mail"],["Вылеты и сбои","train-faq"],["Прогресс и его удаление","train-data"],["Покупки и возвраты","train-pay"]],
   su_ct:[["Написать в поддержку","mail"],["Сеть и сохранения","cat-offline"],["Когда выйдет","cat-when"]],
   su_also_h:"См. также", su_also:[["Политика конфиденциальности","что храним и зачем"],["Условия использования","правила пользования сайтом и играми"],["Пресс-кит","логотипы, кадры, факты"]],
-  su_qa:[["train-faq","«Поезд Последней Войны» · частые вопросы","Игра не запускается или вылетает","Сначала обновите игру и перезапустите телефон: этим лечится большинство вылетов. Если не помогло — напишите нам модель телефона и версию Android, без них сбой не воспроизвести."],
-    ["train-data","«Поезд Последней Войны» · прогресс и его удаление","Где лежит прогресс и как его стереть","Прогресс хранится на самом устройстве — учётных записей мы не ведём. Стереть его можно, удалив приложение: вместе с ним уходит всё. Напишите на почту, если нужно стереть саму переписку с поддержкой, — сотрём и ответим, что готово."],
-    ["train-pay","«Поезд Последней Войны» · покупки и возвраты","Покупка не пришла","Покупки идут через Google Play, возврат и повторная выдача — на его стороне. Пришлите нам номер заказа, поможем довести обращение."],
-    ["cat-offline","«ШароКоты» · игра без сети","Нужен ли интернет и где сохранение","Интернет не нужен: партии, дом и задачи считаются на телефоне, там же лежит прогресс. Облачного сохранения нет, так что на новом телефоне дом придётся обставлять заново."],
-    ["cat-when","«ШароКоты» · когда выйдет","Даты пока нет","Игра в разработке. Оставьте почту на её странице — напишем один раз, когда она появится в магазине."]],
+  su_qa:[["train-faq","«Поезд Последней Войны» · частые вопросы","Игра не запускается или вылетает","Сначала обновите игру и перезапустите телефон: этим лечится большинство вылетов. Если не помогло — напишите нам модель телефона и версию системы, Android или iOS: без них сбой не воспроизвести."],["train-data","«Поезд Последней Войны» · прогресс и его удаление","Где лежит прогресс и как его стереть","Прогресс хранится на самом устройстве — учётных записей мы не ведём. Стереть его можно, удалив приложение: вместе с ним уходит всё. Напишите на почту, если нужно стереть саму переписку с поддержкой, — сотрём и ответим, что готово."],["train-pay","«Поезд Последней Войны» · покупки и возвраты","Покупка не пришла","Покупку обрабатывает магазин: на Android — Google Play, на iPhone — App Store. Если деньги списаны, а товар не пришёл, откройте в игре «Ресурсы» и нажмите «Восстановить покупки», затем перезапустите игру. Возврат оформляет сам магазин по своим правилам: в App Store — через reportaproblem.apple.com, в Google Play — через историю заказов. К вашим платёжным данным у нас доступа нет."],["cat-offline","«ШароКоты» · игра без сети","Нужен ли интернет и где сохранение","Интернет не нужен: партии, дом и задачи считаются на телефоне, там же лежит прогресс. Облачного сохранения нет, так что на новом телефоне дом придётся обставлять заново."],["cat-when","«ШароКоты» · когда выйдет","Даты пока нет","Игра в разработке. Оставьте почту на её странице — напишем один раз, когда она появится в магазине."]],
   // пресс
   pr_h:"Пресс-кит", pr_sub:"Факты, ключевой арт и кадры. Берите в публикацию без запроса.",
-  pr_facts:[["Студия","Dido Games, 2026"],["Производство","задачу ставит человек, игру делает ИИ"],["Игры","«Поезд Последней Войны» — вышла; «ШароКоты» — в разработке"],["Платформы","Android (Google Play); iOS позже"],["Языки","«Поезд» — десять; «ШароКоты» — русский и английский"],["Контакт",EMAIL]],
+  pr_facts:[["Студия","Dido Games, 2026"],["Производство","задачу ставит человек, игру делает ИИ"],["Игры","«Поезд Последней Войны» — вышла; «ШароКоты» — в разработке"],["Платформы","Android (Google Play) и iOS (App Store)"],["Языки","«Поезд» — десять; «ШароКоты» — русский и английский"],["Контакт","support@didogames.net"]],
   pr_kits_h:"Пресс-киты игр", pr_kit_tr:"Ключевой арт, кадры, ролик на 70 секунд и факт-лист, сверенный с кодом.", pr_kit_ct:"Промо-арт, кадры, иконка. Пополняется по ходу разработки.",
   pr_dl:["Знак студии · SVG и PNG","Ключевой арт","Кадры","Факт-лист"],
   // подвал
   legal_priv:"Политика конфиденциальности", legal_terms:"Условия использования", legal_stub:"Текст не меняется: он синхронен с LegalDocs.gd в игре. Адрес прежний.",
-  ft_terms:"Условия", ft_priv:"Конфиденциальность", ft_support:"Поддержка", ft_press:"Пресс-кит", ft_gp:"Google Play", ft_as:"App Store · позже",
+  ft_terms:"Условия", ft_priv:"Конфиденциальность", ft_support:"Поддержка", ft_press:"Пресс-кит", ft_gp:"Google Play", ft_as:"App Store",
   ft_copy:"© 2026 Dido Games", ft_tag:"Эксперимент с ИИ, который можно скачать",
   // страница игры → студия
   gs_e:"Как делаются эти игры", gs_h:"Игру собрал ИИ, человек принял", gs_p:"Вторую делают так же. В этом и состоит эксперимент.", gs_more:"О студии",
   back:"← Все игры", a_menu:"Меню", a_lang:"Язык сайта", a_close:"Закрыть", a_shot:"Кадр из игры", a_reel:"Ролик",
   press_link:"Пресс-кит →",
   // формы
-  f_h:"Сообщить о выходе", f_sub:"Одно письмо в день выхода. Больше ничего.", f_email:"Почта", f_name:"Как к вам обращаться", f_plat:"Платформа", f_web:"Браузер", f_game:"Игра", f_game_train:"«Поезд Последней Войны» — версия для iOS", f_note:"Макет: письмо не отправляется.", f_send:"Отправить", f_ok:"Заявка принята", f_ok2:"Напишем один раз — в день выхода.",
-  p_h:"Веб-демо «ШароКотов»", p_sub:"Макет: браузерной сборки пока нет. Кнопка стоит здесь, чтобы держать под неё место.", p_cancel:"Позже", p_go:"Загрузить и играть",
+  f_h:"Сообщить о выходе «ШароКотов»", f_sub:"Одно письмо в день выхода. Больше ничего.", f_email:"Почта", f_name:"Как к вам обращаться", f_plat:"Платформа", f_web:"Браузер", f_game:"Игра", f_game_train:"«Поезд Последней Войны» — версия для iOS", f_note:"Адрес нужен только для этого письма.", f_send:"Отправить", f_ok:"Заявка принята", f_ok2:"Напишем один раз — в день выхода.", p_go:"Загрузить и играть",
   ab_p2:"Игры для этого нарочно непохожи. В одной бронепоезд держит рубеж, пока техника пикирует с неба. В другой коты сливаются в стакане, а между партиями игрок обустраивает их дом. Если способ работает, он обязан работать в обеих.",
   tl_e:"что уже вышло",
   au_e:"От автора",
   au_h:"Зачем мне это",
   au_p:["Я продюсер игровых проектов и больше десяти лет работаю в разработке игр. За это время успел увидеть, как меняются команды, процессы, инструменты и сама индустрия. Я продолжаю внимательно следить за тем, куда всё движется, и много играю сам — не только по работе.","Этот проект для меня одновременно эксперимент, способ учиться и личное хобби. Мне всегда нравилось создавать игры, но сейчас особенно интересно исследовать сам процесс их производства: какие задачи уже можно передать современным инструментам, что действительно удаётся автоматизировать, а где технологии пока только обещают больше, чем способны дать.","Ближайшая аналогия — Factorio, только завод здесь строится внутри игровой разработки.","Сначала появляется один инструмент, который решает конкретную задачу. Затем к нему подключается следующий. Постепенно отдельные этапы складываются в цепочку, ручной работы становится меньше, а внимание переключается на поиск узких мест и улучшение самого процесса.","По сути, я пытаюсь построить такую производственную линию для создания игр — понять, насколько далеко её можно автоматизировать, не потеряв при этом качество, контроль и творческую составляющую.","А игра — это продукт, который в итоге сходит с этой линии."],
   au_sign:"Автор проекта · Dido Games",
+  tr_cta_ios:"Скачать · App Store",
 },
 en:{
   nav_games:"Games", nav_about:"Studio", nav_support:"Support", nav_press:"Press",
@@ -567,15 +570,15 @@ en:{
   tr_name:"The Last War: Train", ct_name:"Ball Cats",
   tr_one:"The turrets aim themselves. You catch crystals and pick a card at every rank.", ct_one:"Cats drop, merge, and move into the house you furnished.",
   tr_status:"Out now", ct_status:"In development",
-  tr_news:"Since September 2026 · Android, free, ten languages", ct_news:"Twelve arenas, the house and the Cat Cafe already play",
-  live:"Out · Google Play", dev:"In development",
+  tr_news:"Since September 2026 · Android and iOS, free, ten languages", ct_news:"Twelve arenas, the house and the Cat Cafe already play",
+  live:"Out · Android and iOS", dev:"In development",
   open_page:"Open",   tr_consist_e:"The consist", tr_consist_h:"The gun ladders",
   cs_loco:"Locomotive", cs_wagon:"Wagon",
   cs_loco_assault:"Assault", cs_loco_arctic:"Arctic", cs_loco_siege:"Siege", cs_loco_vault:"Vault",
   cs_w_cargo:"Cargo", cs_w_assault:"Assault", cs_w_support:"Support", cs_w_heavy:"Heavy",
   cs_w_reactor:"Reactor", cs_w_harvest:"Harvester", cs_w_bulwark:"Bulwark",
   lore_stub:"Ten log entries, one per sector. The page moves over from /lore.html as is.",
-  hero_e:"Studio · 2026", spec:["Two games","Made by an AI","10 languages","Android · iOS later"],
+  hero_e:"Studio · 2026", spec:["Two games","Made by an AI","10 languages","Android and iOS"],
   makers_a:"Makers of", makers_b:"and", watch:"Watch the reel", watch_cap:"The Last War: Train · 70 seconds",
   h_games:"The games", h_games_sub:"One is machines finishing a war with nobody left to fight; the other is a cat picking a cushion. Both were built the same way.", all_games:"All games →",
   h_how:"How the games get made", how_h:"An AI makes the games",
@@ -585,7 +588,7 @@ en:{
   games_h:"Games", games_sub:"Two so far. They have almost nothing in common and were built identically: a human sets the task, an AI makes the game.",
   tr_genre:"Arcade AA-survival · dieselpunk · portrait, one-handed",
   tr_tag:"No aiming: the turrets do that. Your job is catching crystals under fire and deciding, at every rank, <b>which gun rolls onto the train and which path it takes from there.</b>",
-  tr_cta:"Get it on Google Play", tr_st:"Status: out now · Google Play (Android) · free · iOS later",
+  tr_cta:"Download · Google Play", tr_st:"Status: out now · Google Play and the App Store · free · Android 7.0+, iOS 17.0+",
   tr_reel_e:"Footage · 70 seconds", tr_reel_h:"How it plays",
   tr_reel_cap:"Combat, the harvest field, the depot, bosses. With sound.",
   tr_shots_e:"HQ archive", tr_shots_h:"Screens",
@@ -609,39 +612,35 @@ en:{
   ct_reel_cap:"The Swing tilts the jar, the house fills up, a run plays out. Captured in game, no sound.",
   ct_notify_e:"When it\'s out", ct_notify_h:"We\'ll tell you", ct_notify_p:"One email on launch day. Nothing else.",
   ab_e:"About the studio", ab_h:"An experiment in plain sight",
-  ab_p:"Dido Games runs on one question: how much can a person actually build with AI today. The games are the answer. The Last War: Train reached Google Play in September, and Ball Cats is in development now.",
+  ab_p:"Dido Games runs on one question: how much can a person actually build with AI today. The games are the answer. The Last War: Train reached Google Play and the App Store in September, and Ball Cats is in development now.",
   ab_why_h:"What is being tested", ab_why_p:"Tools turn over every few months, and what can be built, and how fast, turns over with them. The games show it directly: what was out of reach last year, where the ceiling sits now. To a player none of that matters. The game is either good or it is not.",
   ab_roles:[["Terms of the experiment",["Both games were built this way, from the first line of code to the last icon","A build that is no fun on a phone does not go out","The store page lists only what already works in the build","This text was written the same way"]]],
   tl_lede:"The timeline records what shipped, not what was planned. The studio is younger than its games: they came first, the name after.", ab_tl_h:"Timeline",
-  ab_tl:[["2026 · summer","Site up, closed test running","didogames.net goes live; Train enters its closed test on Google Play."],["2026 · September","The Last War: Train ships","Published on Google Play. Free, Android, ten languages."],["2026 · September","Ball Cats in the works","The second game: a physics merge with cats. Russian and English; Google Play and the App Store are the target."]],
+  ab_tl:[["2026 · summer","Site up, closed test running","didogames.net goes live; Train enters its closed test on Google Play."],["2026 · September","The Last War: Train ships","Published on Google Play. Free, Android, ten languages."],["2026 · 25 September","Now on iPhone","Train appeared in the App Store — free, on iOS 17.0 and up."],["2026 · September","Ball Cats in the works","The second game: a physics merge with cats. Russian and English; Google Play and the App Store are the target."]],
   ab_contact_h:"Contact", ab_contact_p:"One address for all of it: support, press, partnerships.",
   su_h:"Support", su_sub:"Pick your game — under it sit the email and answers to what breaks most.",
   su_tr:[["Email support","mail"],["Crashes and startup","train-faq"],["Progress and deleting it","train-data"],["Purchases and refunds","train-pay"]],
   su_ct:[["Email support","mail"],["Offline play and saves","cat-offline"],["When it comes out","cat-when"]],
   su_also_h:"See also", su_also:[["Privacy policy","what we store and why"],["Terms of use","the rules for the site and the games"],["Press kit","logos, screens, facts"]],
-  su_qa:[["train-faq","The Last War: Train · frequent questions","The game won\'t start, or it crashes","Update the game and restart the phone first: that clears most crashes. If it keeps happening, send us your phone model and Android version — without them the crash cannot be reproduced here."],
-    ["train-data","The Last War: Train · progress and deleting it","Where progress is kept and how to wipe it","Progress sits on the device itself; we keep no accounts. Wipe it by uninstalling the app — everything goes with it. Write to support if you want the support thread itself deleted, and we will confirm when it is done."],
-    ["train-pay","The Last War: Train · purchases and refunds","A purchase did not arrive","Purchases run through Google Play, so refunds and re-delivery are on its side. Send us the order number and we will push the case through with you."],
-    ["cat-offline","Ball Cats · playing offline","Do you need internet, and where are saves kept","No internet needed: runs, the house and the tasks all run on the phone, and the progress lives there too. There is no cloud save, so a new phone means furnishing the house again."],
-    ["cat-when","Ball Cats · when it comes out","No date yet","The game is in development. Leave your email on its page and we will write once, when it reaches the store."]],
+  su_qa:[["train-faq","The Last War: Train · frequent questions","The game won't start, or it crashes","Update the game and restart the phone first: that clears most crashes. If it keeps happening, send us your phone model and system version, Android or iOS — without them the crash cannot be reproduced here."],["train-data","The Last War: Train · progress and deleting it","Where progress is kept and how to wipe it","Progress sits on the device itself; we keep no accounts. Wipe it by uninstalling the app — everything goes with it. Write to support if you want the support thread itself deleted, and we will confirm when it is done."],["train-pay","The Last War: Train · purchases and refunds","A purchase did not arrive","The store handles the purchase: Google Play on Android, the App Store on iPhone. If you were charged and nothing arrived, open Resources in the game, tap Restore purchases, then restart the game. Refunds are issued by the store under its own rules: reportaproblem.apple.com for the App Store, order history for Google Play. We have no access to your payment details."],["cat-offline","Ball Cats · playing offline","Do you need internet, and where are saves kept","No internet needed: runs, the house and the tasks all run on the phone, and the progress lives there too. There is no cloud save, so a new phone means furnishing the house again."],["cat-when","Ball Cats · when it comes out","No date yet","The game is in development. Leave your email on its page and we will write once, when it reaches the store."]],
   pr_h:"Press kit", pr_sub:"Facts, key art and screens. Use them in a piece without asking first.",
-  pr_facts:[["Studio","Dido Games, 2026"],["Production","a human sets the task, an AI makes the game"],["Games","The Last War: Train — out; Ball Cats — in development"],["Platforms","Android (Google Play); iOS later"],["Languages","Train — ten; Ball Cats — Russian and English"],["Contact",EMAIL]],
+  pr_facts:[["Studio","Dido Games, 2026"],["Production","a human sets the task, an AI makes the game"],["Games","The Last War: Train — out; Ball Cats — in development"],["Platforms","Android (Google Play) and iOS (App Store)"],["Languages","Train — ten; Ball Cats — Russian and English"],["Contact","support@didogames.net"]],
   pr_kits_h:"Game press kits", pr_kit_tr:"Key art, screens, a 70-second reel and a fact sheet checked against the code.", pr_kit_ct:"Promo art, screens, icon. Grows as development does.",
   pr_dl:["Studio mark · SVG and PNG","Key art","Screens","Fact sheet"],
   legal_priv:"Privacy policy", legal_terms:"Terms of use", legal_stub:"The text does not change: it is kept in sync with LegalDocs.gd in the game. The address stays the same.",
-  ft_terms:"Terms", ft_priv:"Privacy", ft_support:"Support", ft_press:"Press kit", ft_gp:"Google Play", ft_as:"App Store · later",
+  ft_terms:"Terms", ft_priv:"Privacy", ft_support:"Support", ft_press:"Press kit", ft_gp:"Google Play", ft_as:"App Store",
   ft_copy:"© 2026 Dido Games", ft_tag:"An AI experiment you can download",
   gs_e:"How the games get made", gs_h:"An AI built it, a human signed it off", gs_p:"The second game is going the same way. That is the whole experiment.", gs_more:"About the studio",
   back:"← All games", a_menu:"Menu", a_lang:"Site language", a_close:"Close", a_shot:"Screenshot", a_reel:"Reel",
   press_link:"Press kit →",
-  f_h:"Notify me at launch", f_sub:"One email on launch day. Nothing else.", f_email:"Email", f_name:"Your name", f_plat:"Platform", f_web:"Browser", f_game:"Game", f_game_train:"The Last War: Train — the iOS version", f_note:"Mockup: nothing is sent.", f_send:"Send", f_ok:"You are on the list", f_ok2:"One email from us, on launch day.",
-  p_h:"Ball Cats web demo", p_sub:"Mockup: there is no browser build yet. The button is here to hold its place.", p_cancel:"Later", p_go:"Load and play",
+  f_h:"Notify me when Ball Cats ships", f_sub:"One email on launch day. Nothing else.", f_email:"Email", f_name:"Your name", f_plat:"Platform", f_web:"Browser", f_game:"Game", f_game_train:"The Last War: Train — the iOS version", f_note:"The address is used only for that one email.", f_send:"Send", f_ok:"You are on the list", f_ok2:"One email from us, on launch day.", p_go:"Load and play",
   ab_p2:"The two games are deliberately unalike. One is an armoured train holding a line while machines dive out of the sky. In the other, cats merge inside a glass and the player furnishes their house between rounds. If the method works, it has to work in both.",
   tl_e:"what shipped so far",
   au_e:"From the author",
   au_h:"Why I am doing this",
   au_p:["I produce games, and I have spent more than ten years in game development. Long enough to watch teams, processes, tools and the industry itself change shape. I still follow closely where it is all heading, and I play a great deal myself, not only for work.","This project is an experiment, a way to learn and a personal hobby at the same time. I have always liked making games, but what interests me most right now is the making itself: which tasks can already be handed to current tools, what genuinely automates, and where the technology still promises more than it can deliver.","The closest analogy is Factorio, except the factory here goes up inside game development.","First one tool appears that solves a specific task. Then the next one plugs into it. Step by step the separate stages link into a chain, less work is done by hand, and attention shifts to finding bottlenecks and improving the process itself.","That is what I am really building: a production line for games, to see how far it can be automated without losing quality, control and the creative part.","And the game is the product that comes off that line."],
   au_sign:"Dido Games",
+  tr_cta_ios:"Download · App Store",
 }};
 const BIOME_HEX = ["#54a5c8","#6ba1b5","#8690ab","#b1ab65","#b89672","#8296a9","#a5a676","#8d98a3","#c3926c","#90969a"];
 const GAMES = [
@@ -696,7 +695,7 @@ function footer(stores) {
   return `<footer class="ft"><div class="wrap">
     <div class="top">
       <div><span class="wm">Dido Games<i></i></span>
-        <div class="stores">${stores || `<a href="${PLAY_URL}" target="_blank" rel="noopener">${IC_GP}${t("ft_gp")}</a><a href="mailto:${EMAIL}">${EMAIL}</a>`}</div>
+        <div class="stores">${stores || storeLinks() + `<a href="mailto:${EMAIL}">${EMAIL}</a>`}</div>
         <div class="stores social">
           <a href="${YT_URL}" target="_blank" rel="noopener">${IC_YT}YouTube</a>
           <a href="${TT_URL}" target="_blank" rel="noopener">${IC_TT}TikTok</a>
@@ -814,6 +813,7 @@ const PAGES = {
           <p class="lede" style="font-size:clamp(19px,1.9vw,25px);color:var(--bone);max-width:30ch">${t("tr_tag")}</p>
           <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:30px">
             <a class="btn" href="${PLAY_URL}" target="_blank" rel="noopener">${IC_GP}${t("tr_cta")}</a>
+            <a class="btn" href="${APPSTORE_URL}" target="_blank" rel="noopener">${IC_AS}${t("tr_cta_ios")}</a>
             <button class="btn btn--ghost" data-video>${IC_PLAY}${t("watch")}</button></div>
           <p class="m m--dim" style="margin-top:20px">${t("tr_st")}</p></div>
         <div class="facts">${t("tr_rows").map(r => `<div><b>${r[0]}</b><span>${r[1]}</span></div>`).join("")}</div>
@@ -844,7 +844,7 @@ const PAGES = {
         <p class="lede" style="align-self:center">${t("tr_ai_p")}</p>
       </div></div></section>
     </div>
-    ${footer(`<a href="${PLAY_URL}" target="_blank" rel="noopener">${IC_GP}${t("ft_gp")}</a><a href="mailto:${EMAIL}">${EMAIL}</a>`)}</div>`,
+    ${footer(storeLinks() + `<a href="mailto:${EMAIL}">${EMAIL}</a>`)}</div>`,
 
   "/games/sharokoty": () => `<div class="w-cat">${header("games")}
     <section class="ghero ghero--day"><img src="${GAMES[1].wide}" alt="">
@@ -1016,11 +1016,12 @@ document.addEventListener("keydown", e => {
 document.getElementById("nform").addEventListener("submit", e => {
   e.preventDefault(); const em = document.getElementById("f_email");
   if (!em.checkValidity()) { em.reportValidity(); return; }
-  const g = document.getElementById("f_game");
   const fd = new FormData();
   fd.append("entry.1602638693", em.value.trim());
   fd.append("entry.1736986761", document.getElementById("f_name").value.trim());
-  fd.append("entry.1734298389", document.getElementById("f_plat").value + " · " + (g.options[g.selectedIndex] || {}).text);
+  // Выбора игры в форме больше нет: «Поезд» вышел на обеих платформах,
+  // ждать осталось только «ШароКотов» — метка постоянная.
+  fd.append("entry.1734298389", document.getElementById("f_plat").value + " · ШароКоты");
   fd.append("entry.219790479", lang);
   // CORS Google не отдаёт: ответ нам недоступен, поэтому свой экран «принято».
   try { fetch("https://docs.google.com/forms/d/e/1FAIpQLSc4Seq_tMWckJWInFR1ENVdKpDfPxTW95gESPxZvaLgVVJHmQ/formResponse", { method: "POST", mode: "no-cors", body: fd }); } catch (x) {}
