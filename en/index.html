@@ -3,23 +3,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Dido Games — games made by an AI</title>
-<meta name="description" content="A studio behind two mobile games: the dieselpunk AA-survival The Last War: Train and the cosy merge Ball Cats. Code, art, sound and text are made by an AI.">
+<meta name="description" content="Dido Games: the dieselpunk AA-survival The Last War: Train, the cosy merge Ball Cats and Aeryntha, a fairy-tale island with fairies. Code, art, sound and text are made by an AI.">
 <link rel="canonical" href="https://didogames.net/en/">
 <link rel="alternate" hreflang="ru" href="https://didogames.net/">
 <link rel="alternate" hreflang="en" href="https://didogames.net/en/">
-<link rel="alternate" hreflang="x-default" href="https://didogames.net/">
+<link rel="alternate" hreflang="x-default" href="https://didogames.net/en/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Dido Games">
 <meta property="og:title" content="Dido Games — games made by an AI">
-<meta property="og:description" content="A studio behind two mobile games: the dieselpunk AA-survival The Last War: Train and the cosy merge Ball Cats. Code, art, sound and text are made by an AI.">
+<meta property="og:description" content="Dido Games: the dieselpunk AA-survival The Last War: Train, the cosy merge Ball Cats and Aeryntha, a fairy-tale island with fairies. Code, art, sound and text are made by an AI.">
 <meta property="og:url" content="https://didogames.net/en/">
-<meta property="og:image" content="https://didogames.net/assets/img/og_studio.jpg">
+<meta property="og:image" content="https://didogames.net/assets/img/og_dg.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="ru_RU">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://didogames.net/assets/img/og_studio.jpg">
+<meta name="twitter:image" content="https://didogames.net/assets/img/og_dg.jpg">
 <meta name="theme-color" content="#0B0D12">
 <link rel="icon" href="/assets/img/dg_favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/img/dg_favicon_32.png" sizes="32x32" type="image/png">
@@ -28,36 +28,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oranienbaum&family=Sofia+Sans:wght@400;500;600;700&family=Martian+Mono:wght@400;500&display=swap">
 <style>
-/* ═══════════════════════════════════════════════════════════════════════════
-   РАЗВОРОТ — оформление сайта студии Dido Games.
-
-   Тезис. У студии две игры противоположной температуры: ледяная война машин и
-   тёплый дом с котами. Это и есть её лицо. Главная — РАЗВОРОТ: два кадра во всю
-   ширину, разделённые швом, и имя студии, набранное ПОВЕРХ шва: слева буквы
-   светлые по ночи, справа тёмные по дню. Одно имя, два мира, разрез ровно там,
-   где студия и разделена.
-
-   Шрифт. Dido → Didone. Имя студии прямо указывает на класс гарнитуры с резким
-   контрастом штриха, и заголовки набраны Oranienbaum — кириллическая дидона.
-   Это не «серифный дефолт», это буквальное прочтение названия.
-   ═══════════════════════════════════════════════════════════════════════════ */
 
 :root{
-  /* грунт студии — полночь с фиолетово-синим уходом: не сталь и не крем, но родня обоим */
-  --void:#0B0D12; --void2:#12151C; --void3:#1A1E27;
+    --void:#0B0D12; --void2:#12151C; --void3:#1A1E27;
   --bone:#F0EAE1; --bone2:#FBF7F1;
   --ash:#9AA3B0; --slate:#39404D; --hair:#242A34;
   --ink:#17151A;
-  /* цвета сняты пипеткой с актуального арта игр */
-  --ice:#8FD8E8;        /* свет фар и окон нового локомотива */
-  --amber:#E9B43C;      /* предупредительная косая на корпусе */
-  --lilac:#C8B6E2;      /* шерсть Лаванды */
-  --moss:#6BE06B;       /* живой зелёный интерфейса «Поезда» */
-  --disp:"Oranienbaum",Georgia,serif;
+    --ice:#8FD8E8;          --amber:#E9B43C;        --lilac:#C8B6E2;        --moss:#6BE06B;         --disp:"Oranienbaum",Georgia,serif;
   --sans:"Sofia Sans",system-ui,-apple-system,sans-serif;
   --mono:"Martian Mono",ui-monospace,monospace;
   --w:1280px; --pad:clamp(20px,4vw,56px);
-  --seam:50%;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:70px;background:var(--void)}
@@ -75,18 +55,17 @@ p{margin:0}
 .m--ice{color:var(--ice)}.m--dim{color:var(--ash)}
 .dsp{font-family:var(--disp);font-weight:400;letter-spacing:.005em}
 
-/* ══ шапка ══ */
 .hd{position:sticky;top:0;z-index:40;background:color-mix(in oklab,var(--void) 86%,transparent);
   backdrop-filter:blur(14px) saturate(1.4);border-bottom:1px solid var(--hair)}
 .hd .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:18px}
 .mark{display:flex;align-items:baseline;gap:9px;text-decoration:none;font-family:var(--disp);
   font-size:clamp(19px,4.6vw,23px);letter-spacing:.01em;color:var(--bone);white-space:nowrap}
-.mark i{width:7px;height:7px;background:var(--wdot,var(--ice));border-radius:50%;transform:translateY(-3px);transition:background .5s}
+.mark i{width:7px;height:7px;background:var(--wdot,var(--bone));border-radius:50%;transform:translateY(-3px);transition:background .5s}
 .nav{display:flex;align-items:center;gap:26px}
 .nav a{font-size:15px;text-decoration:none;color:var(--ash);position:relative;padding:5px 0}
 .nav a::after{content:"";position:absolute;left:0;right:100%;bottom:2px;height:1px;background:currentColor;transition:right .28s}
 .nav a:hover{color:var(--bone)}.nav a:hover::after{right:0}
-.nav a[aria-current]{color:var(--bone)}.nav a[aria-current]::after{right:0;background:var(--wdot,var(--ice))}
+.nav a[aria-current]{color:var(--bone)}.nav a[aria-current]::after{right:0;background:var(--wdot,var(--bone))}
 .nav .dd{position:relative}
 .nav .dd-m{display:none;position:absolute;top:100%;left:-16px;min-width:310px;background:var(--void2);
   border:1px solid var(--hair);padding:7px;box-shadow:0 26px 60px rgb(0 0 0/.55)}
@@ -110,74 +89,51 @@ p{margin:0}
   .nav.open a::after{display:none}
   .nav.open .dd-m{display:block;position:static;min-width:0;border:0;box-shadow:none;padding:0 0 0 12px;background:none}}
 
-/* ══ РАЗВОРОТ: два мира и имя на шве ══ */
-.spread{position:relative;height:clamp(460px,78vh,780px);display:grid;
-  grid-template-columns:var(--seam) calc(100% - var(--seam));
-  transition:grid-template-columns .7s cubic-bezier(.2,.75,.2,1)}
-.pane{position:relative;overflow:hidden;text-decoration:none;display:block}
-.pane>img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s cubic-bezier(.2,.75,.2,1),filter .6s}
-.pane--night>img{object-position:50% 46%;filter:saturate(.94) brightness(.92)}
-.pane--day>img{object-position:50% 80%;filter:saturate(1.02)}
-.spread:hover .pane>img{filter:none}
-.pane::after{content:"";position:absolute;inset:0;pointer-events:none}
-.pane--night::after{background:linear-gradient(180deg,rgb(11 13 18/.5) 0 14%,rgb(11 13 18/0) 38%,rgb(11 13 18/.72) 66%,rgb(11 13 18/.95) 100%)}
-.pane--day::after{background:linear-gradient(180deg,rgb(240 234 225/.42) 0 12%,rgb(240 234 225/0) 34% 58%,rgb(240 234 225/.62) 78%,rgb(240 234 225/.94) 100%)}
-.spread .seamline{position:absolute;left:var(--seam);top:0;bottom:0;width:1px;background:var(--bone);
-  opacity:.5;z-index:3;pointer-events:none;transition:left .7s cubic-bezier(.2,.75,.2,1)}
-/* имя студии: одно слово, разрезанное швом */
-.word{position:absolute;z-index:4;left:0;right:0;top:50%;transform:translateY(-52%);
-  text-align:center;pointer-events:none;line-height:.9}
-.word span{display:block;font-family:var(--disp);font-size:clamp(52px,12.2vw,178px);letter-spacing:.005em;white-space:nowrap}
-.word .base{color:var(--bone)}
-.word .cut{position:absolute;inset:0;color:var(--ink);clip-path:inset(0 0 0 var(--seam));transition:clip-path .7s cubic-bezier(.2,.75,.2,1)}
-/* подписи в углах разворота — они же вход в игру */
-.pane .tagline{position:absolute;left:var(--pad);right:var(--pad);bottom:clamp(20px,3.2vw,38px);z-index:2;
-  display:grid;gap:0;justify-items:start;max-width:38ch}
-.pane .gname{font-family:var(--disp);font-size:clamp(22px,2.5vw,34px);line-height:1;display:block}
-.pane .gline{font-size:15px;margin-top:7px;max-width:34ch}
-.pane .gst{margin-top:12px;display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);
-  font-size:9.5px;letter-spacing:.14em;text-transform:uppercase}
-.pane .gst i{width:6px;height:6px;border-radius:50%;background:currentColor}
-.pane--night .tagline{color:var(--bone)}
-.pane--night .gline{color:#B9C2CE}
-.pane--night .gst{color:var(--ice)}
-.pane--day .tagline{color:var(--ink)}
-.pane--day .gline{color:#5B5265}
-.pane--day .gst{color:#7A54B5}
-.pane .go{margin-top:16px;display:inline-flex;align-items:center;gap:8px;font-size:15px;
-  border-bottom:1px solid currentColor;padding-bottom:3px;transition:gap .2s}
-.pane:hover .go{gap:13px}
-@media(hover:hover){
-  .spread:has(.pane--night:hover){--seam:58%}
-  .spread:has(.pane--day:hover){--seam:42%}
-}
-@media(max-width:820px){
-  /* на телефоне подпись выходит из-под картинки и ложится на грунт своего мира:
-     поверх кадра высотой в пол-экрана её всё равно не прочитать */
-  .spread{height:auto;grid-template-columns:1fr}
-  .spread .seamline{display:none}
-  .pane{display:block}
-  .pane>img{height:58vw;width:100%}
-  .pane::after{inset:0 0 auto 0;height:58vw}
-  .pane--night{background:var(--void)}
-  .pane--day{background:var(--bone)}
-  .pane .tagline{position:static;padding:clamp(18px,5vw,26px) var(--pad) clamp(24px,6vw,32px);
-    margin:0;max-width:none;inset:auto}
-  .pane .gname{font-size:clamp(28px,7.6vw,38px)}
-  .word{position:static;transform:none;padding:clamp(28px,8vw,44px) var(--pad) 0;text-align:left}
-  .word span{font-size:clamp(46px,14vw,86px)}
-  .word .cut{display:none}
-}
+.cover{padding:clamp(26px,4vw,52px) 0 clamp(22px,3vw,38px)}
+.masthead{font-family:var(--disp);font-weight:400;font-size:clamp(52px,9.6vw,148px);line-height:.92;
+  letter-spacing:.005em;display:inline-flex;align-items:baseline;gap:.12em;white-space:nowrap}
+.masthead i{width:.075em;height:.075em;border-radius:50%;background:var(--bone);transform:translateY(-.08em)}
+.thesis{font-size:clamp(17px,1.6vw,21px);line-height:1.5;color:var(--ash);max-width:52ch;margin-top:clamp(14px,1.8vw,22px)}
+.windows{--cols:min(var(--n),4);display:grid;gap:1px;
+  grid-template-columns:repeat(auto-fill,minmax(max(280px,calc((100% - (var(--cols) - 1) * 1px) / var(--cols))),1fr))}
+.win{position:relative;display:flex;flex-direction:column;text-decoration:none;
+  background:var(--g-bg,var(--void2));color:var(--g-ink,var(--bone));box-shadow:0 0 0 1px var(--hair)}
+.win .pic{display:block;aspect-ratio:4/3;max-height:min(46vw,max(520px,27vw));overflow:hidden;background:var(--g-bg,var(--void3))}
+.win .pic img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s cubic-bezier(.2,.75,.2,1)}
+.win:hover .pic img{transform:scale(1.035)}
+.win .cap{display:flex;flex-direction:column;gap:7px;padding:clamp(18px,2vw,26px) clamp(18px,2vw,28px) clamp(20px,2.4vw,30px);
+  border-top:3px solid var(--g-ac,var(--slate))}
+.win .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.win em{font-family:var(--mono);font-style:normal;font-size:10px;letter-spacing:.14em;color:var(--g-dim,var(--ash))}
+.win .row{flex-wrap:wrap;row-gap:4px}
+.win .gst{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:9.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--g-ac,var(--ash))}
+.win .gst i{width:6px;height:6px;border-radius:50%;background:currentColor}
+.win .gname{font-family:var(--disp);font-size:clamp(25px,2.5vw,36px);line-height:1;margin-top:6px}
+.win .gline{font-size:15.5px;line-height:1.45;color:var(--g-dim,var(--ash));max-width:36ch}
+.win .go{margin-top:8px;font-size:15px;display:inline-flex;gap:8px;align-items:center;color:var(--g-ac,var(--bone));transition:gap .2s}
+.win:hover .go{gap:13px}
+.win--next{color:var(--ash)}
+.win--next .pic{background:repeating-linear-gradient(135deg,var(--void2) 0 14px,var(--void3) 14px 15px)}
+.win--next .gname{color:var(--slate)}
+@media(max-width:620px){.win .pic{max-height:none}}
+@media(min-width:561px) and (max-width:841px){.windows .win:last-child:nth-child(odd){grid-column:1/-1}
+  .windows .win:last-child:nth-child(odd) .pic{aspect-ratio:21/9}}
+.win .pic{position:relative}
+.ctag{position:absolute;left:12px;bottom:12px;z-index:2;font-family:var(--mono);font-style:normal;font-size:9px;letter-spacing:.14em;
+  text-transform:uppercase;color:#FFF3D6;background:rgb(29 42 60/.72);padding:5px 8px;pointer-events:none}
+.win .ctag{color:#FFF3D6;font-size:9px}   .band .ctag{left:auto;right:12px}
+@media(max-width:820px){.band--art .ctag{top:calc(75vw - 36px);bottom:auto}}   .ghero--poster{position:relative}
+.ghero--poster .ctag{left:auto;right:16px;bottom:14px}
 
-/* строка под разворотом */
+
 .spec{border-bottom:1px solid var(--hair);padding:16px 0}
 .spec .wrap{display:flex;gap:10px 30px;flex-wrap:wrap;align-items:baseline;justify-content:space-between}
 .spec ul{list-style:none;display:flex;gap:10px 26px;flex-wrap:wrap;margin:0;padding:0}
 .spec li{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash)}
 .spec li::before{content:"·";color:var(--slate);margin-right:26px}
 .spec li:first-child::before{content:"";margin:0}
-
-/* ══ общие секции ══ */
+@media(max-width:560px){.spec ul{gap:8px 18px}.spec li::before{content:none}}   
 .sec{padding:clamp(52px,7vw,116px) 0}
 .sec + .sec{border-top:1px solid var(--hair)}
 .kick{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ash)}
@@ -199,7 +155,6 @@ p{margin:0}
 .lnk::after{content:"→";transition:transform .2s}
 .lnk:hover::after{transform:translateX(4px)}
 
-/* ══ полоса игры: кадр во всю ширину, имя дидоной ══ */
 .band{position:relative;overflow:hidden;text-decoration:none;display:block;isolation:isolate}
 .band>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 62%;z-index:-2;
   transition:transform 1.2s cubic-bezier(.2,.75,.2,1)}
@@ -207,13 +162,13 @@ p{margin:0}
 .band::before{content:"";position:absolute;inset:0;z-index:-1}
 .band--night::before{background:linear-gradient(90deg,rgb(11 13 18/.94) 0 26%,rgb(11 13 18/.62) 54%,rgb(11 13 18/.2) 100%)}
 .band--day>img{object-position:50% 96%}
-.band--day::before{background:linear-gradient(90deg,rgb(240 234 225/.95) 0 30%,rgb(240 234 225/.58) 58%,rgb(240 234 225/.1) 100%)}
+.band--day::before{background:linear-gradient(90deg,color-mix(in oklab,var(--g-bg,#F0EAE1) 95%,transparent) 0 30%,color-mix(in oklab,var(--g-bg,#F0EAE1) 58%,transparent) 58%,color-mix(in oklab,var(--g-bg,#F0EAE1) 10%,transparent) 100%)}
 .band .wrap{min-height:clamp(340px,44vw,540px);display:flex;flex-direction:column;justify-content:center;
   padding-top:clamp(36px,5vw,64px);padding-bottom:clamp(36px,5vw,64px)}
 .band .inner{max-width:min(56ch,64%)}
 @media(max-width:820px){.band .inner{max-width:none}
   .band--night::before{background:linear-gradient(180deg,rgb(11 13 18/.5) 0 30%,rgb(11 13 18/.93) 72%)}
-  .band--day::before{background:linear-gradient(180deg,rgb(240 234 225/.42) 0 30%,rgb(240 234 225/.94) 72%)}
+  .band--day::before{background:linear-gradient(180deg,color-mix(in oklab,var(--g-bg,#F0EAE1) 42%,transparent) 0 30%,color-mix(in oklab,var(--g-bg,#F0EAE1) 94%,transparent) 72%)}
   .band .wrap{justify-content:flex-end;min-height:clamp(420px,88vw,560px)}}
 .band h3{font-family:var(--disp);font-size:clamp(34px,4.9vw,72px);line-height:.96;text-wrap:balance}
 .band .one{font-size:clamp(16px,1.5vw,19px);margin-top:16px;max-width:42ch}
@@ -225,17 +180,17 @@ p{margin:0}
 .band .more{margin-top:26px;display:inline-flex;align-items:center;gap:9px;font-size:16px;
   border-bottom:1px solid currentColor;padding-bottom:3px}
 .band--night{color:var(--bone)}.band--night .one,.band--night .news{color:#B9C2CE}.band--night .st{color:var(--ice)}
-.band--day{color:var(--ink)}.band--day .one,.band--day .news{color:#5B5265}.band--day .st{color:#7A54B5}
+.band--day{color:var(--g-ink,var(--ink))}.band--day .one,.band--day .news{color:var(--g-dim,#5B5265)}.band--day .st{color:var(--g-ac,#7A54B5)}
 
-/* ══ студия ══ */
-.craft{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--hair);
+.craft{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--hair);
   border:1px solid var(--hair);margin-top:clamp(28px,4vw,46px)}
+@media(max-width:900px){.craft{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.craft{grid-template-columns:1fr}}
 .craft>div{background:var(--void);padding:22px 24px 26px}
 .craft b{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--ice);margin-bottom:9px}
 .craft span{color:var(--ash);font-size:15.5px}
 .reel{display:grid;grid-template-columns:minmax(0,320px) 1fr;gap:clamp(24px,4vw,52px);align-items:center}
-/* пара роликов в ряд: постер узкий, подпись рядом */
 .reels{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3.4vw,44px);margin-top:clamp(34px,4.6vw,64px)}
 .reels .reel{margin:0;grid-template-columns:minmax(0,40%) 1fr;gap:clamp(14px,1.9vw,26px)}
 .reels .reel figcaption{display:grid;gap:6px}
@@ -256,7 +211,6 @@ p{margin:0}
   background:rgb(11 13 18/.42);backdrop-filter:blur(3px)}
 .reel .play i::after{content:"";border-left:16px solid var(--bone);border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:5px}
 
-/* ══ страница игры ══ */
 .ghero{position:relative;height:clamp(320px,50vw,640px);overflow:hidden;isolation:isolate}
 .ghero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
 .ghero::before{content:"";position:absolute;inset:0;z-index:-1}
@@ -266,7 +220,7 @@ p{margin:0}
 .ghero .back{font-size:15px;text-decoration:none;margin-bottom:14px;opacity:.85}
 .ghero--night{color:var(--bone)}
 .ghero--night::before{background:linear-gradient(180deg,rgb(11 13 18/.5) 0 22%,transparent 48%,rgb(11 13 18/.9) 100%)}
-.ghero--day{color:var(--ink)}
+.ghero--day{color:var(--g-ink,var(--ink))}
 .ghero--day>img{object-position:50% 50%}
 .ghero--day::before{background:linear-gradient(180deg,rgb(240 234 225/.4) 0 22%,transparent 46%,rgb(240 234 225/.92) 100%)}
 
@@ -284,7 +238,6 @@ p{margin:0}
 .sheet .facts b{color:#8A7F92}
 .dark{background:var(--void);color:var(--bone)}
 
-/* ── БЛОК «ОТ АВТОРА» — узкая колонка, крупный кегль, подпись на полях ── */
 .note{display:grid;grid-template-columns:minmax(0,.62fr) minmax(0,1.38fr);gap:clamp(26px,4vw,64px)}
 @media(min-width:881px){.note>div:first-child{position:sticky;top:84px;align-self:start}}
 @media(max-width:880px){.note{grid-template-columns:1fr}}
@@ -329,13 +282,11 @@ p{margin:0}
 
 .consist{display:flex;gap:14px;overflow-x:auto;padding-bottom:14px;scrollbar-width:thin}
 .consist img{width:100%;filter:saturate(.9) brightness(.95);transition:filter .35s}
-.consist figure:hover img{filter:saturate(1.1) brightness(1.06) drop-shadow(0 0 16px rgb(143 216 232/.4))}
+.consist figure:hover img{filter:saturate(1.1) brightness(1.06) drop-shadow(0 0 16px rgb(229 164 83/.4))}
 .consist figcaption{margin-top:12px;display:grid;gap:3px}
 .consist figcaption em{font-family:var(--mono);font-style:normal;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#8A7F92;order:-1}
 .consist figure{margin:0;flex:0 0 clamp(200px,26vw,300px);font-family:var(--disp);font-size:20px;line-height:1}
-.consist figure.cs--loco figcaption em{color:#7A54B5}
-
-/* карточки поддержки / пресса / о студии */
+.consist figure.cs--loco figcaption em{color:#285B59}   
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:860px){.cards{grid-template-columns:1fr}}
 .card{border:1px solid var(--hair);overflow:hidden;display:grid;grid-template-columns:158px 1fr}
@@ -377,29 +328,31 @@ p{margin:0}
 .roles h3{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ice);font-weight:400}
 .roles ul{margin:14px 0 0;padding-left:18px;color:var(--ash);font-size:16px;display:grid;gap:8px}
 
-/* ══ подвал ══ */
 .ft{border-top:1px solid var(--hair);padding:clamp(36px,5vw,64px) 0 52px;color:var(--ash);font-size:14.5px}
-.ft .top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
+.ft .top{display:flex;justify-content:space-between;gap:30px 40px;flex-wrap:wrap;align-items:flex-start}
 .ft .wm{font-family:var(--disp);font-size:30px;color:var(--bone);display:inline-flex;align-items:baseline;gap:9px}
 .ft .wm i{width:7px;height:7px;background:var(--ice);border-radius:50%;transform:translateY(-4px)}
-.ft .stores{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-.ft .stores a{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--slate);padding:10px 14px;
-  text-decoration:none;color:var(--ash);font-size:14px}
-.ft .stores a:hover{color:var(--bone);border-color:var(--bone)}
-.ft .stores.social{margin-top:10px}
-.ft .stores.social a{border-color:transparent;padding-left:0;padding-right:16px}
-.ft .stores.social a:hover{border-color:transparent;color:var(--ice)}
-.ft .stores svg{width:16px;height:16px}
-.ft nav{display:grid;gap:9px;text-align:right}
 .ft a{color:var(--ash);text-decoration:none}.ft a:hover{color:var(--bone)}
-.ft .copy{margin-top:34px;padding-top:20px;border-top:1px solid var(--hair);display:flex;justify-content:space-between;
-  gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase}
-@media(max-width:640px){.ft nav{text-align:left}}
+.ft .mail{display:inline-block;margin-top:14px;color:var(--bone);border-bottom:1px solid var(--slate)}
+.ft .mail:hover{border-color:var(--bone)}
+.ft .social{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px}
+.ft .social a{display:inline-flex;align-items:center;gap:8px}
+.ft svg{width:16px;height:16px;flex:none}
+.ft .cols{display:grid;grid-template-columns:repeat(4,minmax(140px,auto));gap:24px clamp(24px,3.4vw,48px)}
+@media(max-width:1100px){.ft .cols{grid-template-columns:repeat(2,minmax(150px,auto))}}
+@media(max-width:760px){.ft .cols{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.ft .cols{grid-template-columns:1fr}}
+.ft .col{display:grid;gap:9px;align-content:start}
+.ft .col .m{color:var(--bone);margin-bottom:3px}
+.ft .col a{display:inline-flex;align-items:center;gap:8px}
+.ft .col .m i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--dot);margin-right:8px}
+.ft .copy{margin-top:clamp(30px,4vw,48px);padding-top:20px;border-top:1px solid var(--hair);display:flex;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash)}
 
-/* ══ окна ══ */
 .lb{position:fixed;inset:0;z-index:60;background:rgb(6 7 10/.95);display:none;place-items:center;padding:26px}
 .lb.on{display:grid}
 .lb>div{position:relative;max-width:min(92vw,900px)}
+.lb>div:has(video[style*="16/9"]){max-width:min(92vw,1152px)}
 .lb img,.lb video{max-height:82vh;max-width:100%;background:#000}
 .lbcap{margin:12px 2px 0;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ice);text-align:center}
 .lbcap:empty{display:none}
@@ -425,19 +378,125 @@ p{margin:0}
 .modal.done form>*:not(.ok):not(.x){display:none}.modal.done .ok{display:block}
 .modal .x{position:absolute;top:14px;right:16px;color:#7A6F80;font-size:24px}
 
-.mockbar{position:fixed;left:16px;bottom:16px;z-index:50;font-family:var(--mono);font-size:9px;
-  letter-spacing:.14em;text-transform:uppercase;background:var(--bone);color:var(--void);padding:7px 11px;opacity:.88;pointer-events:none}
-
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
-  .spread:has(.pane:hover){--seam:50%}
 }
 @media (forced-colors:active){
   .nav a[aria-current],.lang button[aria-pressed=true]{forced-color-adjust:none;text-decoration:underline 2px}
   .btn,.also a,.modal input,.modal select,.card{border:1px solid CanvasText}
-  .band .st i,.pane .gst i{outline:1px solid CanvasText}
+  .band .st i,.win .gst i{outline:1px solid CanvasText}
 }
+
+.w-train .dark{--void:#234B48;--void2:#1E423F;--void3:#285B59;--bone:#F2E8C9;--ash:#BFCDBF;
+  --slate:#4E6B66;--hair:#2F5C58;--ice:#E5A453;background:var(--void);color:var(--bone)}
+.w-train .sheet{--bone:#F2E8C9;--bone2:#F8F2DE;--ink:#173F3D;background:var(--bone);color:var(--ink)}
+.w-train .sheet .kick{color:#4E6B66}
+.w-train .sheet .lede{color:#2E504D}
+.w-train .ghero::before{background:linear-gradient(180deg,rgb(242 232 201/.15) 0 30%,rgb(242 232 201/0) 52%,rgb(242 232 201/.9) 100%)}
+.w-train .shots img{aspect-ratio:9/16}
+.w-train .route img{filter:none}
+
+.ghero--plate{height:auto;overflow:visible;isolation:auto;background:var(--g-bg,var(--void));color:var(--g-ink,var(--bone))}
+.ghero--plate::before{display:none}
+.ghero--plate .art{position:static;display:block;width:100%;height:clamp(220px,30vw,520px);object-fit:cover;z-index:auto}
+.ghero--plate .wrap{height:auto;padding-top:clamp(22px,3vw,40px);padding-bottom:clamp(30px,4vw,56px);justify-content:flex-start}
+.ghero--plate .back{color:var(--g-dim,var(--ash));opacity:1}
+.ghero--plate h1{color:var(--g-ink,var(--bone));margin-top:6px;max-width:16ch}
+
+.ghero--blend{height:auto;min-height:clamp(380px,42vw,620px);display:flex;background:var(--g-bg);color:var(--g-ink)}
+.ghero--blend::before{display:none}
+.ghero--blend>.art{left:auto;right:0;width:min(64%,941px);z-index:0;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,rgb(0 0 0/.18) 8%,rgb(0 0 0/.6) 18%,rgb(0 0 0/.92) 26%,#000 32%);mask-image:linear-gradient(90deg,transparent 0,rgb(0 0 0/.18) 8%,rgb(0 0 0/.6) 18%,rgb(0 0 0/.92) 26%,#000 32%)}
+.ghero--blend .wrap{z-index:1;width:100%;height:auto;justify-content:flex-end;padding-top:clamp(28px,4vw,56px);padding-bottom:clamp(30px,4vw,56px)}
+.ghero--blend h1{font-size:clamp(44px,6.4vw,104px);max-width:8.4ch;color:var(--g-ink)}
+.ghero--blend .back{color:var(--g-dim);opacity:1}
+@media(max-width:820px){.ghero--blend{display:block;min-height:0}
+  .ghero--blend>.art{position:static;display:block;width:100%;height:auto;aspect-ratio:4/3;
+    -webkit-mask-image:linear-gradient(180deg,#000 86%,transparent);mask-image:linear-gradient(180deg,#000 86%,transparent)}
+  .ghero--blend h1{max-width:none}
+  .ghero--blend .wrap{padding-top:0}}
+
+.band--art{background:var(--g-bg)}
+.band--art::before{display:none}
+.band--art>img{left:auto;right:0;width:min(62%,941px);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,rgb(0 0 0/.18) 8%,rgb(0 0 0/.6) 18%,rgb(0 0 0/.92) 26%,#000 32%);mask-image:linear-gradient(90deg,transparent 0,rgb(0 0 0/.18) 8%,rgb(0 0 0/.6) 18%,rgb(0 0 0/.92) 26%,#000 32%)}
+@media(min-width:821px){.band--art .wrap{min-height:clamp(340px,44vw,620px)}
+  .band--art .inner{max-width:calc(100vw - min(62vw,941px)*.92 - max(var(--pad),(100vw - 1280px)/2 + var(--pad)) - 24px)}
+  .band--art h3{max-width:9ch}}
+@media(min-width:2200px){.band--art .inner{max-width:calc(550px - var(--pad))}}
+@media(min-width:2200px){.ghero--blend>.art,.band--art>img{right:max(0px,(100vw - 1280px)/2 - 160px);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,rgb(0 0 0/.18) 8%,rgb(0 0 0/.6) 18%,rgb(0 0 0/.92) 26%,#000 32%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent 0,rgb(0 0 0/.18) 8%,rgb(0 0 0/.6) 18%,rgb(0 0 0/.92) 26%,#000 32%,#000 88%,transparent)}}
+@media(max-width:820px){.band--art>img{position:static;display:block;width:100%;height:auto;aspect-ratio:4/3;
+  -webkit-mask-image:linear-gradient(180deg,#000 86%,transparent);mask-image:linear-gradient(180deg,#000 86%,transparent)}
+  .band--art .wrap{min-height:0;padding-top:0}}
+
+.w-ae .sheet{--bone:#FFF3D6;--bone2:#FFF8E8;--ink:#33211A;background:var(--bone);color:var(--ink)}
+.w-ae .sheet .kick{color:#6B4A2F}
+.w-ae .sheet .lede{color:#5E3F2B}
+.w-ae .sheet .lede b{color:var(--ink)}
+.w-ae .sheet .btn{background:#226349;border-color:#226349;color:#FFF3D6}
+.w-ae .sheet .btn:hover{background:transparent;color:#226349}
+.w-ae .sheet .btn--ghost{background:transparent;color:var(--ink);border-color:#C9B48E}
+.w-ae .sheet .btn--ghost:hover{background:var(--ink);color:#FFF3D6;border-color:var(--ink)}
+.w-ae .sheet .facts>div{border-color:#E6D3AE}.w-ae .sheet .facts{border-color:#E6D3AE}
+.w-ae .sheet .facts b{color:#6B4A2F}
+.w-ae .sheet .sec + .sec{border-top-color:#E6D3AE}
+.w-ae .night{--void:#1D2A3C;--void2:#22324A;--void3:#2A3C57;--bone:#FFF3D6;--ash:#C9BFA8;--slate:#4A5A72;--hair:#2E4058;
+  background:var(--void);color:var(--bone)}
+.w-ae .night .kick{color:#F0C266}
+.ae-intro .back{font-size:15px;text-decoration:none;color:#6B4A2F}
+.ae-logo{margin:14px 0 18px;line-height:0}
+.ae-logo img{width:clamp(240px,32vw,470px);height:auto}
+.ae-st{margin-top:20px;color:#226349}
+
+.ghero--poster{height:auto;overflow:hidden;background:#1D2A3C}
+.ghero--poster::before{display:none}
+.ghero--poster>.art{position:relative;inset:auto;display:block;width:100%;height:clamp(300px,50vw,780px);z-index:0}
+@media(min-width:1700px){.ghero--poster>.art{max-width:1700px;margin:0 auto;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}}
+@media(max-width:620px){.ghero--poster>.art{height:auto;aspect-ratio:4/3}}
+
+.ae-video{margin:clamp(26px,3.4vw,44px) 0 0;display:grid;gap:12px}
+.ae-video video{width:100%;aspect-ratio:16/9;background:#000;box-shadow:0 0 0 1px var(--hair),0 30px 80px rgb(0 0 0/.35)}
+.ae-video figcaption{color:var(--ash)}
+
+.ae-pillars{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.ae-pillars .cell{grid-column:span 2;text-align:left;background:#FFF8E8;border:1px solid #E6D3AE;overflow:hidden;display:flex;flex-direction:column;cursor:zoom-in}
+.ae-pillars .cell:nth-child(-n+2){grid-column:span 3}
+.ae-pillars img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .6s}
+.ae-pillars .cell:nth-child(-n+2) img{aspect-ratio:16/9}
+.ae-pillars .cell:hover img{transform:scale(1.03)}
+.ae-pillars .b{padding:18px 20px 22px;display:grid;gap:8px}
+.ae-pillars b{font-family:var(--disp);font-weight:400;font-size:clamp(21px,2vw,26px);line-height:1.05;color:var(--ink)}
+.ae-pillars .b>span{font-size:15.5px;line-height:1.5;color:#5E3F2B}
+@media(max-width:900px){.ae-pillars{grid-template-columns:1fr 1fr}.ae-pillars .cell,.ae-pillars .cell:nth-child(-n+2){grid-column:span 1}
+  .ae-pillars .cell:first-child{grid-column:span 2}
+  .ae-pillars .cell:nth-child(2) img{aspect-ratio:4/3}}
+@media(max-width:560px){.ae-pillars{grid-template-columns:1fr}.ae-pillars .cell:first-child{grid-column:span 1}}
+
+.ae-fairies{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-top:clamp(26px,3.4vw,44px)}
+.ae-fairies figure{margin:0;display:grid;gap:10px}
+.ae-fairies img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:14px}
+.ae-fairies figcaption{display:grid;gap:2px}
+.ae-fairies b{font-family:var(--disp);font-weight:400;font-size:19px;line-height:1.1;color:var(--ink)}
+.ae-fairies em{font-family:var(--mono);font-style:normal;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#6B4A2F}
+@media(max-width:900px){.ae-fairies{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:560px){.ae-fairies{grid-template-columns:repeat(3,1fr);gap:10px}.ae-fairies b{font-size:16px}}
+
+.ae-biomes{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:14px;scrollbar-width:thin}
+.ae-biomes button{flex:0 0 clamp(250px,26vw,360px);scroll-snap-align:start;text-align:left;display:grid;gap:10px;cursor:zoom-in}
+.ae-biomes img{width:100%;aspect-ratio:3/2;object-fit:cover;transition:transform .6s}
+.ae-biomes button:hover img{transform:scale(1.03)}
+.ae-biomes span{display:grid;gap:3px}
+.ae-biomes em{font-family:var(--mono);font-style:normal;font-size:9px;letter-spacing:.14em;color:var(--ash)}
+.ae-biomes b{font-family:var(--disp);font-weight:400;font-size:21px;line-height:1;color:var(--bone)}
+
+.ae-strips{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.ae-strips button{display:grid;gap:10px;text-align:left;cursor:zoom-in}
+.ae-strips img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.ae-strips .m{color:#6B4A2F}
+@media(max-width:760px){.ae-strips{grid-template-columns:1fr}}
 </style>
 
 <div id="app"></div>
@@ -457,10 +516,9 @@ p{margin:0}
 <script>
 /* ═══════════════ ДАННЫЕ ═══════════════ */
 const PLAY_URL = "https://play.google.com/store/apps/details?id=net.didogames.thelastwar";
-// «Поезд» вышел в App Store 25.09.2026, id 6801997153; адрес без привязки к стране
 const APPSTORE_URL = "https://apps.apple.com/app/id6801997153";
 const EMAIL = "support@didogames.net";
-const IMGV = 32;   // ponytail: макет пересобирает картинки, менять при пересъёмке
+const IMGV = 40; const IMGV_PREV = 32;   // версия картинок для сброса кэша — поднять при пересъёмке
 const IC_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 20.5v-17c0-.6.6-1 1.1-.7l14.6 8.5c.5.3.5 1 0 1.4L4.1 21.2c-.5.3-1.1-.1-1.1-.7z"/></svg>';
 const YT_URL = "https://www.youtube.com/@didogames_official";
 const TT_URL = "https://www.tiktok.com/@didogamesofficial";
@@ -469,7 +527,6 @@ const IC_TT = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><
 const IC_AS = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.54c-.02-2.2 1.8-3.26 1.88-3.31-1.02-1.5-2.62-1.7-3.19-1.72-1.36-.14-2.65.8-3.34.8-.69 0-1.75-.78-2.88-.76-1.48.02-2.85.86-3.61 2.18-1.54 2.67-.39 6.62 1.11 8.79.73 1.06 1.61 2.25 2.75 2.21 1.1-.04 1.52-.71 2.85-.71 1.33 0 1.71.71 2.88.69 1.19-.02 1.94-1.08 2.67-2.14.84-1.23 1.19-2.42 1.21-2.48-.03-.01-2.32-.89-2.34-3.55zM14.88 5.5c.61-.74 1.02-1.77.91-2.79-.88.04-1.94.59-2.57 1.32-.56.65-1.05 1.7-.92 2.7.98.08 1.98-.5 2.58-1.23z"/></svg>';
 const IC_GP = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 3.5v17c0 .4.4.7.8.5l9.6-8.5L4.8 3c-.4-.2-.8.1-.8.5zm12.5 7.2-2.4 2.3 2.4 2.3 3.2-1.8c.5-.3.5-.8 0-1.1zM5.6 2.6l9.4 9.4-2.1 2L5.6 2.6zm0 18.8 7.3-11.4 2.1 2z"/></svg>';
 
-// Кнопки магазинов «Поезда» — пара, а не одна: игра вышла на обеих платформах.
 const storeLinks = () =>
   `<a href="${PLAY_URL}" target="_blank" rel="noopener">${IC_GP}${t("ft_gp")}</a>`
   + `<a href="${APPSTORE_URL}" target="_blank" rel="noopener">${IC_AS}${t("ft_as")}</a>`;
@@ -477,86 +534,92 @@ const storeLinks = () =>
 
 const T = {
 ru:{
+  ae_name:"Aeryntha", ae_one:"Приручи фей, разбуди засыпающий остров и отстрой его — одному или компанией до четырёх.",
+  ae_status:"В разработке", demo:"В разработке · технодемо",
+  ae_news:"Технодемо · ПК · кооператив до четырёх",
+  ae_genre:"Сказочное приключение в открытом мире · феи · стройка · кооператив до четырёх игроков",
+  ae_tag:"Волшебный остров засыпает. Приручи фей, чьи силы открывают закрытые тропы, подними из руин мастерскую и Старый мост и вместе с друзьями разбуди умирающий лес. <b>Для каждого нового мира остров собирается заново.</b>",
+  ae_cta_demo:"Смотреть технодемо",
+  ae_st:"Статус: в разработке · технодемо · ПК · русский язык",
+  ae_rows:[["Остров","около 5 км; для каждого мира собирается заново"],["Феи","48 видов, 12 стихий; сила каждой открывает в мире своё"],["Вместе","кооператив до четырёх: мир и стройка общие, феи и сумка — свои"],["Сутки","15 минут; девять видов погоды, от дождя до пепла"],["Сюжет","первая глава целиком, вторая в работе"]],
+  ae_demo_e:"Технодемо", ae_demo_h:"Как это выглядит сейчас",
+  ae_demo_p:"Запись из рабочей сборки. Облик пока прототипный — куда идёт картинка, показывает концепт-арт ниже.",
+  ae_demo_cap:"Технодемо · 57 с · запись из рабочей сборки 0.1 · без звука",
+  ae_pill_e:"Концепт-арт · что в основе", ae_pill_h:"Пять опор",
+  ae_pillars:[["А что там?","Меток почти нет: ориентиры видно издалека, у дорог стоят указатели, смотровые камни открывают округу, а карта проявляется там, где прошёл.","explore"],["Феи — это инструменты","Сила стихии разбивает валун, раздвигает колючки, плавит лёд и торопит рост дерева. Новая стихия — новая часть острова.","fairy_lines"],["Строить — значит идти дальше","Верстак, пильный стол и плавильня встают из руин, Старый мост собирают по частям прямо в мире, потом появляются усадьба, дом и поле.","build"],["Мир меняется на глазах","Очищенная Порча отступает, а от проснувшегося родника по засохшему лесу катится зелёная волна.","restore"],["Вместе до четырёх","Мир, сюжет и стройка у команды общие, а феи, сумка и дружба с жителями — у каждого свои.","coop"]],
+  ae_fairies_e:"Концепт-арт · феи", ae_fairies_h:"Двенадцать стихий",
+  ae_fairies_p:"В игре 48 видов фей. Здесь — по одной фее первого яруса на каждую стихию: с них начинается коллекция.",
+  ae_f_mossling:"Мшанка", ae_f_puffkin:"Пушинка", ae_f_dewlet:"Водинка", ae_f_sunspark:"Солнцеискра", ae_f_zappit:"Грозинка", ae_f_runeblink:"Руночка",
+  ae_f_pebblin:"Камушек", ae_f_frostmote:"Снежинка", ae_f_cindertail:"Уголёк", ae_f_duskmoth:"Сумеречница", ae_f_wobblit:"Кривулька", ae_f_gearlet:"Шестерёнка",
+  ae_el_nature:"Природа", ae_el_air:"Воздух", ae_el_water:"Вода", ae_el_light:"Свет", ae_el_energy:"Энергия", ae_el_psi:"Пси",
+  ae_el_stone:"Камень", ae_el_ice:"Лёд", ae_el_fire:"Огонь", ae_el_dark:"Тьма", ae_el_chaos:"Хаос", ae_el_metal:"Металл",
+  ae_biomes_e:"Концепт-арт · биомы", ae_biomes_h:"Одиннадцать биомов",
+  ae_biomes_p:"От Солнечных лугов до Разлома: у каждого биома свои феи, ресурсы и своя степень опасности.",
+  ae_b_meadow:"Солнечные луга", ae_b_enchanted_forest:"Шепчущий лес", ae_b_misty_swamp:"Мутные топи", ae_b_mountains:"Серый хребет",
+  ae_b_ice_peaks:"Морозный венец", ae_b_fire_caves:"Угольный предел", ae_b_cloud_islands:"Небесная терраса", ae_b_dark_lands:"Разлом",
+  ae_b_ancient_ruins:"Древние руины", ae_b_shore:"Побережье", ae_b_ocean:"Океан",
+  ae_world_e:"Концепт-арт · живой мир", ae_world_h:"Сутки и погода",
+  ae_cap_day:"Рассвет, день, закат и ночь одной тропы · сутки длятся 15 минут", ae_cap_weather:"Ясно, дождь, гроза, туман, снег — в игре девять видов погоды",
+  ae_ai_e:"Как она делается", ae_ai_h:"Тем же способом",
+  ae_ai_p:"Как и другие игры студии, Aeryntha делается вместе с искусственным интеллектом: код, тексты и концепт-арт — его работа, человек ставит задачи и решает, что войдёт в игру. Арт на этой странице — концепт по арт-библии игры, а не кадры из неё; кадры игры — в технодемо выше.",
+  ft_page:"Страница игры", a_concept:"Концепт-арт",
+  next_p:"Окно под следующий проект. Рама не меняется — меняется мир внутри.",
+  next_h:"Игра 03",
+  next_st:"в работе",
+  hero_thesis:"Эксперимент с одним вопросом: докуда сегодня дотягивает человек, который делает игру вместе с искусственным интеллектом. Игры — ответ.",
   nav_games:"Игры", nav_about:"О студии", nav_support:"Поддержка", nav_press:"Пресс",
-  mockbar:"Макет · разворот",
   tr_name:"Поезд Последней Войны", ct_name:"ШароКоты",
-  tr_one:"Зенитки стреляют сами. Ты ловишь кристаллы и выбираешь карту на ранге.", ct_one:"Коты падают в стакан, сливаются и въезжают в дом, который ты обставил.",
+  tr_one:"Зенитки стреляют сами. Ты ловишь чипы и выбираешь карту на ранге.", ct_one:"Коты падают в стакан, сливаются и въезжают в дом, который ты обставил.",
   tr_status:"Вышла", ct_status:"В разработке",
   tr_news:"С сентября 2026 · Android и iOS, бесплатно, десять языков", ct_news:"Двенадцать арен, дом и Котокафе уже играются",
   live:"Вышла · Android и iOS", dev:"В разработке",
-  // главная
   open_page:"Открыть",   tr_consist_e:"Состав", tr_consist_h:"Лестницы орудий",
   cs_loco:"Локомотив", cs_wagon:"Вагон",
   cs_loco_assault:"Штурмовой", cs_loco_arctic:"Арктический", cs_loco_siege:"Осадный", cs_loco_vault:"Инкассатор",
   cs_w_cargo:"Грузовой", cs_w_assault:"Штурмовой", cs_w_support:"Поддержки", cs_w_heavy:"Тяжёлый",
   cs_w_reactor:"Энергоблок", cs_w_harvest:"Сборщик", cs_w_bulwark:"Бастион",
-  lore_stub:"Десять записей журнала, по одной на сектор. Страница переезжает с /lore.html как есть.",
-  hero_e:"Студия · 2026", spec:["Две игры","Игры делает ИИ","10 языков","Android и iOS"],
-  makers_a:"Делаем", makers_b:"и", watch:"Смотреть ролик", watch_cap:"«Поезд Последней Войны» · 70 секунд",
-  h_games:"Игры студии", h_games_sub:"В одной машины доигрывают войну без людей, в другой кот выбирает лежанку. Способ производства один и тот же.", all_games:"Все игры →",
-  h_how:"Как делаются эти игры", how_h:"Игры делает искусственный интеллект",
+  hero_e:"Студия · 2026", spec:["Три игры","Игры делает ИИ","Android, iOS и ПК","Студия одного человека"],
+  watch:"Смотреть ролик", watch_cap:"«Поезд Последней Войны» · 28 секунд",
+  how_h:"Игры делает искусственный интеллект",
   how_p:"Код, арт, звук, баланс и тексты делает ИИ. Человек ставит задачу, играет в сборку и решает, пойдёт ли она дальше. Сделано так не всё: часть библиотек и шрифтов взята готовыми. А внутри самих игр нейросетей нет — ИИ их делает, но в них не работает.",
-  how_more:"О студии →",
   how_cols:[["Код","боевой цикл, экономика, сохранения, магазин"],["Арт","фоны, враги, ключевой арт, иконки"],["Звук","эффекты и музыка"],["Тексты","сюжет, интерфейс, локализация"]],
-  // раздел игр
-  games_h:"Игры", games_sub:"Пока их две. Похожего в них мало, а собраны они одинаково: человек ставит задачу, ИИ делает игру.",
-  // страница поезда
+  games_h:"Игры", games_sub:"Пока их три. Похожего в них мало, а собраны они одинаково: человек ставит задачу, ИИ делает игру.",
   tr_genre:"Аркадное ПВО-выживание · дизельпанк · портрет, одной рукой",
-  tr_tag:"Целиться не нужно: зенитки бьют сами. Твоя работа — ловить кристаллы под огнём и на каждом ранге решать, <b>какое орудие встанет на состав и каким путём оно пойдёт дальше.</b>",
+  tr_tag:"Целиться не нужно: зенитки бьют сами. Твоя работа — ловить чипы под огнём и на каждом ранге решать, <b>какое орудие встанет на состав и каким путём оно пойдёт дальше.</b>",
   tr_cta:"Скачать · Google Play", tr_st:"Статус: вышла · Google Play и App Store · бесплатно · Android 7.0+, iOS 17.0+",
-  tr_reel_e:"Запись · 70 секунд", tr_reel_h:"Как это играется",
+  tr_reel_e:"Запись · 28 секунд", 
   tr_reel_cap:"Бой, поле сбора, депо, боссы. Со звуком.",
   tr_shots_e:"Архив штаба", tr_shots_h:"Кадры",
-  tr_what_e:"Режим // AA-survival", tr_what_h:"Что это за игра",
-  tr_rows:[["Волна","десять машин заходят сверху, одна за другой"],["Цикл","сбил → ранг → карта → следующая волна"],["Забег","одна миссия из десяти волн, последняя — босс"],["Между забегами","депо и дерево узлов за кристаллы"]],
+  tr_rows:[["Волна","стая машин заходит сверху, и каждая следующая плотнее"],["Цикл","сбил → ранг → карта → следующая волна"],["Забег","одна миссия из десяти волн, последняя — босс"],["Между забегами","депо и дерево узлов за чипы"]],
   tr_anti_h:"Чего здесь нет", tr_anti:["Платы за забег","Энергии и таймеров ожидания","Обязательного интернета: кампания идёт офлайн","Рекламы посреди боя — только добровольная, за награду"],
-  tr_cards_e:"Прокачка // карточный драфт", tr_cards_h:"Лестницы орудий",
   tr_cards_p:"Забег — одна миссия. За сбитые машины растёт ранг, и на каждом ранге бой замирает: три карты, взять одну. Девять орудий по пять ступеней, на третьей ствол уходит в один из трёх путей своей стихии, а четыре связки загораются сами, как только собрана пара.",
   tr_route_e:"Маршрут // 10 биомов, 100 миссий", tr_route_h:"От пустошей до цитадели", tr_lore:"Читать бортжурнал →",
   tr_biomes:["ПОДСТУПЫ","МЁРТВЫЙ ЛЕС","НИЖЕ НУЛЯ","ТОКСИЧНАЯ ЗОНА","ПЕПЕЛИЩЕ","МЁРТВЫЙ МЕГАПОЛИС","РАДИОАКТИВНАЯ ПУСТОШЬ","ЗАТОПЛЕННАЯ ЗОНА","КЛАДБИЩЕ МАШИН","ЛЕДЯНАЯ ЦИТАДЕЛЬ"],
-  tr_ai_e:"Производство // ИИ", tr_ai_h:"Игра про ИИ, сделанная ИИ",
-  tr_ai_p:"Мир игры — про машины, которые доигрывают войну без людей. Сама она собрана так же: код, арт, звук, баланс и тексты сделал искусственный интеллект, человек ставил задачу и решал, что идёт в релиз.",
-  // страница котов — {{CAT_COPY}}
+  tr_ai_e:"Производство // ИИ", tr_ai_h:"Стреляет машина, решает человек",
+  tr_ai_p:"В игре стволы наводит машина, а решает человек. Сама игра собрана так же: код, арт, звук, баланс и тексты сделал искусственный интеллект, человек ставил задачу и решал, что идёт в релиз.",
   ct_genre:"Уютная головоломка · merge с физикой · без таймеров",
   ct_tag:"Роняешь кота в стакан. Два кота одного уровня коснулись — получился один, покрупнее; всего одиннадцать уровней, от Котёнка до Царь-Кота, и два Царь-Кота при встрече схлопываются насовсем. <b>Двенадцать арен со своим норовом, дом на пять комнат, Котокафе с десятью заданиями и история в пять глав.</b>",
-  ct_cta:"Попробовать в браузере", ct_cta2:"Сообщить о выходе", ct_st:"Статус: в разработке · цель — Google Play и App Store · русский и английский",
+  ct_cta2:"Сообщить о выходе", ct_st:"Статус: в разработке · цель — Google Play и App Store · пять языков",
   ct_shots_e:"Фотоальбом", ct_shots_h:"Снимки из дома и с арен",
   ct_own_e:"Что внутри", ct_own_h:"Арены, дом и каждый день",
   ct_pillars:[["Двенадцать арен","На Склоне всё скатывается к одной стенке. Кратер сводит котов в центр, Качели мерно качают стакан, круг за девять секунд, Сквозняк сдувает мелких, а в Проруби люк то открыт, то закрыт.","cat_play_02_slope.jpg"],["Дом","Пять комнат и двадцать предметов; весь дом стоит тридцать восемь лапок. Купил лежанку — на неё въезжает выращенный кот и остаётся жить: спит, ходит к мебели, отзывается на поглаживание. Никто не съезжает.","cat_house_7_roomdone.jpg"],["Каждый день","Три задачи на сутки и общее для всех испытание: арену и очередь котов задаёт дата. Пропустил — серия простит один раз.","cat_tasks.jpg"]],
-  ct_anti_h:"Чего здесь нет", ct_anti:["Рекламы посреди партии и рекламы за награду","Энергии и таймеров ожидания","Обязательного интернета: играть можно без сети","Валют, которые продаются за деньги"],
+  ct_anti_h:"Чего здесь нет", ct_anti:["Рекламы посреди партии и рекламы за награду","Энергии и таймеров ожидания","Обязательного интернета: играть можно без сети","Лутбоксов и случайных платных наборов"],
   ct_reel_e:"Запись · 21 секунда", ct_reel_h:"Как это играется",
   ct_reel_cap:"Качели кренят стакан, дом обживается, партия идёт своим ходом. Записано в игре, без звука.",
   ct_notify_e:"Когда выйдет", ct_notify_h:"Напишем один раз", ct_notify_p:"В день выхода. Больше ничего.",
-  // о студии
   ab_e:"О студии", ab_h:"Эксперимент в открытую",
-  ab_p:"Dido Games — эксперимент с одним вопросом: докуда сегодня дотягивает человек, который делает игру вместе с искусственным интеллектом. Ответ видно по играм. «Поезд Последней Войны» вышел в сентябре в Google Play и App Store, «ШароКоты» делаются сейчас.",
+  ab_p:"Dido Games — эксперимент с одним вопросом: докуда сегодня дотягивает человек, который делает игру вместе с искусственным интеллектом. Ответ видно по играм. «Поезд Последней Войны» вышел в сентябре в Google Play и App Store, «ШароКоты» и Aeryntha делаются сейчас.",
   ab_why_h:"Что здесь проверяется", ab_why_p:"Инструменты обновляются каждые несколько месяцев, и вместе с ними меняется, что вообще реально собрать и за какой срок. По играм это видно напрямую: что было недостижимо год назад и где потолок сегодня. Игроку от этого ни холодно ни жарко. Игра либо хорошая, либо нет.",
-  ab_roles:[["Условия эксперимента",["Обе игры собраны так от первой строки кода до последней иконки","Сборка, которая не понравилась на телефоне, дальше не идёт","В описании игры только то, что уже работает в билде","Этот текст написан тем же способом"]]],
+  ab_roles:[["Условия эксперимента",["Все игры собраны так от первой строки кода до последней иконки","Сборка, в которую неинтересно играть, дальше не идёт","В описании игры только то, что уже работает в билде","Этот текст написан тем же способом"]]],
   tl_lede:"В хронику попадает то, что вышло, а не то, что запланировано. Студия младше своих игр: сначала появились они, потом название.", ab_tl_h:"Хроника",
-  ab_tl:[["2026 · лето","Сайт и закрытый тест","Поднят didogames.net; «Поезд» уходит в закрытый тест Google Play."],["2026 · сентябрь","«Поезд Последней Войны» вышел","Опубликован в Google Play. Бесплатно, Android, десять языков."],["2026 · 25 сентября","Релиз на iPhone","«Поезд» появился в App Store — бесплатно, на iOS 17.0 и новее."],["2026 · сентябрь","«ШароКоты» в работе","Вторая игра: merge с физикой и котами. Русский и английский, цель — Google Play и App Store."]],
-  ab_contact_h:"Связаться", ab_contact_p:"Одна почта на всё: поддержка, пресса, партнёрства.",
-  // поддержка
-  su_h:"Поддержка", su_sub:"Выберите игру — под ней почта и ответы на то, что ломается чаще всего.",
-  su_tr:[["Написать в поддержку","mail"],["Вылеты и сбои","train-faq"],["Прогресс и его удаление","train-data"],["Покупки и возвраты","train-pay"]],
-  su_ct:[["Написать в поддержку","mail"],["Сеть и сохранения","cat-offline"],["Когда выйдет","cat-when"]],
-  su_also_h:"См. также", su_also:[["Политика конфиденциальности","что храним и зачем"],["Условия использования","правила пользования сайтом и играми"],["Пресс-кит","логотипы, кадры, факты"]],
-  su_qa:[["train-faq","«Поезд Последней Войны» · частые вопросы","Игра не запускается или вылетает","Сначала обновите игру и перезапустите телефон: этим лечится большинство вылетов. Если не помогло — напишите нам модель телефона и версию системы, Android или iOS: без них сбой не воспроизвести."],["train-data","«Поезд Последней Войны» · прогресс и его удаление","Где лежит прогресс и как его стереть","Прогресс хранится на самом устройстве — учётных записей мы не ведём. Стереть его можно, удалив приложение: вместе с ним уходит всё. Напишите на почту, если нужно стереть саму переписку с поддержкой, — сотрём и ответим, что готово."],["train-pay","«Поезд Последней Войны» · покупки и возвраты","Покупка не пришла","Покупку обрабатывает магазин: на Android — Google Play, на iPhone — App Store. Если деньги списаны, а товар не пришёл, откройте в игре «Ресурсы» и нажмите «Восстановить покупки», затем перезапустите игру. Возврат оформляет сам магазин по своим правилам: в App Store — через reportaproblem.apple.com, в Google Play — через историю заказов. К вашим платёжным данным у нас доступа нет."],["cat-offline","«ШароКоты» · игра без сети","Нужен ли интернет и где сохранение","Интернет не нужен: партии, дом и задачи считаются на телефоне, там же лежит прогресс. Облачного сохранения нет, так что на новом телефоне дом придётся обставлять заново."],["cat-when","«ШароКоты» · когда выйдет","Даты пока нет","Игра в разработке. Оставьте почту на её странице — напишем один раз, когда она появится в магазине."]],
-  // пресс
-  pr_h:"Пресс-кит", pr_sub:"Факты, ключевой арт и кадры. Берите в публикацию без запроса.",
-  pr_facts:[["Студия","Dido Games, 2026"],["Производство","задачу ставит человек, игру делает ИИ"],["Игры","«Поезд Последней Войны» — вышла; «ШароКоты» — в разработке"],["Платформы","Android (Google Play) и iOS (App Store)"],["Языки","«Поезд» — десять; «ШароКоты» — русский и английский"],["Контакт","support@didogames.net"]],
-  pr_kits_h:"Пресс-киты игр", pr_kit_tr:"Ключевой арт, кадры, ролик на 70 секунд и факт-лист, сверенный с кодом.", pr_kit_ct:"Промо-арт, кадры, иконка. Пополняется по ходу разработки.",
-  pr_dl:["Знак студии · SVG и PNG","Ключевой арт","Кадры","Факт-лист"],
-  // подвал
-  legal_priv:"Политика конфиденциальности", legal_terms:"Условия использования", legal_stub:"Текст не меняется: он синхронен с LegalDocs.gd в игре. Адрес прежний.",
+  ab_tl:[["2026 · лето","Сайт и закрытый тест","Поднят didogames.net; «Поезд» уходит в закрытый тест Google Play."],["2026 · сентябрь","«Поезд Последней Войны» вышел","Опубликован в Google Play. Бесплатно, Android, десять языков."],["2026 · 25 сентября","Релиз на iPhone","«Поезд» появился в App Store — бесплатно, на iOS 17.0 и новее."],["2026 · сентябрь","«ШароКоты» в работе","Вторая игра: merge с физикой и котами. Пять языков, цель — Google Play и App Store."],["2026 · сентябрь","Aeryntha в работе","Третья игра: сказочный остров с феями, стройкой и кооперативом до четырёх. Сейчас — технодемо на ПК."]],
   ft_terms:"Условия", ft_priv:"Конфиденциальность", ft_support:"Поддержка", ft_press:"Пресс-кит", ft_gp:"Google Play", ft_as:"App Store",
-  ft_copy:"© 2026 Dido Games", ft_tag:"Эксперимент с ИИ, который можно скачать",
-  // страница игры → студия
-  gs_e:"Как делаются эти игры", gs_h:"Игру собрал ИИ, человек принял", gs_p:"Вторую делают так же. В этом и состоит эксперимент.", gs_more:"О студии",
+  ft_copy:"© 2026 Dido Games · виртуальные предметы в играх не имеют денежной стоимости", ft_tag:"Эксперимент с ИИ, который можно скачать",
+  gs_e:"Как делаются эти игры", 
   back:"← Все игры", a_menu:"Меню", a_lang:"Язык сайта", a_close:"Закрыть", a_shot:"Кадр из игры", a_reel:"Ролик",
   press_link:"Пресс-кит →",
-  // формы
-  f_h:"Сообщить о выходе «ШароКотов»", f_sub:"Одно письмо в день выхода. Больше ничего.", f_email:"Почта", f_name:"Как к вам обращаться", f_plat:"Платформа", f_web:"Браузер", f_game:"Игра", f_game_train:"«Поезд Последней Войны» — версия для iOS", f_note:"Адрес нужен только для этого письма.", f_send:"Отправить", f_ok:"Заявка принята", f_ok2:"Напишем один раз — в день выхода.", p_go:"Загрузить и играть",
-  ab_p2:"Игры для этого нарочно непохожи. В одной бронепоезд держит рубеж, пока техника пикирует с неба. В другой коты сливаются в стакане, а между партиями игрок обустраивает их дом. Если способ работает, он обязан работать в обеих.",
+  f_h:"Сообщить о выходе «ШароКотов»", f_sub:"Одно письмо в день выхода. Больше ничего.", f_email:"Почта", f_name:"Как к вам обращаться", f_plat:"Платформа", f_web:"Браузер", f_note:"Адрес нужен только для этого письма.", f_send:"Отправить", f_ok:"Заявка принята", f_ok2:"Напишем один раз — в день выхода.", 
+  ab_p2:"Игры для этого нарочно непохожи. В одной горстка уцелевших ведёт бронепоезд по линии, пока техника пикирует с неба. В другой коты сливаются в стакане, а между партиями игрок обустраивает их дом. В третьей компанией до четырёх будят сказочный остров с феями. Если способ работает, он обязан работать во всех.",
   tl_e:"что уже вышло",
   au_e:"От автора",
   au_h:"Зачем мне это",
@@ -565,10 +628,42 @@ ru:{
   tr_cta_ios:"Скачать · App Store",
 },
 en:{
+  ae_name:"Aeryntha", ae_one:"Tame fairies, wake a fading island and rebuild it — solo or with up to three friends.",
+  ae_status:"In development", demo:"In development · tech demo",
+  ae_news:"Tech demo · PC · co-op for up to four",
+  ae_genre:"Fairy-tale open-world adventure · fairies · building · co-op for up to four",
+  ae_tag:"A magical island is fading. Tame fairies whose powers open sealed paths, raise a ruined workshop and the Old Bridge, and wake a dying forest with your friends. <b>Every new world builds its island anew.</b>",
+  ae_cta_demo:"Watch the tech demo",
+  ae_st:"Status: in development · tech demo · PC · Russian only for now",
+  ae_rows:[["Island","about 5 km across; built anew for every world"],["Fairies","48 species, 12 elements; each element's power opens something in the world"],["Together","co-op for up to four: the world and the building are shared, fairies and satchel are your own"],["Day","15 minutes long; nine kinds of weather, from rain to ash"],["Story","chapter one complete, chapter two in progress"]],
+  ae_demo_e:"Tech demo", ae_demo_h:"What it looks like today",
+  ae_demo_p:"Captured from the working build. The look is still a prototype — the concept art below shows where the picture is heading.",
+  ae_demo_cap:"Tech demo · 57 s · captured in working build 0.1 · no sound",
+  ae_pill_e:"Concept art · what it stands on", ae_pill_h:"Five pillars",
+  ae_pillars:[["What's over there?","Hardly any markers: landmarks show from afar, signposts stand along the roads, lookout stones reveal the land around them, and the map fills in where you have walked.","explore"],["Fairies are tools","An element's power breaks boulders, parts thorns, melts ice and hurries a tree's growth. A new element opens a new part of the island.","fairy_lines"],["Building is progress","The workbench, sawbench and smelter rise from ruins, the Old Bridge is assembled piece by piece right in the world, then come the estate, the house and the field.","build"],["The world changes before your eyes","Cleansed Blight recedes, and a green wave rolls through the withered forest from a woken spring.","restore"],["Together, up to four","The world, the story and the building are shared; fairies, satchel and friendships stay your own.","coop"]],
+  ae_fairies_e:"Concept art · fairies", ae_fairies_h:"Twelve elements",
+  ae_fairies_p:"The game has 48 fairy species. Here is one first-tier fairy for each element: the ones a collection starts with.",
+  ae_f_mossling:"Mossling", ae_f_puffkin:"Puffkin", ae_f_dewlet:"Dewlet", ae_f_sunspark:"Sunspark", ae_f_zappit:"Zappit", ae_f_runeblink:"Runeblink",
+  ae_f_pebblin:"Pebblin", ae_f_frostmote:"Frostmote", ae_f_cindertail:"Cindertail", ae_f_duskmoth:"Duskmoth", ae_f_wobblit:"Wobblit", ae_f_gearlet:"Gearlet",
+  ae_el_nature:"Nature", ae_el_air:"Air", ae_el_water:"Water", ae_el_light:"Light", ae_el_energy:"Energy", ae_el_psi:"Psi",
+  ae_el_stone:"Stone", ae_el_ice:"Ice", ae_el_fire:"Fire", ae_el_dark:"Dark", ae_el_chaos:"Chaos", ae_el_metal:"Metal",
+  ae_biomes_e:"Concept art · biomes", ae_biomes_h:"Eleven biomes",
+  ae_biomes_p:"From the Sunny Meadows to the Rift: every biome has its own fairies, resources and level of danger.",
+  ae_b_meadow:"Sunny Meadows", ae_b_enchanted_forest:"Whispering Wood", ae_b_misty_swamp:"Murky Fens", ae_b_mountains:"Grey Ridge",
+  ae_b_ice_peaks:"Frost Crown", ae_b_fire_caves:"Ember Reach", ae_b_cloud_islands:"Sky Terrace", ae_b_dark_lands:"The Rift",
+  ae_b_ancient_ruins:"Ancient Ruins", ae_b_shore:"Shore", ae_b_ocean:"Ocean",
+  ae_world_e:"Concept art · a living world", ae_world_h:"Days and weather",
+  ae_cap_day:"Dawn, day, dusk and night on one path · a day lasts 15 minutes", ae_cap_weather:"Clear, rain, storm, fog, snow — the game has nine kinds of weather",
+  ae_ai_e:"How it is made", ae_ai_h:"The same way",
+  ae_ai_p:"Like the studio's other games, Aeryntha is made together with an AI: code, text and concept art are its work, while a person sets the tasks and decides what goes into the game. The art on this page is concept art drawn from the game's art bible, not frames from the game; for the game itself, see the tech demo above.",
+  ft_page:"Game page", a_concept:"Concept art",
+  next_p:"A window for the next project. The frame stays; the world inside changes.",
+  next_h:"Game 03",
+  next_st:"in the works",
+  hero_thesis:"One question runs the studio: how far a person can get today making games together with an AI. The games are the answer.",
   nav_games:"Games", nav_about:"Studio", nav_support:"Support", nav_press:"Press",
-  mockbar:"Mockup · the spread",
   tr_name:"The Last War: Train", ct_name:"Ball Cats",
-  tr_one:"The turrets aim themselves. You catch crystals and pick a card at every rank.", ct_one:"Cats drop, merge, and move into the house you furnished.",
+  tr_one:"The turrets aim themselves. You catch chips and pick a card at every rank.", ct_one:"Cats drop, merge, and move into the house you furnished.",
   tr_status:"Out now", ct_status:"In development",
   tr_news:"Since September 2026 · Android and iOS, free, ten languages", ct_news:"Twelve arenas, the house and the Cat Cafe already play",
   live:"Out · Android and iOS", dev:"In development",
@@ -577,64 +672,48 @@ en:{
   cs_loco_assault:"Assault", cs_loco_arctic:"Arctic", cs_loco_siege:"Siege", cs_loco_vault:"Vault",
   cs_w_cargo:"Cargo", cs_w_assault:"Assault", cs_w_support:"Support", cs_w_heavy:"Heavy",
   cs_w_reactor:"Reactor", cs_w_harvest:"Harvester", cs_w_bulwark:"Bulwark",
-  lore_stub:"Ten log entries, one per sector. The page moves over from /lore.html as is.",
-  hero_e:"Studio · 2026", spec:["Two games","Made by an AI","10 languages","Android and iOS"],
-  makers_a:"Makers of", makers_b:"and", watch:"Watch the reel", watch_cap:"The Last War: Train · 70 seconds",
-  h_games:"The games", h_games_sub:"One is machines finishing a war with nobody left to fight; the other is a cat picking a cushion. Both were built the same way.", all_games:"All games →",
-  h_how:"How the games get made", how_h:"An AI makes the games",
+  hero_e:"Studio · 2026", spec:["Three games","Made by an AI","Android, iOS and PC","A one-person studio"],
+  watch:"Watch the reel", watch_cap:"The Last War: Train · 28 seconds",
+  how_h:"An AI makes the games",
   how_p:"Code, art, sound, balance and text are made by AI. A person sets the task, plays the build and decides whether it goes further. Not all of it works that way: some libraries and fonts come off the shelf. And there is no neural network inside the games themselves. AI makes them; it does not run in them.",
-  how_more:"About the studio →",
   how_cols:[["Code","game loop, economy, saves, shop"],["Art","backdrops, enemies, key art, icons"],["Audio","effects and music"],["Text","story, UI, localization"]],
-  games_h:"Games", games_sub:"Two so far. They have almost nothing in common and were built identically: a human sets the task, an AI makes the game.",
+  games_h:"Games", games_sub:"Three so far. They have almost nothing in common and were built identically: a human sets the task, an AI makes the game.",
   tr_genre:"Arcade AA-survival · dieselpunk · portrait, one-handed",
-  tr_tag:"No aiming: the turrets do that. Your job is catching crystals under fire and deciding, at every rank, <b>which gun rolls onto the train and which path it takes from there.</b>",
+  tr_tag:"No aiming: the turrets do that. Your job is catching chips under fire and deciding, at every rank, <b>which gun rolls onto the train and which path it takes from there.</b>",
   tr_cta:"Download · Google Play", tr_st:"Status: out now · Google Play and the App Store · free · Android 7.0+, iOS 17.0+",
-  tr_reel_e:"Footage · 70 seconds", tr_reel_h:"How it plays",
+  tr_reel_e:"Footage · 28 seconds", 
   tr_reel_cap:"Combat, the harvest field, the depot, bosses. With sound.",
   tr_shots_e:"HQ archive", tr_shots_h:"Screens",
-  tr_what_e:"Mode // AA-survival", tr_what_h:"What this game is",
-  tr_rows:[["A wave","ten machines come in from above, one after another"],["Loop","shoot down → rank up → pick a card → next wave"],["Run","one mission of ten waves, the last one is a boss"],["Between runs","the depot and the node tree, paid in crystals"]],
+  tr_rows:[["A wave","a flock of machines dives from above, each one denser than the last"],["Loop","shoot down → rank up → pick a card → next wave"],["Run","one mission of ten waves, the last one is a boss"],["Between runs","the depot and the node tree, paid in chips"]],
   tr_anti_h:"What you won\'t find", tr_anti:["A fee per run","Energy or wait timers","Forced internet: the campaign plays offline","Ads in the middle of a fight — rewarded only, always your call"],
-  tr_cards_e:"Progression // card draft", tr_cards_h:"The gun ladders",
   tr_cards_p:"A run is one mission. Kills raise your rank, and every rank freezes the fight: three cards, keep one. Nine guns of five tiers each, a three-way fork at tier three inside the gun\'s own element, and four links that ignite on their own the moment you hold both halves.",
   tr_route_e:"The route // 10 biomes, 100 missions", tr_route_h:"From the wastes to the citadel", tr_lore:"Read the driver\'s log →",
   tr_biomes:["THE APPROACHES","DEAD FOREST","SUB-ZERO","TOXIC ZONE","THE ASHLANDS","DEAD METROPOLIS","RADIOACTIVE WASTES","FLOODED ZONE","MACHINE GRAVEYARD","ICE CITADEL"],
-  tr_ai_e:"Production // AI", tr_ai_h:"Machines made the game about machines",
-  tr_ai_p:"The world of the game is machines carrying on a war with no people left in it. The game itself was built along those lines: an AI wrote the code, drew the art, made the audio, tuned the balance and wrote every line of text, and a human set the task and decided what shipped.",
+  tr_ai_e:"Production // AI", tr_ai_h:"The machine fires, the human decides",
+  tr_ai_p:"In the game a machine aims the guns and a human makes the calls. The game itself was built the same way: an AI wrote the code, drew the art, made the audio, tuned the balance and wrote every line of text, and a human set the task and decided what shipped.",
   ct_genre:"Cozy puzzle · physics merge · no timers",
   ct_tag:"Drop a cat into the jar. Two cats of the same level touch and become one bigger cat; eleven levels in all, Kitten up to King Cat, and two King Cats cancel each other out for good. <b>Twelve arenas with their own tempers, a five-room house, a Cat Cafe with ten jobs, and a story in five chapters.</b>",
-  ct_cta:"Try in the browser", ct_cta2:"Notify me at launch", ct_st:"Status: in development · headed for Google Play and the App Store · Russian and English",
+  ct_cta2:"Notify me at launch", ct_st:"Status: in development · headed for Google Play and the App Store · five languages",
   ct_shots_e:"Photo album", ct_shots_h:"Shots from the house and the arenas",
   ct_own_e:"What\'s inside", ct_own_h:"Arenas, the house, every day",
   ct_pillars:[["Twelve arenas","On the Slope everything rolls into one wall. The Crater herds cats to the middle, the Swing rocks the jar side to side, a full sway every nine seconds, the Draft blows the small ones off, and the Ice Hole opens and shuts.","cat_play_02_slope.jpg"],["The house","Five rooms and twenty pieces of furniture; the whole house costs thirty-eight paws. Buy a bed and a cat you raised moves in for good: sleeps, wanders over to the furniture, leans into a stroke.","cat_house_7_roomdone.jpg"],["Every day","Three tasks a day, plus one challenge everybody shares — the arena and the order of cats come from the date. Miss a day and the streak forgives you once.","cat_tasks.jpg"]],
-  ct_anti_h:"What\'s not here", ct_anti:["Ads mid-match, or ads for rewards","Energy or wait timers","Forced internet: it plays offline","Currencies you can buy with money"],
+  ct_anti_h:"What\'s not here", ct_anti:["Ads mid-match, or ads for rewards","Energy or wait timers","Forced internet: it plays offline","Loot boxes or paid random packs"],
   ct_reel_e:"Footage · 21 seconds", ct_reel_h:"How it plays",
   ct_reel_cap:"The Swing tilts the jar, the house fills up, a run plays out. Captured in game, no sound.",
   ct_notify_e:"When it\'s out", ct_notify_h:"We\'ll tell you", ct_notify_p:"One email on launch day. Nothing else.",
   ab_e:"About the studio", ab_h:"An experiment in plain sight",
-  ab_p:"Dido Games runs on one question: how much can a person actually build with AI today. The games are the answer. The Last War: Train reached Google Play and the App Store in September, and Ball Cats is in development now.",
+  ab_p:"Dido Games runs on one question: how much can a person actually build with AI today. The games are the answer. The Last War: Train reached Google Play and the App Store in September; Ball Cats and Aeryntha are in development now.",
   ab_why_h:"What is being tested", ab_why_p:"Tools turn over every few months, and what can be built, and how fast, turns over with them. The games show it directly: what was out of reach last year, where the ceiling sits now. To a player none of that matters. The game is either good or it is not.",
-  ab_roles:[["Terms of the experiment",["Both games were built this way, from the first line of code to the last icon","A build that is no fun on a phone does not go out","The store page lists only what already works in the build","This text was written the same way"]]],
+  ab_roles:[["Terms of the experiment",["Every game is built this way, from the first line of code to the last icon","A build that is no fun to play does not go out","The store page lists only what already works in the build","This text was written the same way"]]],
   tl_lede:"The timeline records what shipped, not what was planned. The studio is younger than its games: they came first, the name after.", ab_tl_h:"Timeline",
-  ab_tl:[["2026 · summer","Site up, closed test running","didogames.net goes live; Train enters its closed test on Google Play."],["2026 · September","The Last War: Train ships","Published on Google Play. Free, Android, ten languages."],["2026 · 25 September","Now on iPhone","Train appeared in the App Store — free, on iOS 17.0 and up."],["2026 · September","Ball Cats in the works","The second game: a physics merge with cats. Russian and English; Google Play and the App Store are the target."]],
-  ab_contact_h:"Contact", ab_contact_p:"One address for all of it: support, press, partnerships.",
-  su_h:"Support", su_sub:"Pick your game — under it sit the email and answers to what breaks most.",
-  su_tr:[["Email support","mail"],["Crashes and startup","train-faq"],["Progress and deleting it","train-data"],["Purchases and refunds","train-pay"]],
-  su_ct:[["Email support","mail"],["Offline play and saves","cat-offline"],["When it comes out","cat-when"]],
-  su_also_h:"See also", su_also:[["Privacy policy","what we store and why"],["Terms of use","the rules for the site and the games"],["Press kit","logos, screens, facts"]],
-  su_qa:[["train-faq","The Last War: Train · frequent questions","The game won't start, or it crashes","Update the game and restart the phone first: that clears most crashes. If it keeps happening, send us your phone model and system version, Android or iOS — without them the crash cannot be reproduced here."],["train-data","The Last War: Train · progress and deleting it","Where progress is kept and how to wipe it","Progress sits on the device itself; we keep no accounts. Wipe it by uninstalling the app — everything goes with it. Write to support if you want the support thread itself deleted, and we will confirm when it is done."],["train-pay","The Last War: Train · purchases and refunds","A purchase did not arrive","The store handles the purchase: Google Play on Android, the App Store on iPhone. If you were charged and nothing arrived, open Resources in the game, tap Restore purchases, then restart the game. Refunds are issued by the store under its own rules: reportaproblem.apple.com for the App Store, order history for Google Play. We have no access to your payment details."],["cat-offline","Ball Cats · playing offline","Do you need internet, and where are saves kept","No internet needed: runs, the house and the tasks all run on the phone, and the progress lives there too. There is no cloud save, so a new phone means furnishing the house again."],["cat-when","Ball Cats · when it comes out","No date yet","The game is in development. Leave your email on its page and we will write once, when it reaches the store."]],
-  pr_h:"Press kit", pr_sub:"Facts, key art and screens. Use them in a piece without asking first.",
-  pr_facts:[["Studio","Dido Games, 2026"],["Production","a human sets the task, an AI makes the game"],["Games","The Last War: Train — out; Ball Cats — in development"],["Platforms","Android (Google Play) and iOS (App Store)"],["Languages","Train — ten; Ball Cats — Russian and English"],["Contact","support@didogames.net"]],
-  pr_kits_h:"Game press kits", pr_kit_tr:"Key art, screens, a 70-second reel and a fact sheet checked against the code.", pr_kit_ct:"Promo art, screens, icon. Grows as development does.",
-  pr_dl:["Studio mark · SVG and PNG","Key art","Screens","Fact sheet"],
-  legal_priv:"Privacy policy", legal_terms:"Terms of use", legal_stub:"The text does not change: it is kept in sync with LegalDocs.gd in the game. The address stays the same.",
+  ab_tl:[["2026 · summer","Site up, closed test running","didogames.net goes live; Train enters its closed test on Google Play."],["2026 · September","The Last War: Train ships","Published on Google Play. Free, Android, ten languages."],["2026 · 25 September","Now on iPhone","Train appeared in the App Store — free, on iOS 17.0 and up."],["2026 · September","Ball Cats in the works","The second game: a physics merge with cats. Five languages; Google Play and the App Store are the target."],["2026 · September","Aeryntha in the works","The third game: a fairy-tale island with fairies, building and co-op for up to four. A PC tech demo for now."]],
   ft_terms:"Terms", ft_priv:"Privacy", ft_support:"Support", ft_press:"Press kit", ft_gp:"Google Play", ft_as:"App Store",
-  ft_copy:"© 2026 Dido Games", ft_tag:"An AI experiment you can download",
-  gs_e:"How the games get made", gs_h:"An AI built it, a human signed it off", gs_p:"The second game is going the same way. That is the whole experiment.", gs_more:"About the studio",
+  ft_copy:"© 2026 Dido Games · virtual items in our games have no monetary value", ft_tag:"An AI experiment you can download",
+  gs_e:"How the games get made", 
   back:"← All games", a_menu:"Menu", a_lang:"Site language", a_close:"Close", a_shot:"Screenshot", a_reel:"Reel",
   press_link:"Press kit →",
-  f_h:"Notify me when Ball Cats ships", f_sub:"One email on launch day. Nothing else.", f_email:"Email", f_name:"Your name", f_plat:"Platform", f_web:"Browser", f_game:"Game", f_game_train:"The Last War: Train — the iOS version", f_note:"The address is used only for that one email.", f_send:"Send", f_ok:"You are on the list", f_ok2:"One email from us, on launch day.", p_go:"Load and play",
-  ab_p2:"The two games are deliberately unalike. One is an armoured train holding a line while machines dive out of the sky. In the other, cats merge inside a glass and the player furnishes their house between rounds. If the method works, it has to work in both.",
+  f_h:"Notify me when Ball Cats ships", f_sub:"One email on launch day. Nothing else.", f_email:"Email", f_name:"Your name", f_plat:"Platform", f_web:"Browser", f_note:"The address is used only for that one email.", f_send:"Send", f_ok:"You are on the list", f_ok2:"One email from us, on launch day.", 
+  ab_p2:"The games are deliberately unalike. One is a handful of survivors driving an armoured train down the line while machines dive out of the sky. In another, cats merge inside a glass and the player furnishes their house between rounds. In the third, up to four friends wake a fairy-tale island. If the method works, it has to work in all of them.",
   tl_e:"what shipped so far",
   au_e:"From the author",
   au_h:"Why I am doing this",
@@ -644,18 +723,33 @@ en:{
 }};
 const BIOME_HEX = ["#54a5c8","#6ba1b5","#8690ab","#b1ab65","#b89672","#8296a9","#a5a676","#8d98a3","#c3926c","#90969a"];
 const GAMES = [
-  { id: "train", key: "tr", no: "01", dot: "var(--ice)", world: "night",
-    hero: "/img/hero_train.jpg", wide: "/img/train_wide.jpg", band: "/img/train_band.jpg", cover: "/img/train_cover.jpg",
-    thumb: "/img/train_cover.jpg", status: "live" },
-  { id: "sharokoty", key: "ct", no: "02", dot: "var(--lilac)", world: "day",
-    hero: "/img/hero_cats.jpg", wide: "/img/cat_hero.jpg", band: "/img/cat_hero.jpg", cover: "/img/cat_cover.jpg",
-    thumb: "/img/cat_cover.jpg", status: "dev" },
+  { id: "train", key: "tr", no: "01", world: "day", status: "live",
+    pal: { bg: "#F2E8C9", ink: "#173F3D", dim: "#4E6B66", accent: "#285B59", dot: "#E5A453" },
+    focus: "50% 48%",
+    hero: "/img/gf/train_menu_square.jpg", wide: "/img/gf/train_menu_hero.jpg",
+    band: "/img/gf/train_menu_hero.jpg", bandArt: true, bandFocus: "50% 42%",
+    cover: "/img/gf/train_menu_cover.jpg", thumb: "/img/gf/train_menu_thumb.jpg",
+    head: "/img/gf/train_menu_hero.jpg", headLayout: "blend", headFocus: "50% 42%" },
+  { id: "sharokoty", key: "ct", no: "02", world: "day", status: "dev",
+    pal: { bg: "#F0EAE1", ink: "#17151A", dim: "#5B5265", accent: "#7A54B5", dot: "#C8B6E2" },
+    focus: "50% 78%",   // мордочка у нижнего края
+    hero: "/img/hero_cats.jpg", wide: "/img/cat_hero.jpg", band: "/img/cat_hero.jpg",
+    cover: "/img/cat_cover.jpg", thumb: "/img/cat_cover.jpg", headFocus: "50% 62%" },
+  { id: "aeryntha", key: "ae", no: "03", world: "day", status: "demo",
+    pal: { bg: "#FFF3D6", ink: "#33211A", dim: "#6B4A2F", accent: "#226349", dot: "#6FF2D0" },
+    artTag: true, focus: "38% 40%",
+    hero: "/img/ae/window.jpg", wide: "/img/ae/key.jpg",
+    band: "/img/ae/world.jpg", bandArt: true, bandFocus: "50% 36%",
+    cover: "/img/ae/window.jpg", thumb: "/img/ae/thumb.jpg",
+    head: "/img/ae/key.jpg", headLayout: "poster", headFocus: "42% 40%" },
 ];
+const NEXT_SLOT = false;
+const palStyle = p => `--g-bg:${p.bg};--g-ink:${p.ink};--g-dim:${p.dim};--g-ac:${p.accent};--g-dot:${p.dot}`;
 const REELS = {
-  train: { src: "/reel_540.mp4", poster: "/img/train_reel_poster.jpg", cap: "watch_cap" },
+  train: { src: "/img/gf/reel_gf.mp4", poster: "/img/gf/reel_gf_poster.jpg", cap: "watch_cap" },
   cat:   { src: "/cat_reel.mp4", poster: "/img/cat_reel_poster.jpg", cap: "ct_reel_cap" },
+  ae:    { src: "/img/ae/techdemo.mp4", poster: "/img/ae/techdemo_poster.jpg", cap: "ae_demo_cap", wide: true },
 };
-// Спрайты состава — копии игровых спрайтов поезда (в игре это регионы атласа Green Frontier, id train:<sprite_id>)
 const CONSIST = [
   { k: "cs_loco_assault", kind: "loco" }, { k: "cs_loco_arctic", kind: "loco" },
   { k: "cs_loco_siege", kind: "loco" }, { k: "cs_loco_vault", kind: "loco" },
@@ -664,25 +758,31 @@ const CONSIST = [
   { k: "cs_w_reactor", kind: "wagon" }, { k: "cs_w_harvest", kind: "wagon" },
   { k: "cs_w_bulwark", kind: "wagon" },
 ];
-const TR_SHOTS = ["train_shot_menu", "train_shot_combat", "train_shot_cards", "train_shot_depot", "train_shot_tree"];
+const TR_SHOTS = ["shot_01_defend_train", "shot_02_choose_upgrades", "shot_03_face_bosses", "shot_04_choose_path",
+                  "shot_05_equip_modules", "shot_06_explore_biomes", "shot_07_upgrade_between_runs"];
+const AE_FAIRIES = [["mossling", "nature"], ["puffkin", "air"], ["dewlet", "water"], ["sunspark", "light"],
+  ["zappit", "energy"], ["runeblink", "psi"], ["pebblin", "stone"], ["frostmote", "ice"],
+  ["cindertail", "fire"], ["duskmoth", "dark"], ["wobblit", "chaos"], ["gearlet", "metal"]];
+const AE_BIOMES = ["meadow", "enchanted_forest", "misty_swamp", "mountains", "ice_peaks", "fire_caves",
+  "cloud_islands", "dark_lands", "ancient_ruins", "shore", "ocean"];
 const CT_SHOTS = ["cat_play_00_home", "cat_play_04_volcano", "cat_house_8_all", "cat_menu_00_home"];
 
 /* ═══════════════ РЕНДЕР ═══════════════ */
-// язык — свойство адреса: / это ru, /en/ это en. Так ссылка всегда несёт язык.
-const EN_PATH = /^\/en(\/|$)/.test(location.pathname);
+const SITE_BASE = location.pathname.replace(/(en\/)?(index\.html)?$/, "");
+const EN_PATH = /(^|\/)en\/(index\.html)?$/.test(location.pathname);
 let lang = EN_PATH ? "en" : "ru";
 const t = k => T[lang][k];
 const nx = s => String(s).replace(/\s*[→>]+\s*$/, "");       // стрелку рисует сам .lnk
 
 function header(active) {
-  const dd = GAMES.map(g => `<a href="#/games/${g.id}"><img src="${g.thumb}" alt=""><span><b>${t(g.key + "_name")}</b><small class="m m--dim">${t(g.key + "_status")}</small></span></a>`).join("");
+  const dd = GAMES.map(g => `<a href="#/games/${g.id}"><img src="${g.thumb}" alt="" loading="lazy"><span><b>${t(g.key + "_name")}</b><small class="m m--dim">${t(g.key + "_status")}</small></span></a>`).join("");
   return `<header class="hd"><div class="wrap">
     <a class="mark" href="#/" aria-label="Dido Games">Dido Games<i></i></a>
     <nav class="nav" id="nav">
       <span class="dd"><a href="#/games" ${active === "games" ? "aria-current=page" : ""}>${t("nav_games")}</a><span class="dd-m">${dd}</span></span>
       <a href="#studio">${t("nav_about")}</a>
       <a href="support.html">${t("nav_support")}</a>
-      <a href="#/press" ${active === "press" ? "aria-current=page" : ""}>${t("nav_press")}</a>
+      <a href="press.html">${t("nav_press")}</a>
     </nav>
     <div style="display:flex;gap:10px;align-items:center">
       <div class="lang" role="group" aria-label="${t("a_lang")}"><button data-lang="ru" aria-pressed="${lang === "ru"}">RU</button><button data-lang="en" aria-pressed="${lang === "en"}">EN</button></div>
@@ -691,41 +791,54 @@ function header(active) {
   </div></header>`;
 }
 
-function footer(stores) {
+function footer() {
+  const en = lang === "en" ? "#en" : "";
+  const sk = (lang === "en" ? "../" : "") + "sharokoty/";
   return `<footer class="ft"><div class="wrap">
     <div class="top">
-      <div><span class="wm">Dido Games<i></i></span>
-        <div class="stores">${stores || storeLinks() + `<a href="mailto:${EMAIL}">${EMAIL}</a>`}</div>
-        <div class="stores social">
+      <div><span class="wm">Dido Games<i></i></span><br>
+        <a class="mail" href="mailto:${EMAIL}">${EMAIL}</a>
+        <div class="social">
           <a href="${YT_URL}" target="_blank" rel="noopener">${IC_YT}YouTube</a>
           <a href="${TT_URL}" target="_blank" rel="noopener">${IC_TT}TikTok</a>
         </div></div>
-      <nav><a href="#/games">${t("nav_games")}</a><a href="#studio">${t("nav_about")}</a><a href="support.html">${t("ft_support")}</a><a href="#/press">${t("ft_press")}</a><a href="terms.html">${t("ft_terms")}</a><a href="privacy.html">${t("ft_priv")}</a></nav>
+      <div class="cols">
+        <nav class="col" aria-label="Dido Games"><span class="m">Dido Games</span><a href="#/games">${t("nav_games")}</a><a href="#studio">${t("nav_about")}</a><a href="support.html">${t("ft_support")}</a><a href="press.html">${t("ft_press")}</a></nav>
+        <div class="col" style="--dot:${GAMES[0].pal.dot}"><span class="m"><i></i>${t("tr_name")}</span>${storeLinks()}<a href="terms.html">${t("ft_terms")}</a><a href="privacy.html">${t("ft_priv")}</a></div>
+        <div class="col" style="--dot:${GAMES[1].pal.dot}"><span class="m"><i></i>${t("ct_name")}</span><a href="${sk}support.html${en}">${t("ft_support")}</a><a href="${sk}terms.html${en}">${t("ft_terms")}</a><a href="${sk}privacy.html${en}">${t("ft_priv")}</a></div>
+        <div class="col" style="--dot:${GAMES[2].pal.dot}"><span class="m"><i></i>Aeryntha</span><a href="#/games/aeryntha">${t("ft_page")}</a><a href="press.html#aeryntha">${t("ft_press")}</a></div>
+      </div>
     </div>
     <div class="copy"><span>${t("ft_copy")}</span><span>${t("ft_tag")}</span></div>
   </div></footer>`;
 }
 
-// РАЗВОРОТ: два мира и имя студии, разрезанное швом ровно там, где разделена студия
-const spread = () => `<section class="spread" aria-label="Dido Games">
-  ${GAMES.map(g => `<a class="pane pane--${g.world}" href="#/games/${g.id}">
-    <img src="${g.hero}" alt="">
-    <span class="tagline">
+const windows = () => {
+  const n = GAMES.length + (NEXT_SLOT && GAMES.length < 4 ? 1 : 0);
+  const win = g => `<a class="win" href="#/games/${g.id}" style="${palStyle(g.pal)}">
+    <span class="pic"><img src="${g.hero}" alt="" style="object-position:${g.focus || "50% 50%"}">${g.artTag ? `<em class="ctag">${t("a_concept")}</em>` : ""}</span>
+    <span class="cap">
+      <span class="row"><em>№${g.no}</em><span class="gst"><i></i>${t(g.status)}</span></span>
       <span class="gname">${t(g.key + "_name")}</span>
       <span class="gline">${t(g.key + "_one")}</span>
-      <span class="gst"><i></i>${t(g.status)}</span>
       <span class="go">${nx(t("open_page"))} →</span>
-    </span></a>`).join("")}
-  <span class="seamline"></span>
-  <h1 class="word"><span class="base">Dido Games</span><span class="cut" aria-hidden="true">Dido Games</span></h1>
-</section>
-<div class="spec"><div class="wrap">
-  <ul>${t("spec").map(x => `<li>${x}</li>`).join("")}</ul>
-  <ul><li>${t("hero_e")}</li></ul>
-</div></div>`;
+    </span></a>`;
+  const slot = `<div class="win win--next"><span class="pic"></span><span class="cap">
+      <span class="row"><em>№${String(GAMES.length + 1).padStart(2, "0")}</em><span class="gst"><i></i>${t("next_st")}</span></span>
+      <span class="gname">${t("next_h")}</span><span class="gline">${t("next_p")}</span></span></div>`;
+  return `<section class="cover" aria-label="Dido Games"><div class="wrap">
+    <h1 class="masthead">Dido Games<i></i></h1>
+    <p class="thesis">${t("hero_thesis")}</p>
+  </div></section>
+  <section class="windows" style="--n:${n}">${GAMES.map(win).join("")}${n > GAMES.length ? slot : ""}</section>
+  <div class="spec"><div class="wrap">
+    <ul>${t("spec").map(x => `<li>${x}</li>`).join("")}</ul>
+    <ul><li>${t("hero_e")}</li></ul>
+  </div></div>`;
+};
 
-const band = g => `<a class="band band--${g.world}" href="#/games/${g.id}">
-  <img src="${g.band}" alt="">
+const band = g => `<a class="band band--${g.world}${g.bandArt ? " band--art" : ""}" href="#/games/${g.id}" style="${palStyle(g.pal)}">
+  <img src="${g.band}" alt=""${g.bandFocus ? ` style="object-position:${g.bandFocus}"` : ""}>${g.artTag ? `<em class="ctag">${t("a_concept")}</em>` : ""}
   <div class="wrap"><div class="inner">
     <span class="m m--dim">№${g.no}</span>
     <h3>${t(g.key + "_name")}</h3>
@@ -733,6 +846,16 @@ const band = g => `<a class="band band--${g.world}" href="#/games/${g.id}">
     <div class="meta"><span class="st"><i></i>${t(g.status)}</span><span class="news">${t(g.key + "_news")}</span></div>
     <span class="more">${nx(t("open_page"))} →</span>
   </div></div></a>`;
+
+function ghero(g) {
+  const name = t(g.key + "_name"), back = `<a class="back" href="#/games">${t("back")}</a>`;
+  const art = src => `<img class="art" src="${src}" alt="" style="object-position:${g.headFocus || "50% 50%"}">`;
+  if (g.headLayout === "poster")
+    return `<section class="ghero ghero--poster" style="${palStyle(g.pal)}">${art(g.head)}<em class="ctag">${t("a_concept")}</em></section>`;
+  if (g.headLayout === "blend")
+    return `<section class="ghero ghero--blend" style="${palStyle(g.pal)}">${art(g.head)}<div class="wrap">${back}<h1>${name}</h1></div></section>`;
+  return `<section class="ghero ghero--plate" style="${palStyle(g.pal)}">${g.head === null ? "" : art(g.head || g.wide)}<div class="wrap">${back}<h1>${name}</h1></div></section>`;
+}
 
 const reel = (id, e, cap) => `<figure class="reel">
   <button data-video="${id}" aria-label="${t("a_reel")}">
@@ -743,23 +866,9 @@ const reel = (id, e, cap) => `<figure class="reel">
 </figure>`;
 const reels = () => `<div class="reels">${reel("train", "tr_reel_e", "tr_reel_cap")}${reel("cat", "ct_reel_e", "ct_reel_cap")}</div>`;
 
-const craft = () => `<section class="sec"><div class="wrap">
-  <div class="two">
-    <div><div class="kick">${t("gs_e")}</div><h2>${t("how_h")}</h2>
-      <p class="lede">${t("how_p")}</p>
-      </div>
-    <div class="reel">
-      <button data-video aria-label="${t("a_reel")}"><img src="/img/train_reel_poster.jpg" alt=""><span class="play"><i></i></span></button>
-      <div><div class="kick">${t("tr_reel_e")}</div>
-        <p class="lede" style="font-size:17px;margin-top:10px">${t("tr_reel_cap")}</p></div>
-    </div>
-  </div>
-  <div class="craft">${t("how_cols").map(c => `<div><b>${c[0]}</b><span>${c[1]}</span></div>`).join("")}</div>
-</div></section>`;
-
 const PAGES = {
   "/": () => `<div class="w-studio">${header("")}
-    ${spread()}
+    ${windows()}
     <section class="sec" id="studio"><div class="wrap">
       <div class="two">
         <div><div class="kick">${t("ab_e")}</div>
@@ -804,9 +913,7 @@ const PAGES = {
     ${footer()}</div>`,
 
   "/games/train": () => `<div class="w-train">${header("games")}
-    <section class="ghero ghero--night"><img src="${GAMES[0].wide}" alt="">
-      <div class="wrap"><a class="back" href="#/games">${t("back")}</a><h1>${t("tr_name")}</h1></div>
-    </section>
+    ${ghero(GAMES[0])}
     <div class="dark">
       <section class="sec"><div class="wrap"><div class="two">
         <div><div class="kick" style="color:var(--ice)">${t("tr_genre")}</div>
@@ -822,41 +929,94 @@ const PAGES = {
     <div class="sheet">
       <section class="sec"><div class="wrap">
         <div class="kick">${t("tr_shots_e")}</div><h2 style="margin-bottom:clamp(22px,3vw,38px)">${t("tr_shots_h")}</h2>
-        <div class="shots">${TR_SHOTS.map(s => `<button data-lb="/img/${s}.jpg" aria-label="${t("a_shot")}"><img src="/img/${s}.jpg" alt="" loading="lazy"></button>`).join("")}</div>
+        <div class="shots">${TR_SHOTS.map(s => `<button data-lb="/img/gf/${s}.jpg" aria-label="${t("a_shot")}"><img src="/img/gf/${s}.jpg" alt="" loading="lazy"></button>`).join("")}</div>
       </div></section>
       <section class="sec"><div class="wrap"><div class="two">
         <div><div class="kick">${t("tr_consist_e")}</div><h2>${t("tr_consist_h")}</h2>
           <p class="lede">${t("tr_cards_p")}</p></div>
         <div><h3 class="dsp" style="font-size:28px;color:var(--ink)">${t("tr_anti_h")}</h3>
-          <ul style="margin:16px 0 0;padding-left:20px;color:#5B5265;font-size:16.5px;display:grid;gap:8px">${t("tr_anti").map(a => `<li>${a}</li>`).join("")}</ul></div>
+          <ul style="margin:16px 0 0;padding-left:20px;color:${GAMES[0].pal.dim};font-size:16.5px;display:grid;gap:8px">${t("tr_anti").map(a => `<li>${a}</li>`).join("")}</ul></div>
       </div>
         <div class="consist" style="margin-top:clamp(28px,4vw,48px)">
-          ${CONSIST.map(c => `<figure class="cs--${c.kind}"><img src="/img/${c.k}.png" alt="" loading="lazy"><figcaption>${t(c.k)}<em>${t("cs_" + c.kind)}</em></figcaption></figure>`).join("")}
+          ${CONSIST.map(c => `<figure class="cs--${c.kind}"><img src="/img/gf/${c.k}.png" alt="" loading="lazy"><figcaption>${t(c.k)}<em>${t("cs_" + c.kind)}</em></figcaption></figure>`).join("")}
         </div></div></section>
       <section class="sec"><div class="wrap">
         <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(22px,3vw,38px)">
           <div><div class="kick">${t("tr_route_e")}</div><h2>${t("tr_route_h")}</h2></div>
-          <span style="display:flex;gap:22px;flex-wrap:wrap"><a class="lnk" href="lore.html">${nx(t("tr_lore"))}</a><a class="lnk" href="#/games/train/press">${nx(t("press_link"))}</a></span></div>
-        <div class="route">${t("tr_biomes").map((b, i) => `<figure><img src="/img/train_biome_${String(i + 1).padStart(2, "0")}.jpg" alt="" loading="lazy"><span class="bar" style="--bio:${BIOME_HEX[i]}"></span><figcaption><em>№${String(i + 1).padStart(2, "0")} / 10</em><b>${b}</b></figcaption></figure>`).join("")}</div>
+          <span style="display:flex;gap:22px;flex-wrap:wrap"><a class="lnk" href="lore.html">${nx(t("tr_lore"))}</a><a class="lnk" href="press.html#train">${nx(t("press_link"))}</a></span></div>
+        <div class="route">${t("tr_biomes").map((b, i) => `<figure><img src="/img/gf/biome_${String(i + 1).padStart(2, "0")}.jpg" alt="" loading="lazy"><span class="bar" style="--bio:${BIOME_HEX[i]}"></span><figcaption><em>№${String(i + 1).padStart(2, "0")} / 10</em><b>${b}</b></figcaption></figure>`).join("")}</div>
       </div></section>
       <section class="sec"><div class="wrap"><div class="two">
         <div><div class="kick">${t("tr_ai_e")}</div><h2>${t("tr_ai_h")}</h2></div>
         <p class="lede" style="align-self:center">${t("tr_ai_p")}</p>
       </div></div></section>
     </div>
-    ${footer(storeLinks() + `<a href="mailto:${EMAIL}">${EMAIL}</a>`)}</div>`,
+    ${footer()}</div>`,
+
+  "/games/aeryntha": () => `<div class="w-ae">${header("games")}
+    ${ghero(GAMES[2])}
+    <div class="sheet">
+      <section class="sec ae-intro"><div class="wrap"><div class="two">
+        <div><a class="back" href="#/games">${t("back")}</a>
+          <h1 class="ae-logo"><img src="/img/ae/logo.webp" alt="Aeryntha" width="1000" height="343"></h1>
+          <div class="kick">${t("ae_genre")}</div>
+          <p class="lede" style="font-size:clamp(19px,1.8vw,24px);color:var(--ink);max-width:34ch">${t("ae_tag")}</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px">
+            <button class="btn" data-video="ae">${IC_PLAY}${t("ae_cta_demo")}</button>
+            <a class="btn btn--ghost" href="press.html#aeryntha">${nx(t("press_link"))}</a></div>
+          <p class="m ae-st">${t("ae_st")}</p></div>
+        <div class="facts">${t("ae_rows").map(r => `<div><b>${r[0]}</b><span>${r[1]}</span></div>`).join("")}</div>
+      </div></div></section>
+    </div>
+    <div class="night">
+      <section class="sec"><div class="wrap">
+        <div class="two"><div><div class="kick">${t("ae_demo_e")}</div><h2>${t("ae_demo_h")}</h2></div>
+          <p class="lede" style="align-self:end">${t("ae_demo_p")}</p></div>
+        <figure class="ae-video"><video controls preload="none" playsinline poster="${REELS.ae.poster}" src="${REELS.ae.src}"></video>
+          <figcaption class="m">${t("ae_demo_cap")}</figcaption></figure>
+      </div></section>
+    </div>
+    <div class="sheet">
+      <section class="sec"><div class="wrap">
+        <div class="kick">${t("ae_pill_e")}</div><h2 style="margin-bottom:clamp(22px,3vw,38px)">${t("ae_pill_h")}</h2>
+        <div class="ae-pillars">${t("ae_pillars").map(p => `<button class="cell" data-lb="/img/ae/${p[2]}.jpg" data-lbl="${t("a_concept")}" aria-label="${t("a_concept")}"><img src="/img/ae/${p[2]}_t.jpg" alt="" loading="lazy"><span class="b"><b>${p[0]}</b><span>${p[1]}</span></span></button>`).join("")}</div>
+      </div></section>
+      <section class="sec"><div class="wrap"><div class="two">
+        <div><div class="kick">${t("ae_fairies_e")}</div><h2>${t("ae_fairies_h")}</h2></div>
+        <p class="lede" style="align-self:end">${t("ae_fairies_p")}</p></div>
+        <div class="ae-fairies">${AE_FAIRIES.map(f => `<figure><img src="/img/ae/fairy_${f[0]}.jpg" alt="" loading="lazy"><figcaption><b>${t("ae_f_" + f[0])}</b><em>${t("ae_el_" + f[1])}</em></figcaption></figure>`).join("")}</div>
+      </div></section>
+    </div>
+    <div class="night">
+      <section class="sec"><div class="wrap">
+        <div class="two" style="margin-bottom:clamp(22px,3vw,38px)"><div><div class="kick">${t("ae_biomes_e")}</div><h2>${t("ae_biomes_h")}</h2></div>
+          <p class="lede" style="align-self:end">${t("ae_biomes_p")}</p></div>
+        <div class="ae-biomes">${AE_BIOMES.map((b, i) => `<button data-lb="/img/ae/biome_${b}.jpg" data-lbl="${t("a_concept")}" aria-label="${t("a_concept")}"><img src="/img/ae/biome_${b}_t.jpg" alt="" loading="lazy"><span><em>№${String(i + 1).padStart(2, "0")} / ${AE_BIOMES.length}</em><b>${t("ae_b_" + b)}</b></span></button>`).join("")}</div>
+      </div></section>
+    </div>
+    <div class="sheet">
+      <section class="sec"><div class="wrap">
+        <div class="kick">${t("ae_world_e")}</div><h2 style="margin-bottom:clamp(22px,3vw,38px)">${t("ae_world_h")}</h2>
+        <div class="ae-strips">${[["daycycle", "ae_cap_day"], ["weather", "ae_cap_weather"]].map(s => `<button data-lb="/img/ae/${s[0]}.jpg" data-lbl="${t("a_concept")}" aria-label="${t("a_concept")}"><img src="/img/ae/${s[0]}_t.jpg" alt="" loading="lazy"><span class="m">${t(s[1])}</span></button>`).join("")}</div>
+      </div></section>
+    </div>
+    <div class="night">
+      <section class="sec"><div class="wrap"><div class="two">
+        <div><div class="kick">${t("ae_ai_e")}</div><h2>${t("ae_ai_h")}</h2></div>
+        <p class="lede" style="align-self:center">${t("ae_ai_p")}</p>
+      </div></div></section>
+    </div>
+    ${footer()}</div>`,
 
   "/games/sharokoty": () => `<div class="w-cat">${header("games")}
-    <section class="ghero ghero--day"><img src="${GAMES[1].wide}" alt="">
-      <div class="wrap"><a class="back" href="#/games">${t("back")}</a><h1>${t("ct_name")}</h1></div>
-    </section>
+    ${ghero(GAMES[1])}
     <div class="sheet">
       <section class="sec"><div class="wrap"><div class="two">
         <div><div class="kick" style="color:#7A54B5">${t("ct_genre")}</div>
           <p class="lede" style="font-size:clamp(19px,1.9vw,25px);color:var(--ink);max-width:32ch">${t("ct_tag")}</p>
           <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:30px">
             <button class="btn" data-form>${t("ct_cta2")}</button>
-            <a class="btn btn--ghost" href="#/games/sharokoty/press">${nx(t("press_link"))}</a></div>
+            <a class="btn btn--ghost" href="press.html#sharokoty">${nx(t("press_link"))}</a></div>
           <p class="m" style="color:#7A54B5;margin-top:20px">${t("ct_st")}</p></div>
         <img src="/img/cat_solo.png" alt="" width="300" height="290" style="justify-self:center;align-self:center">
       </div></div></section>
@@ -882,73 +1042,28 @@ const PAGES = {
     </div>
     ${footer()}</div>`,
 
-  "/support": () => `<div class="w-studio">${header("support")}
-    <section class="sec" style="padding-bottom:clamp(26px,3.4vw,44px)"><div class="wrap">
-      <div class="kick">Dido Games</div><h2>${t("su_h")}</h2>
-      <p class="lede">${t("su_sub")}</p>
-    </div></section>
-    <section class="sec" style="padding-top:0"><div class="wrap">
-      <div class="cards">
-        <div class="card"><img src="/img/train_cover.jpg" alt=""><div class="b"><h3>${t("tr_name")}</h3>
-          <ul>${t("su_tr").map(x => `<li><a href="${x[1] === "mail" ? "mailto:" + EMAIL : "#" + x[1]}">${x[0]}</a></li>`).join("")}</ul></div></div>
-        <div class="card"><img src="/img/cat_cover.jpg" alt=""><div class="b"><h3>${t("ct_name")}</h3>
-          <ul>${t("su_ct").map(x => `<li><a href="${x[1] === "mail" ? "mailto:" + EMAIL : "#" + x[1]}">${x[0]}</a></li>`).join("")}</ul></div></div>
-      </div>
-      <div class="qa" style="margin-top:clamp(34px,4.6vw,64px)">${t("su_qa").map(x => `<div id="${x[0]}"><div class="m m--dim">${x[1]}</div><h3>${x[2]}</h3><p>${x[3]}</p></div>`).join("")}</div>
-      <h2 style="font-size:clamp(24px,3vw,38px);margin-top:clamp(34px,4.6vw,64px)">${t("su_also_h")}</h2>
-      <div class="also" style="margin-top:20px">${t("su_also").map((a, i) => `<a href="${["#/privacy", "#/terms", "#/press"][i]}"><b>${a[0]}</b>${a[1]}</a>`).join("")}</div>
-    </div></section>
-    ${footer()}</div>`,
-
-  "/press": () => `<div class="w-studio">${header("press")}
-    <section class="sec" style="padding-bottom:clamp(26px,3.4vw,44px)"><div class="wrap">
-      <div class="kick">Dido Games</div><h2>${t("pr_h")}</h2>
-      <p class="lede">${t("pr_sub")}</p>
-    </div></section>
-    <section class="sec" style="padding-top:0"><div class="wrap"><div class="two">
-      <div class="facts">${t("pr_facts").map(r => `<div><b>${r[0]}</b><span>${r[1]}</span></div>`).join("")}
-        <div class="dl">${t("pr_dl").map(x => `<span>${x}</span>`).join("")}</div></div>
-      <div style="display:grid;place-items:center;border:1px solid var(--hair);padding:52px;min-height:260px">
-        <span class="wm" style="font-family:var(--disp);font-size:clamp(34px,4vw,56px);color:var(--bone);display:inline-flex;align-items:baseline;gap:10px">Dido Games<i style="width:9px;height:9px;background:var(--ice);border-radius:50%;transform:translateY(-6px)"></i></span></div>
-    </div>
-      <h2 style="font-size:clamp(24px,3vw,38px);margin-top:clamp(34px,4.6vw,64px)">${t("pr_kits_h")}</h2>
-      <div class="kit" style="margin-top:20px">
-        <a href="#/games/train/press"><img src="/img/train_cover.jpg" alt=""><div class="b"><h3>${t("tr_name")}</h3><p>${t("pr_kit_tr")}</p></div></a>
-        <a href="#/games/sharokoty/press"><img src="/img/cat_cover.jpg" alt=""><div class="b"><h3>${t("ct_name")}</h3><p>${t("pr_kit_ct")}</p></div></a>
-      </div>
-    </div></section>
-    ${footer()}</div>`,
 };
 
-const STUB = (key, note) => () => `<div class="w-studio">${header("")}
-  <section class="sec"><div class="wrap"><div class="kick">didogames.net</div>
-    <h2 style="font-size:clamp(30px,5vw,64px)">${t(key)}</h2>
-    <p class="lede">${t(note || "legal_stub")}</p>
-  </div></section>${footer()}</div>`;
-// старые адреса-хэши уводим на канонические документы
-PAGES["/privacy"] = () => { location.replace("privacy.html"); return ""; };
-PAGES["/terms"] = () => { location.replace("terms.html"); return ""; };
-PAGES["/games/train/lore"] = () => `<div class="w-train">${header("games")}
-  <section class="sec"><div class="wrap"><a class="lnk" href="#/games/train" style="color:var(--ice)">${t("tr_name")}</a>
-    <h2 style="font-size:clamp(30px,5.4vw,70px);margin-top:16px">${t("tr_route_h")}</h2>
-    <p class="lede">${t("lore_stub")}</p>
-  </div></section>${footer()}</div>`;
-const pressStub = g => () => `<div class="w-studio">${header("press")}
-  <section class="sec"><div class="wrap"><a class="lnk" href="#/games/${g.id}" style="color:${g.dot}">${t(g.key + "_name")}</a>
-    <h2 style="font-size:clamp(30px,5.4vw,70px);margin-top:16px">${t("pr_h")}</h2>
-    <p class="lede">${t(g.id === "train" ? "pr_kit_tr" : "pr_kit_ct")}</p>
-    <div class="dl">${t("pr_dl").map(x => `<span>${x}</span>`).join("")}</div>
-  </div></section>${footer()}</div>`;
-PAGES["/games/train/press"] = pressStub(GAMES[0]);
-PAGES["/games/sharokoty/press"] = pressStub(GAMES[1]);
+const GO = url => () => { location.replace(url); return ""; };
+PAGES["/privacy"] = GO("privacy.html");
+PAGES["/terms"] = GO("terms.html");
+PAGES["/support"] = GO("support.html");
+PAGES["/press"] = GO("press.html");
+PAGES["/games/train/press"] = GO("press.html#train");
+PAGES["/games/sharokoty/press"] = GO("press.html#sharokoty");
+PAGES["/games/train/lore"] = GO("lore.html");
 
 /* ═══════════════ МАРШРУТ ═══════════════ */
 const ANCHOR_PAGE = { studio: "/" };   // якоря, живущие не на странице поддержки
-const DOT_OF = { "/games/train": "var(--ice)", "/games/train/lore": "var(--ice)", "/games/train/press": "var(--ice)",
-                 "/games/sharokoty": "var(--lilac)", "/games/sharokoty/press": "var(--lilac)" };
-function draw(html, dot) {
+const DOT_OF = Object.fromEntries(GAMES.flatMap(g =>
+  ["", "/lore", "/press"].map(s => ["/games/" + g.id + s, g.pal.dot])));
+const BASE_TITLE = document.title;
+const TITLES = { "/games": () => t("games_h"), "/games/train": () => t("tr_name"), "/games/sharokoty": () => t("ct_name"),
+  "/games/aeryntha": () => "Aeryntha" };
+function draw(html, dot, path) {
+  document.title = TITLES[path] ? TITLES[path]() + " — Dido Games" : BASE_TITLE;
   document.getElementById("app").innerHTML = html;
-  document.documentElement.style.setProperty("--wdot", dot || "var(--ice)");
+  document.documentElement.style.setProperty("--wdot", dot || "var(--bone)");
   document.documentElement.lang = lang;
   if (location.hostname === "localhost" || location.hostname === "127.0.0.1")   // только предпросмотр
     document.querySelectorAll('#app img[src^="/img/"]').forEach(i => i.src = i.getAttribute("src").split("?")[0] + "?v=" + IMGV);
@@ -958,12 +1073,15 @@ function draw(html, dot) {
 function route() {
   const raw = location.hash.replace(/^#/, "");
   if (raw && !raw.startsWith("/")) {                 // якорь внутри страницы, а не маршрут
-    if (!document.getElementById(raw)) draw((PAGES[ANCHOR_PAGE[raw] || "/support"])());
+    if (!document.getElementById(raw)) {
+      if (!ANCHOR_PAGE[raw]) { location.replace("support.html#" + raw); return; }
+      draw(PAGES[ANCHOR_PAGE[raw]]());
+    }
     document.getElementById(raw)?.scrollIntoView();
     return;
   }
   const path = (raw || "/").replace(/\/$/, "") || "/";
-  draw((PAGES[path] || PAGES["/"])(), DOT_OF[path]);
+  draw((PAGES[path] || PAGES["/"])(), DOT_OF[path], path);
   window.scrollTo({ top: 0, left: 0, behavior: "instant" });
 }
 
@@ -990,16 +1108,16 @@ function closeAll() {
 }
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-lang]");
-  if (b) { const want = b.dataset.lang === "en" ? "/en/" : "/";
+  if (b) { const want = b.dataset.lang === "en" ? SITE_BASE + "en/" : SITE_BASE;
     if ((b.dataset.lang === "en") !== EN_PATH) { location.href = want + location.hash; return; }
     return; }
   if (e.target.closest("[data-burger]")) { toggleNav(); return; }
   if (e.target.closest("#nav a")) closeNav();
   const v = e.target.closest("[data-video]");
   if (v) { const r = REELS[v.dataset.video || "train"];
-    openLB(`<video src="${r.src}" controls autoplay playsinline poster="${r.poster}" style="aspect-ratio:9/16;max-height:78vh"></video><p class="lbcap">${t(r.cap)}</p>`, t("a_reel")); return; }
+    openLB(`<video src="${r.src}" controls autoplay playsinline poster="${r.poster}" style="${r.wide ? "aspect-ratio:16/9;width:min(92vw,1152px)" : "aspect-ratio:9/16;max-height:78vh"}"></video><p class="lbcap">${t(r.cap)}</p>`, t("a_reel")); return; }
   const s = e.target.closest("[data-lb]");
-  if (s) { openLB(`<img src="${s.dataset.lb}" alt="${t("a_shot")}">`, t("a_shot")); return; }
+  if (s) { const lbl = s.dataset.lbl || t("a_shot"); openLB(`<img src="${s.dataset.lb}" alt="${lbl}">`, lbl); return; }
   if (e.target.closest("[data-form]")) { const m = document.getElementById("mform"); m.classList.remove("done"); openDlg(m); document.getElementById("f_email").focus(); return; }
   if (e.target.closest("[data-close]") || e.target.classList.contains("lb") || e.target.classList.contains("modal")) { closeAll(); return; }
 });
@@ -1019,11 +1137,8 @@ document.getElementById("nform").addEventListener("submit", e => {
   const fd = new FormData();
   fd.append("entry.1602638693", em.value.trim());
   fd.append("entry.1736986761", document.getElementById("f_name").value.trim());
-  // Выбора игры в форме больше нет: «Поезд» вышел на обеих платформах,
-  // ждать осталось только «ШароКотов» — метка постоянная.
   fd.append("entry.1734298389", document.getElementById("f_plat").value + " · ШароКоты");
   fd.append("entry.219790479", lang);
-  // CORS Google не отдаёт: ответ нам недоступен, поэтому свой экран «принято».
   try { fetch("https://docs.google.com/forms/d/e/1FAIpQLSc4Seq_tMWckJWInFR1ENVdKpDfPxTW95gESPxZvaLgVVJHmQ/formResponse", { method: "POST", mode: "no-cors", body: fd }); } catch (x) {}
   const m = document.getElementById("mform"); m.classList.add("done");
   m.querySelector(".ok").focus();
