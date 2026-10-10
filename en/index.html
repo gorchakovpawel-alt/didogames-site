@@ -518,7 +518,7 @@ p{margin:0}
 const PLAY_URL = "https://play.google.com/store/apps/details?id=net.didogames.thelastwar";
 const APPSTORE_URL = "https://apps.apple.com/app/id6801997153";
 const EMAIL = "support@didogames.net";
-const IMGV = 40; const IMGV_PREV = 32;   // версия картинок для сброса кэша — поднять при пересъёмке
+const IMGV = 41; const IMGV_PREV = 32;   // версия картинок для сброса кэша — поднять при пересъёмке
 const IC_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 20.5v-17c0-.6.6-1 1.1-.7l14.6 8.5c.5.3.5 1 0 1.4L4.1 21.2c-.5.3-1.1-.1-1.1-.7z"/></svg>';
 const YT_URL = "https://www.youtube.com/@didogames_official";
 const TT_URL = "https://www.tiktok.com/@didogamesofficial";
@@ -723,13 +723,13 @@ en:{
 }};
 const BIOME_HEX = ["#54a5c8","#6ba1b5","#8690ab","#b1ab65","#b89672","#8296a9","#a5a676","#8d98a3","#c3926c","#90969a"];
 const GAMES = [
-  { id: "train", key: "tr", no: "01", world: "day", status: "live",
+  { id: "train", key: "tr", no: "01", world: "night", status: "live",
     pal: { bg: "#F2E8C9", ink: "#173F3D", dim: "#4E6B66", accent: "#285B59", dot: "#E5A453" },
-    focus: "50% 48%",
-    hero: "/img/gf/train_menu_square.jpg", wide: "/img/gf/train_menu_hero.jpg",
-    band: "/img/gf/train_menu_hero.jpg", bandArt: true, bandFocus: "50% 42%",
-    cover: "/img/gf/train_menu_cover.jpg", thumb: "/img/gf/train_menu_thumb.jpg",
-    head: "/img/gf/train_menu_hero.jpg", headLayout: "blend", headFocus: "50% 42%" },
+    focus: "50% 50%",
+    hero: "/img/gf/train_sky_4x3.jpg", wide: "/img/gf/train_sky_wide.jpg",
+    band: "/img/gf/train_sky_band.jpg", bandFocus: "50% 85%",   // кадр без правой трети: состав справа от текста
+    cover: "/img/gf/train_sky_cover.jpg", thumb: "/img/gf/train_sky_thumb.jpg",
+    head: "/img/gf/train_sky_wide.jpg", headFocus: "52% 62%" },
   { id: "sharokoty", key: "ct", no: "02", world: "day", status: "dev",
     pal: { bg: "#F0EAE1", ink: "#17151A", dim: "#5B5265", accent: "#7A54B5", dot: "#C8B6E2" },
     focus: "50% 78%",   // мордочка у нижнего края

@@ -172,8 +172,8 @@ p{margin:0}
 .vid figcaption a:hover,.ico figcaption a:hover{border-color:currentColor;color:var(--g-ink,var(--bone))}
 .kit-side{display:grid;gap:clamp(22px,3vw,36px);align-content:start}
 .keyart{margin:0;display:grid;gap:10px}
-.keyart a{display:block;overflow:hidden;cursor:zoom-in;box-shadow:0 0 0 1px var(--hair);max-width:620px}
-.keyart img{width:100%;aspect-ratio:941/800;object-fit:cover;transition:transform .6s}
+.keyart a{display:block;overflow:hidden;cursor:zoom-in;box-shadow:0 0 0 1px var(--hair);max-width:900px}
+.keyart img{width:100%;aspect-ratio:2458/1024;object-fit:cover;transition:transform .6s}
 .keyart a:hover img{transform:scale(1.03)}
 .keyart figcaption{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash);line-height:1.55}
 .keyart figcaption a{display:inline;box-shadow:none;color:inherit;text-decoration:none;border-bottom:1px solid var(--slate);cursor:pointer}
